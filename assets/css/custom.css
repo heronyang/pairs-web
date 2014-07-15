@@ -1,0 +1,57 @@
+div.green_background {
+    background-color: #e8f0c5;
+}
+
+div.row {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+#pair_table_container {
+    margin-top: 20px;
+}
+
+.table tbody>tr>td {
+        vertical-align: middle;
+}
+td.pair_table_col_thumbnail1>img {
+    float: right;
+}
+td.pair_table_col_thumbnail2>img {
+    float: left;
+}
+
+td.pair_table_col_vote_count {
+    text-align: right;
+}
+#pair_table {
+    color: #115910;
+    font-weight: bold;
+}
+
+#social {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+#social i {
+    color: #115910;
+}
+
+#f {
+    background-color: #6ca438;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    background-color: #6ca438;
+}
+a {
+    color: #FFF;
+}
+
+#center_logo {
+    padding: 20px;
+}
+
+#welcome_msg {
+    padding: 30px;
+}

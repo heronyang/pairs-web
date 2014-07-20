@@ -12,7 +12,7 @@ div.row {
 }
 
 .table tbody>tr>td {
-        vertical-align: middle;
+    vertical-align: middle;
 }
 td.pair_table_col_thumbnail1>img {
     float: right;
@@ -54,4 +54,10 @@ a {
 
 #welcome_msg {
     padding: 30px;
+}
+
+#pair_table_container {
+    width: 90%;
+    margin-left:5%;
+    margin-right:5%;
 }

@@ -15,11 +15,9 @@
         <!-- Custom styles for this template -->
         <link href="assets/css/main.css" rel="stylesheet">
         <link href="assets/css/font-awesome.min.css" rel="stylesheet">
-        <link href="assets/css/custom.css" rel="stylesheet">
+        <link href="assets/css/custom.css" rel="stylesheet">    <!-- for PAIRS -->
 
-        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-        <script src="assets/js/chart.js"></script>
-
+        <script src="assets/js/jquery-1.11.1.min.js"></script>
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -38,8 +36,7 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="login">登入</a></li>
-                        <li class="active"><a href="register">註冊</a></li>
+                        <li class="active"><a href="logout">登出</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -60,101 +57,15 @@
 
         <div class="container">
             <div class="row">
-                <!--
-                <div id="center_logo" class="col-lg-5 centered">
-                    <img width="300" src="assets/img/logo.png" alt="">
-                </div>
-                -->
-
                 <div id="pair_table_container" class="col-lg-7 centered">
                     <table class="table table-hover table-striped table-responsive">
                         <tbody id="pair_table">
-                            <tr>
-                                <td class="pair_table_col_thumbnail1"><img src="http://www.pehub.com/wp-content/uploads/avatars/11839/9213ed45c2d7ad5d6e7f5742e35ec892-bpthumb.jpg" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td>
-                                <td class="pair_table_col_thumbnail2"><img src="http://blogs.lincoln.ac.uk/wp-content/blogs.dir/1/files/avatars/7579/a4c2883d335e0436bf141d8eddbae261-bpthumb.jpg" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td>
-
-                                <td class="pair_table_col_nama1">katty wang</td>
-                                <td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td>
-                                <td class="pair_table_col_name2">阿明</td>
-                                <td class="pair_table_col_vote_count">12,099</td>
-                                <td class="pair_table_col_vote_unit">票</td>
-                            </tr> 
-                            <tr>
-                                <td class="pair_table_col_thumbnail1"><img src="http://cs407120.vk.me/v407120518/29c7/0ab4IHzDdfc.jpg" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td>
-                                <td class="pair_table_col_thumbnail2"><img src="https://secure.gravatar.com/avatar/2b8c78a329733d8b8c9ac7636a9534a8?d=mm&s=50&r=G" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td>
-
-                                <td class="pair_table_col_nama1">張大維</td>
-                                <td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td>
-                                <td class="pair_table_col_name2">無名氏</td>
-                                <td class="pair_table_col_vote_count">8,290</td>
-                                <td class="pair_table_col_vote_unit">票</td>
-                            </tr> 
-                            <tr>
-                                <td class="pair_table_col_thumbnail1"><img src="http://www.pehub.com/wp-content/uploads/avatars/11839/9213ed45c2d7ad5d6e7f5742e35ec892-bpthumb.jpg" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td>
-                                <td class="pair_table_col_thumbnail2"><img src="http://blogs.lincoln.ac.uk/wp-content/blogs.dir/1/files/avatars/7579/a4c2883d335e0436bf141d8eddbae261-bpthumb.jpg" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td>
-
-                                <td class="pair_table_col_nama1">katty wang</td>
-                                <td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td>
-                                <td class="pair_table_col_name2">阿明</td>
-                                <td class="pair_table_col_vote_count">6,021</td>
-                                <td class="pair_table_col_vote_unit">票</td>
-                            </tr> 
-                            <tr>
-                                <td class="pair_table_col_thumbnail1"><img src="http://cs407120.vk.me/v407120518/29c7/0ab4IHzDdfc.jpg" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td>
-                                <td class="pair_table_col_thumbnail2"><img src="https://secure.gravatar.com/avatar/2b8c78a329733d8b8c9ac7636a9534a8?d=mm&s=50&r=G" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td>
-
-                                <td class="pair_table_col_nama1">張大維</td>
-                                <td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td>
-                                <td class="pair_table_col_name2">無名氏</td>
-                                <td class="pair_table_col_vote_count">3,099</td>
-                                <td class="pair_table_col_vote_unit">票</td>
-                            </tr> 
-                            <tr>
-                                <td class="pair_table_col_thumbnail1"><img src="http://www.pehub.com/wp-content/uploads/avatars/11839/9213ed45c2d7ad5d6e7f5742e35ec892-bpthumb.jpg" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td>
-                                <td class="pair_table_col_thumbnail2"><img src="http://blogs.lincoln.ac.uk/wp-content/blogs.dir/1/files/avatars/7579/a4c2883d335e0436bf141d8eddbae261-bpthumb.jpg" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td>
-
-                                <td class="pair_table_col_nama1">katty wang</td>
-                                <td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td>
-                                <td class="pair_table_col_name2">阿明</td>
-                                <td class="pair_table_col_vote_count">2,419</td>
-                                <td class="pair_table_col_vote_unit">票</td>
-                            </tr> 
-                            <tr>
-                                <td class="pair_table_col_thumbnail1"><img src="http://cs407120.vk.me/v407120518/29c7/0ab4IHzDdfc.jpg" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td>
-                                <td class="pair_table_col_thumbnail2"><img src="https://secure.gravatar.com/avatar/2b8c78a329733d8b8c9ac7636a9534a8?d=mm&s=50&r=G" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td>
-
-                                <td class="pair_table_col_nama1">張大維</td>
-                                <td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td>
-                                <td class="pair_table_col_name2">無名氏</td>
-                                <td class="pair_table_col_vote_count">1,992</td>
-                                <td class="pair_table_col_vote_unit">票</td>
-                            </tr> 
-                            <tr>
-                                <td class="pair_table_col_thumbnail1"><img src="http://www.pehub.com/wp-content/uploads/avatars/11839/9213ed45c2d7ad5d6e7f5742e35ec892-bpthumb.jpg" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td>
-                                <td class="pair_table_col_thumbnail2"><img src="http://blogs.lincoln.ac.uk/wp-content/blogs.dir/1/files/avatars/7579/a4c2883d335e0436bf141d8eddbae261-bpthumb.jpg" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td>
-
-                                <td class="pair_table_col_nama1">katty wang</td>
-                                <td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td>
-                                <td class="pair_table_col_name2">阿明</td>
-                                <td class="pair_table_col_vote_count">912</td>
-                                <td class="pair_table_col_vote_unit">票</td>
-                            </tr> 
-                            <tr>
-                                <td class="pair_table_col_thumbnail1"><img src="http://cs407120.vk.me/v407120518/29c7/0ab4IHzDdfc.jpg" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td>
-                                <td class="pair_table_col_thumbnail2"><img src="https://secure.gravatar.com/avatar/2b8c78a329733d8b8c9ac7636a9534a8?d=mm&s=50&r=G" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td>
-
-                                <td class="pair_table_col_nama1">張大維</td>
-                                <td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td>
-                                <td class="pair_table_col_name2">無名氏</td>
-                                <td class="pair_table_col_vote_count">482</td>
-                                <td class="pair_table_col_vote_unit">票</td>
-                            </tr> 
+                            <!-- content will be loaded by JS code -->
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-
 
         <section id="contact"></section>
         <div id="social">
@@ -214,5 +125,6 @@
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="assets/js/bootstrap.js"></script>
+        <script src="pairs-controller.js"></script>
     </body>
 </html>

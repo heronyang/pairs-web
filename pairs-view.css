@@ -1,3 +1,9 @@
+body, html{
+   min-width: 520px; /* suppose you want minimun width of 1000px */
+   width: auto !important;  /* Firefox will set width as auto */
+   width: 520px;             /* As IE ignores !important it will set width as 1000px; */
+}
+
 div.green_background {
     background-color: #e8f0c5;
 }

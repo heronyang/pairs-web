@@ -43,7 +43,7 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="./">登出</a></li>
+                        <li class="active"><a href="#" id="login-button">登出</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div><!--/.container-fluid -->
@@ -69,7 +69,7 @@
                 <!-- Filter on friend of me or not -->
                 <div class="btn-group">
                     <button type="button" class="btn btn-success">公開</button>
-                    <button type="button" class="btn btn-default">只顯示我朋友</button>
+                    <button type="button" class="btn btn-default" id="btn-showfriends">只顯示我朋友</button>
                 </div>
 
                 <!-- Filter on Time -->
@@ -181,6 +181,22 @@
 
         <!-- Bootstrap core JavaScript
         ================================================== -->
+		
+		<!-- mycode -->
+		<div class="modal fade" id="login_dialog" tabindex="-1" role="dialog" aria-hidden="true">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">登入 PAIRS</h4>
+			  </div>
+			  <div class="modal-body">
+						<iframe id="login_iframe"></iframe>
+					</div>
+		</div>
+		</div>
+		</div>
+		
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="assets/js/bootstrap.js"></script>
         <script src="pairs-controller.js"></script>

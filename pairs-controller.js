@@ -34,9 +34,10 @@ function listAllPairs(logged_in){
 			// error
 		},
 		success: function(data){
-		
+			
 			data['data'].forEach(function(data){
 				console.log(data);
+				
 				var row_html = '\
 					<tr> \
 						<td class="pair_table_col_thumbnail1"><img src="http://graph.facebook.com/'+ data['user1']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
@@ -47,13 +48,24 @@ function listAllPairs(logged_in){
 						<td class="pair_table_col_name2">'+ data['user2']['name'] +'</td> \
 						<td class="pair_table_col_vote_count">' + data['count'] + '</td> \
 						<td class="pair_table_col_vote_unit">票</td> \
-						<td class=""> <button type="button" class="btn btn-info"><img width="30" width="20" src="assets/img/heart.png"/> 在一起</button> </td> \
+						<td class=""> <button type="button" class="btn btn-info" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',0)"><img width="30" width="20" src="assets/img/heart.png"/> 在一起</button> </td> \
 					</tr>';
 				//src="assets/img/brokenheart.png"
 				$('#pair_table').append(row_html);
-
+				if(!logged_in)
+					$('#btn_'+data['pid']).hide();
 			});
 		}
+	});
+}
+
+function changeList(logged_in)
+{
+	$("#pair_table button").each( function (index,element){
+		if(logged_in)
+			$('#'+element.id).show();
+		else
+			$('#'+element.id).hide();
 	});
 }
 
@@ -65,9 +77,13 @@ function login(){
 
 		$('#login_iframe').attr('src', api_base + '/login');
 		$('#login_dialog').modal('show');
+		
 		logged_in = true;
 		$('#btn-showfriends').show();
+		changeList(logged_in);
+		
 		$('#login-button').html('登出');
+		
 	}else{
 
 		// Call logout url
@@ -85,6 +101,8 @@ function login(){
 					// Successfully logged out
 					logged_in = false;
 					$('#btn-showfriends').hide();
+					changeList(logged_in);
+					
 					$('#login-button').html('登入');
 				}
 			}
@@ -94,11 +112,42 @@ function login(){
 
 }
 
+function vote(pid, is_retrieve){
+	$.ajax({
+		type: "POST",
+		dataType: "json",
+		url: api_base + "/",
+		data: 'pid=' + pid + '&is_retrieve=' + is_retrieve,
+		xhrFields: {
+			withCredentials: true
+		},
+		error: function(data){
+			console.log(data);
+			alert(data.responseJSON.message);
+		},
+		success: function(data){
+			console.log(data);
+			if(is_retrieve == 1){
+
+				alert('Retrieved!');
+
+			}else if(is_retrieve ==0){
+
+				var msg = "Supported!";
+				if(data['match'] == 1){
+					msg += "\nIt's a match!";
+				}
+				alert(msg);
+				return data['pid'];
+			}
+
+		}
+	});
+}
 
 $(document).ready(function() {
-    // load table, just for template testing
-    //load_pair_table();
 	
+	//check login status
 	$.ajax({
 		type: "GET",
 		dataType: "json",
@@ -130,14 +179,6 @@ $(document).ready(function() {
 
 
 	// List all existing Pairs	 
-
 	listAllPairs(logged_in);
-	
-	
-	
-	
-	
-	
-	
-	
+
 });

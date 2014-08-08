@@ -68,7 +68,7 @@ function listAllPairs(logged_in){
 		success: function(data){
 			data['data'].forEach(function(data){			
 				console.log(data);
-				
+				//TODO:check if the user has voted the pair or not
 				var row_html = '\
 					<tr> \
 						<td class="pair_table_col_thumbnail1"><img src="http://graph.facebook.com/'+ data['user1']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
@@ -102,6 +102,7 @@ function changeList(logged_in)
 
 function login(){
 
+	//TODO:jump to the webpage directly
 	if($('#login-button').html() == '登入'){
 
 		// Show login button from API
@@ -594,6 +595,8 @@ $(document).ready(function() {
 	// List all existing Pairs	 
 	listAllPairs(logged_in);
 	
+	//Select user
+	//FIXME:can only display one user selector at one time
 	$("#btn2").hide();
 	$("#inputStr2").hide();
 	$('#promote-button').click(function(){	
@@ -683,6 +686,7 @@ $(document).ready(function() {
 			success: function(data){
 				console.log(data);
 				//update table
+				//FIXME:need to login first
 				updateTable();
 			}
 		});

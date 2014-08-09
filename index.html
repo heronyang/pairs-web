@@ -68,7 +68,7 @@
 
                 <!-- Filter on friend of me or not -->
                 <div class="btn-group">
-                    <button type="button" class="btn btn-success">公開</button>
+                    <button type="button" class="btn btn-success" id="btn-public">公開</button>
                     <button type="button" class="btn btn-default" id="btn-showfriends">只顯示我朋友</button>
                 </div>
 
@@ -191,7 +191,8 @@
 				<h4 class="modal-title">登入 PAIRS</h4>
 			  </div>
 			  <div class="modal-body">
-						<iframe id="login_iframe"></iframe>
+						<!--<iframe id="login_iframe"></iframe> -->
+						<button id = "login-facebook-button">Login with Facebook</button>
 					</div>
 		</div>
 		</div>
@@ -241,6 +242,8 @@
 		
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="assets/js/bootstrap.js"></script>
-        <script src="pairs-controller.js"></script>
+        <script src="FacebookUserSelector.js"></script>
+		<script src="pairs-controller.js"></script>
+		
     </body>
 </html>

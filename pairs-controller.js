@@ -7,66 +7,126 @@ if(!localStorage['base']){
 var api_base = localStorage['base'];
 var logged_in = false;
 
-function load_pair_table() {
-    var row_html1 = '<tr> <td class="pair_table_col_thumbnail1"><img src="http://www.pehub.com/wp-content/uploads/avatars/11839/9213ed45c2d7ad5d6e7f5742e35ec892-bpthumb.jpg" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> <td class="pair_table_col_thumbnail2"><img src="http://blogs.lincoln.ac.uk/wp-content/blogs.dir/1/files/avatars/7579/a4c2883d335e0436bf141d8eddbae261-bpthumb.jpg" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> <td class="pair_table_col_nama1">katty wang</td> <td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> <td class="pair_table_col_name2">阿明</td> <td class="pair_table_col_vote_count">12,099</td> <td class="pair_table_col_vote_unit">票</td><td class=""> <button type="button" class="btn btn-danger"><img width="30" width="20" src="assets/img/brokenheart.png"/> 分開吧</button> </td> </tr>';
-    var row_html2 = '\
-                    <tr> \
-                        <td class="pair_table_col_thumbnail1"><img src="http://cs407120.vk.me/v407120518/29c7/0ab4IHzDdfc.jpg" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
-                        <td class="pair_table_col_thumbnail2"><img src="https://secure.gravatar.com/avatar/2b8c78a329733d8b8c9ac7636a9534a8?d=mm&s=50&r=G" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
-						\
-                        <td class="pair_table_col_nama1">張大維</td> \
-                        <td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
-                        <td class="pair_table_col_name2">無名氏</td> \
-                        <td class="pair_table_col_vote_count">8,290</td> \
-                        <td class="pair_table_col_vote_unit">票</td> \
-                        <td class=""> <button type="button" class="btn btn-info"><img width="30" width="20" src="assets/img/heart.png"/> 在一起</button> </td> \
-                    </tr>';
-    var times = 15;
-    while(times--) {
-        $('#pair_table').append(row_html1 + row_html2);
-    }
+//TODO:show correct comment dialog
+function showComment(pid)
+{
+	var content = '<div class="fb-comments" data-href="http://api.pairs.cc/comments/'+pid+'" data-numposts="5" data-colorscheme="light"></div>';
+	
+	//content = '<p>'+pid+'</p>';
+	
+	$('#comment-body').html(content);
+	
+	$('#comment_dialog').modal('show');
+
 }
+
 
 function listAllPairs(logged_in){
-	$.ajax({
-		type: "GET",
-		dataType: "json",
-		url: api_base + "/",
-		error: function(data){
-			// error
-		},
-		success: function(data){
-			data['data'].forEach(function(data){			
-				console.log(data);
-				//TODO:check if the user has voted the pair or not
-				var row_html = '\
-					<tr> \
-						<td class="pair_table_col_thumbnail1"><img src="http://graph.facebook.com/'+ data['user1']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
-						<td class="pair_table_col_thumbnail2"><img src="http://graph.facebook.com/'+ data['user2']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
-						\
-						<td class="pair_table_col_nama1">'+ data['user1']['name'] +'</td> \
-						<td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
-						<td class="pair_table_col_name2">'+ data['user2']['name'] +'</td> \
-						<td class="pair_table_col_vote_count">' + data['count'] + '</td> \
-						<td class="pair_table_col_vote_unit">票</td> \
-						<td class=""> <button type="button" class="btn btn-info" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',0)"><img width="30" width="20" src="assets/img/heart.png"/> 在一起</button> </td> \
-					</tr>';
-				//src="assets/img/brokenheart.png"
-				$('#pair_table').append(row_html);
-				if(!logged_in)
-					$('#btn_'+data['pid']).hide();
-			});
-		}
-	});
+	
+	if(logged_in)
+	{
+		$.ajax({
+			type: "GET",
+			dataType: "json",
+			url: api_base + "/my_votes",
+			xhrFields: {
+					withCredentials: true
+				},
+			error: function(data){
+				// error
+			},
+			success: function(data){
+				
+				var voted = data['data']['voted'];
+				$.ajax({
+					type: "GET",
+					dataType: "json",
+					url: api_base + "/",
+					error: function(data){
+						// error
+					},
+					success: function(data){
+						data['data'].forEach(function(data){			
+							console.log(data);
+							//TODO:check if the user has voted the pair or not
+							var row_html = "";
+							if(voted.indexOf(data['pid']) == -1)
+							{
+								row_html = '\
+									<tr onclick="showComment('+ data['pid'] +');"> \
+										<td class="pair_table_col_thumbnail1"><img src="http://graph.facebook.com/'+ data['user1']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
+										<td class="pair_table_col_thumbnail2"><img src="http://graph.facebook.com/'+ data['user2']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
+										\
+										<td class="pair_table_col_nama1">'+ data['user1']['name'] +'</td> \
+										<td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
+										<td class="pair_table_col_name2">'+ data['user2']['name'] +'</td> \
+										<td class="pair_table_col_vote_count" id="count_'+data['pid']+'">' + data['count'] + '</td> \
+										<td class="pair_table_col_vote_unit">票</td> \
+										<td class=""> <button type="button" class="btn btn-info" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',0)"><img width="30" width="20" src="assets/img/heart.png"/> 在一起</button> </td> \
+									</tr>';
+							}
+							else
+							{
+								row_html = '\
+									<tr onclick="showComment('+ data['pid'] +');"> \
+										<td class="pair_table_col_thumbnail1"><img src="http://graph.facebook.com/'+ data['user1']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
+										<td class="pair_table_col_thumbnail2"><img src="http://graph.facebook.com/'+ data['user2']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
+										\
+										<td class="pair_table_col_nama1">'+ data['user1']['name'] +'</td> \
+										<td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
+										<td class="pair_table_col_name2">'+ data['user2']['name'] +'</td> \
+										<td class="pair_table_col_vote_count" id="count_'+data['pid']+'">' + data['count'] + '</td> \
+										<td class="pair_table_col_vote_unit">票</td> \
+										<td class=""> <button type="button" class="btn btn-danger" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',1)"><img width="30" width="20" src="assets/img/brokenheart.png"/> 分開吧</button> </td> \
+									</tr>';
+							}
+							
+							$('#pair_table').append(row_html);
+							if(!logged_in)
+								$('#btn_'+data['pid']).hide();
+						});
+					}
+				});
+			}
+		});
+	}
+	
+	else
+	{
+		$.ajax({
+			type: "GET",
+			dataType: "json",
+			url: api_base + "/",
+			error: function(data){
+				// error
+			},
+			success: function(data){
+				data['data'].forEach(function(data){			
+					console.log(data);
+					//TODO:check if the user has voted the pair or not
+					var row_html = '\
+						<tr onclick="showComment('+ data['pid'] +');"> \
+							<td class="pair_table_col_thumbnail1"><img src="http://graph.facebook.com/'+ data['user1']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
+							<td class="pair_table_col_thumbnail2"><img src="http://graph.facebook.com/'+ data['user2']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
+							\
+							<td class="pair_table_col_nama1">'+ data['user1']['name'] +'</td> \
+							<td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
+							<td class="pair_table_col_name2">'+ data['user2']['name'] +'</td> \
+							<td class="pair_table_col_vote_count">' + data['count'] + '</td> \
+							<td class="pair_table_col_vote_unit">票</td> \
+						</tr>';
+					
+					$('#pair_table').append(row_html);
+				});
+			}
+		});
+	}
 }
 
-function changeList(logged_in)
+function changeList()
 {
 	$("#pair_table button").each( function (index,element){
-		if(logged_in)
-			$('#'+element.id).show();
-		else
-			$('#'+element.id).hide();
+		$('#'+element.id).hide();
 	});
 }
 
@@ -99,7 +159,7 @@ function login(){
 					logged_in = false;
 					$('#btn-showfriends').hide();
 					$('#btn-public').hide();
-					changeList(logged_in);
+					changeList();
 					
 					$('#login-button').html('登入');
 				}
@@ -126,16 +186,27 @@ function vote(pid, is_retrieve){
 		success: function(data){
 			console.log(data);
 			if(is_retrieve == 1){
-
-				alert('Retrieved!');
+				var count = parseInt($('#count_'+pid).html());
+				$('#count_'+pid).html(count-1);
+				$('#btn_'+pid).attr('class','btn btn-info');
+				$('#btn_'+pid).attr('onclick','vote(' + pid + ',0)');
+				$('#btn_'+pid).html('<img width="30" width="20" src="assets/img/heart.png"/> 在一起');
+				
+				//alert('Retrieved!');
 
 			}else if(is_retrieve ==0){
+
+				var count = parseInt($('#count_'+pid).html());
+				$('#count_'+pid).html(count+1);
+				$('#btn_'+pid).attr('class','btn btn-danger');
+				$('#btn_'+pid).attr('onclick','vote(' + pid + ',1)');
+				$('#btn_'+pid).html('<img width="30" width="20" src="assets/img/brokenheart.png"/> 分開吧');
 
 				var msg = "Supported!";
 				if(data['match'] == 1){
 					msg += "\nIt's a match!";
 				}
-				alert(msg);
+				//alert(msg);
 				return data['pid'];
 			}
 
@@ -147,6 +218,13 @@ function vote(pid, is_retrieve){
 
 
 $(document).ready(function() {
+	
+	FB.init({ appId: "520188428109474",
+		status: true,
+		cookie: true,
+		xfbml: true,
+		oauth: true
+	});
 	
 	//check login status
 	$.ajax({
@@ -202,13 +280,32 @@ $(document).ready(function() {
 		})
 	
 	});
-	 
+	
+	//FB SDK get user accesstoken
+	
+	
+	FB.getLoginStatus(function (response) {
+		if (response.status === "connected") {  // 程式有連結到 Facebook 帳號
+			//var uid = response.authResponse.userID; // 取得 UID
+			accesstoken = response.authResponse.accessToken; // 取得 accessTokent
+			
+		} else if (response.status === "not_authorized") {  // 帳號沒有連結到 Facebook 程式
+			alert("請允許授權！");
+		} else {    // 帳號沒有登入
+			// 在本例子中，此段永遠不會進入...XD
+		}
+	});
 
 	//Select user
 	//FIXME:can only display one user selector at one time
 	$("#btn2").hide();
 	$("#inputStr2").hide();
 	$('#promote-button').click(function(){
+		fbid1 = "";
+		fbid2 = "";
+		$('#user_table1 tr').empty();
+		$('#user_table2 tr').empty();
+		
 		if(logged_in)
 			$('#select_dialog1').modal('show');
 		else
@@ -302,5 +399,6 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
 
 });

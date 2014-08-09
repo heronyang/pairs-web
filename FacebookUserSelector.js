@@ -1,6 +1,4 @@
-//gain temporary accesstoken
-//https://developers.facebook.com/tools/explorer/145634995501895/?method=GET&path=search%3Ftype%3Duser%26q%3DMaria%20Chao&version=v2.0
-var accesstoken = 'CAAHZAG855RqIBADWcUZBonRMpCwXlQNgUsKOMWMrl4xa2DdK1qfzKLVqJYKZAjO7qYKFri2PIUPSinTJn7kGr7D7hepjOwt9Wb2fkKFOiy2jlFHUygkV5XyjOIBZBj9sKpnqFuhD9FU4NeiU4UvCCMWBnwFiGwdEFn1JjZBRlIdpJHjzL7A8KzPZB5x8VjyVmrqUL0RsTMM8B3G3Mf2LAxq61frKh1lkMZD';
+var accesstoken = "";
 
 //regular expressions for input string matching
 

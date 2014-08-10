@@ -50,34 +50,26 @@ function listAllPairs(logged_in){
 						data['data'].forEach(function(data){
 							console.log(data);
 							//TODO:check if the user has voted the pair or not
-							var row_html = "";
+							var row_html = '\
+								<tr onclick="showComment('+ data['pid'] +');"> \
+									<td class="pair_table_col_thumbnail1"><img src="http://graph.facebook.com/'+ data['user1']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
+									<td class="pair_table_col_thumbnail2"><img src="http://graph.facebook.com/'+ data['user2']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
+									\
+									<td class="pair_table_col_nama1">'+ data['user1']['name'] +'</td> \
+									<td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
+									<td class="pair_table_col_name2">'+ data['user2']['name'] +'</td> \
+									<td class="pair_table_col_vote_count" id="count_'+data['pid']+'">' + data['count'] + '</td> \
+									<td class="pair_table_col_vote_unit">票</td>';
+
 							if(voted.indexOf(data['pid']) == -1)
 							{
-								row_html = '\
-									<tr onclick="showComment('+ data['pid'] +');"> \
-										<td class="pair_table_col_thumbnail1"><img src="http://graph.facebook.com/'+ data['user1']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
-										<td class="pair_table_col_thumbnail2"><img src="http://graph.facebook.com/'+ data['user2']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
-										\
-										<td class="pair_table_col_nama1">'+ data['user1']['name'] +'</td> \
-										<td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
-										<td class="pair_table_col_name2">'+ data['user2']['name'] +'</td> \
-										<td class="pair_table_col_vote_count" id="count_'+data['pid']+'">' + data['count'] + '</td> \
-										<td class="pair_table_col_vote_unit">票</td> \
+								row_html +='\
 										<td class=""> <button type="button" class="btn btn-info" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',0)"><img width="30" width="20" src="assets/img/heart.png"/> 在一起</button> </td> \
 									</tr>';
 							}
 							else
 							{
-								row_html = '\
-									<tr onclick="showComment('+ data['pid'] +');"> \
-										<td class="pair_table_col_thumbnail1"><img src="http://graph.facebook.com/'+ data['user1']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
-										<td class="pair_table_col_thumbnail2"><img src="http://graph.facebook.com/'+ data['user2']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
-										\
-										<td class="pair_table_col_nama1">'+ data['user1']['name'] +'</td> \
-										<td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
-										<td class="pair_table_col_name2">'+ data['user2']['name'] +'</td> \
-										<td class="pair_table_col_vote_count" id="count_'+data['pid']+'">' + data['count'] + '</td> \
-										<td class="pair_table_col_vote_unit">票</td> \
+								row_html += '\
 										<td class=""> <button type="button" class="btn btn-danger" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',1)"><img width="30" width="20" src="assets/img/brokenheart.png"/> 分開吧</button> </td> \
 									</tr>';
 							}

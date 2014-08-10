@@ -24,97 +24,65 @@ function showComment(pid)
 
 function listAllPairs(logged_in){
 
-	if(logged_in)
-	{
-		$.ajax({
-			type: "GET",
-			dataType: "json",
-			url: api_base + "/my_votes",
-			xhrFields: {
-					withCredentials: true
-				},
-			error: function(data){
-				// error
+	$.ajax({
+		type: "GET",
+		dataType: "json",
+		url: api_base + "/my_votes",
+		xhrFields: {
+				withCredentials: true
 			},
-			success: function(data){
-
-				var voted = data['data']['voted'];
-				$.ajax({
-					type: "GET",
-					dataType: "json",
-					url: api_base + "/",
-					error: function(data){
-						// error
+		error: function(data){
+			// error
+		},
+		success: function(data){
+			var voted = data['data']['voted'];
+			$.ajax({
+				type: "GET",
+				dataType: "json",
+				url: api_base + "/",
+				xhrFields: {
+						withCredentials: true
 					},
-					success: function(data){
-						data['data'].forEach(function(data){
-							console.log(data);
-							//TODO:check if the user has voted the pair or not
-							var row_html = '\
-								<tr onclick="showComment('+ data['pid'] +');"> \
-									<td class="pair_table_col_thumbnail1"><img src="http://graph.facebook.com/'+ data['user1']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
-									<td class="pair_table_col_thumbnail2"><img src="http://graph.facebook.com/'+ data['user2']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
-									\
-									<td class="pair_table_col_nama1">'+ data['user1']['name'] +'</td> \
-									<td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
-									<td class="pair_table_col_name2">'+ data['user2']['name'] +'</td> \
-									<td class="pair_table_col_vote_count" id="count_'+data['pid']+'">' + data['count'] + '</td> \
-									<td class="pair_table_col_vote_unit">票</td>';
+				error: function(data){
+					// error
+				},
+				success: function(data){
+					data['data'].forEach(function(data){
+						console.log(data);
+						//TODO:check if the user has voted the pair or not
+						var row_html = '\
+							<tr onclick="showComment('+ data['pid'] +');"> \
+								<td class="pair_table_col_thumbnail1"><img src="http://graph.facebook.com/'+ data['user1']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
+								<td class="pair_table_col_thumbnail2"><img src="http://graph.facebook.com/'+ data['user2']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
+								\
+								<td class="pair_table_col_nama1">'+ data['user1']['name'] +'</td> \
+								<td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
+								<td class="pair_table_col_name2">'+ data['user2']['name'] +'</td> \
+								<td class="pair_table_col_vote_count" id="count_'+data['pid']+'">' + data['count'] + '</td> \
+								<td class="pair_table_col_vote_unit">票</td>';
 
-							if(voted.indexOf(data['pid']) == -1)
-							{
-								row_html +='\
-										<td class=""> <button type="button" class="btn btn-info" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',0)"><img width="30" width="20" src="assets/img/heart.png"/> 在一起</button> </td> \
-									</tr>';
-							}
-							else
-							{
-								row_html += '\
-										<td class=""> <button type="button" class="btn btn-danger" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',1)"><img width="30" width="20" src="assets/img/brokenheart.png"/> 分開吧</button> </td> \
-									</tr>';
-							}
+						if(voted.indexOf(data['pid']) == -1)
+						{
+							row_html +='\
+									<td class=""> <button type="button" class="btn btn-info" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',0)"><img width="30" width="20" src="assets/img/heart.png"/> 在一起</button> </td> \
+								</tr>';
+						}
+						else
+						{
+							row_html += '\
+									<td class=""> <button type="button" class="btn btn-danger" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',1)"><img width="30" width="20" src="assets/img/brokenheart.png"/> 分開吧</button> </td> \
+								</tr>';
+						}
 
-							$('#pair_table').append(row_html);
-							if(!logged_in)
-								$('#btn_'+data['pid']).hide();
-						});
-					}
-				});
-			}
-		});
+						$('#pair_table').append(row_html);
+						if(!logged_in)
+							$('#btn_'+data['pid']).hide();
+					});
+				}
+			});
+		}
+	});
 	}
-
-	else
-	{
-		$.ajax({
-			type: "GET",
-			dataType: "json",
-			url: api_base + "/",
-			error: function(data){
-				// error
-			},
-			success: function(data){
-				data['data'].forEach(function(data){
-					console.log(data);
-					//TODO:check if the user has voted the pair or not
-					var row_html = '\
-						<tr onclick="showComment('+ data['pid'] +');"> \
-							<td class="pair_table_col_thumbnail1"><img src="http://graph.facebook.com/'+ data['user1']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
-							<td class="pair_table_col_thumbnail2"><img src="http://graph.facebook.com/'+ data['user2']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
-							\
-							<td class="pair_table_col_nama1">'+ data['user1']['name'] +'</td> \
-							<td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
-							<td class="pair_table_col_name2">'+ data['user2']['name'] +'</td> \
-							<td class="pair_table_col_vote_count">' + data['count'] + '</td> \
-							<td class="pair_table_col_vote_unit">票</td> \
-						</tr>';
-
-					$('#pair_table').append(row_html);
-				});
-			}
-		});
-	}
-}
 
 function changeList()
 {

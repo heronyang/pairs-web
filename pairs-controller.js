@@ -10,19 +10,20 @@ var logged_in = false;
 //TODO:show correct comment dialog
 function showComment(pid)
 {
-	var content = '<div class="fb-comments" data-href="http://api.pairs.cc/comments/'+pid+'" data-numposts="5" data-colorscheme="light"></div>';
-	
+	var content = '<div class="fb-comments" data-href="http://api.pairs.cc/#'+pid+'" data-numposts="5" data-colorscheme="light"></fb:comments>';
+
 	//content = '<p>'+pid+'</p>';
-	
+
 	$('#comment-body').html(content);
-	
+	var commentDiv = document.getElementById('comment-body');
+	FB.XFBML.parse(commentDiv);
 	$('#comment_dialog').modal('show');
 
 }
 
 
 function listAllPairs(logged_in){
-	
+
 	if(logged_in)
 	{
 		$.ajax({
@@ -36,7 +37,7 @@ function listAllPairs(logged_in){
 				// error
 			},
 			success: function(data){
-				
+
 				var voted = data['data']['voted'];
 				$.ajax({
 					type: "GET",
@@ -46,7 +47,7 @@ function listAllPairs(logged_in){
 						// error
 					},
 					success: function(data){
-						data['data'].forEach(function(data){			
+						data['data'].forEach(function(data){
 							console.log(data);
 							//TODO:check if the user has voted the pair or not
 							var row_html = "";
@@ -80,7 +81,7 @@ function listAllPairs(logged_in){
 										<td class=""> <button type="button" class="btn btn-danger" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',1)"><img width="30" width="20" src="assets/img/brokenheart.png"/> 分開吧</button> </td> \
 									</tr>';
 							}
-							
+
 							$('#pair_table').append(row_html);
 							if(!logged_in)
 								$('#btn_'+data['pid']).hide();
@@ -90,7 +91,7 @@ function listAllPairs(logged_in){
 			}
 		});
 	}
-	
+
 	else
 	{
 		$.ajax({
@@ -101,7 +102,7 @@ function listAllPairs(logged_in){
 				// error
 			},
 			success: function(data){
-				data['data'].forEach(function(data){			
+				data['data'].forEach(function(data){
 					console.log(data);
 					//TODO:check if the user has voted the pair or not
 					var row_html = '\
@@ -115,7 +116,7 @@ function listAllPairs(logged_in){
 							<td class="pair_table_col_vote_count">' + data['count'] + '</td> \
 							<td class="pair_table_col_vote_unit">票</td> \
 						</tr>';
-					
+
 					$('#pair_table').append(row_html);
 				});
 			}
@@ -137,7 +138,7 @@ function login(){
 
 		// Show login button from API
 		$('#login_dialog').modal('show');
-		
+
 	}else{
 
 		// Call logout url
@@ -160,7 +161,7 @@ function login(){
 					$('#btn-showfriends').hide();
 					$('#btn-public').hide();
 					changeList();
-					
+
 					$('#login-button').html('登入');
 				}
 			}
@@ -191,7 +192,7 @@ function vote(pid, is_retrieve){
 				$('#btn_'+pid).attr('class','btn btn-info');
 				$('#btn_'+pid).attr('onclick','vote(' + pid + ',0)');
 				$('#btn_'+pid).html('<img width="30" width="20" src="assets/img/heart.png"/> 在一起');
-				
+
 				//alert('Retrieved!');
 
 			}else if(is_retrieve ==0){
@@ -218,14 +219,14 @@ function vote(pid, is_retrieve){
 
 
 $(document).ready(function() {
-	
+
 	FB.init({ appId: "520188428109474",
 		status: true,
 		cookie: true,
 		xfbml: true,
 		oauth: true
 	});
-	
+
 	//check login status
 	$.ajax({
 		type: "GET",
@@ -248,11 +249,11 @@ $(document).ready(function() {
 			}else{
 
 				// Not logged in
-				logged_in = false;	
+				logged_in = false;
 				$('#login-button').html('登入');
 				$('#btn-showfriends').hide();
 				$('#btn-public').hide();
-				
+
 			}
 
 			$('#login-button').on('click', login);
@@ -260,7 +261,7 @@ $(document).ready(function() {
 			listAllPairs(logged_in);
 		}
 	});
-		
+
 	$('#login-facebook-button').click(function() {
 		$.ajax({
 			type: "GET",
@@ -278,17 +279,17 @@ $(document).ready(function() {
 					document.location.href = data['login_url'];
 			}
 		})
-	
+
 	});
-	
+
 	//FB SDK get user accesstoken
-	
-	
+
+
 	FB.getLoginStatus(function (response) {
 		if (response.status === "connected") {  // 程式有連結到 Facebook 帳號
 			//var uid = response.authResponse.userID; // 取得 UID
 			accesstoken = response.authResponse.accessToken; // 取得 accessTokent
-			
+
 		} else if (response.status === "not_authorized") {  // 帳號沒有連結到 Facebook 程式
 			alert("請允許授權！");
 		} else {    // 帳號沒有登入
@@ -305,15 +306,15 @@ $(document).ready(function() {
 		fbid2 = "";
 		$('#user_table1 tr').empty();
 		$('#user_table2 tr').empty();
-		
+
 		if(logged_in)
 			$('#select_dialog1').modal('show');
 		else
 			$('#login_dialog').modal('show');
 	});
-	
+
 	$("#btn1").click(function(){
-			
+
 		table_id = "user_table1";
 		$('#user_table1 tr').empty();
 		console.log("clear");
@@ -323,18 +324,18 @@ $(document).ready(function() {
 		result2 = new Array();
 		result3 = new Array();
 		result4 = new Array();
-		
+
 		var input = $("#inputStr1").val();
 		if(numericReg.test(input) || stringReg.test(input))
-			getIDfromID(input); 
-		
+			getIDfromID(input);
+
 		else if(urlReg.test(input))
 			getIDfromLink(input);
-		else                  
+		else
 			finished_thread_count++;
-			
+
 		if(nameReg.test(input))
-		{                  
+		{
 			getIDfromName_FQL(input);
 			getIDfromName(input);
 		}
@@ -342,11 +343,11 @@ $(document).ready(function() {
 		{
 			finished_thread_count += 2;
 			check_if_finish_and_display_result();
-		}   
-	});	
-	
+		}
+	});
+
 	$("#btn2").click(function(){
-			
+
 		table_id = "user_table2";
 		$('#user_table2 tr').empty();
 		console.log("clear");
@@ -356,18 +357,18 @@ $(document).ready(function() {
 		result2 = new Array();
 		result3 = new Array();
 		result4 = new Array();
-		
+
 		var input = $("#inputStr2").val();
 		if(numericReg.test(input) || stringReg.test(input))
-			getIDfromID(input); 
-		
+			getIDfromID(input);
+
 		else if(urlReg.test(input))
 			getIDfromLink(input);
-		else                  
+		else
 			finished_thread_count++;
-			
+
 		if(nameReg.test(input))
-		{                  
+		{
 			getIDfromName_FQL(input);
 			getIDfromName(input);
 		}
@@ -375,9 +376,9 @@ $(document).ready(function() {
 		{
 			finished_thread_count += 2;
 			check_if_finish_and_display_result();
-		}   
-	});	
-	
+		}
+	});
+
 	//promote new pair
 	$('#confirm-button').on('click', function(){
 		$.ajax({
@@ -399,6 +400,6 @@ $(document).ready(function() {
 			}
 		});
 	});
-	
+
 
 });

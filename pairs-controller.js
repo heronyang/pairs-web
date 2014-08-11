@@ -311,18 +311,20 @@ $(document).ready(function() {
 
 	$("#btn1").click(function(){
 
+		fbid1 = -1;
 		$('#user_table1 tr').empty();
 		var input = $("#inputStr1").val();
-		obj = new newSearch(input,"user_table1",accesstoken);
+		var obj = new newSearch(input,"user_table1",accesstoken);
 		obj.getResult();
 		
 	});
 
 	$("#btn2").click(function(){
 
+		fbid2 = -1;
 		$('#user_table2 tr').empty();
 		var input = $("#inputStr2").val();
-		obj = new newSearch(input,"user_table2",accesstoken);
+		var obj = new newSearch(input,"user_table2",accesstoken);
 		obj.getResult();
 		
 	});

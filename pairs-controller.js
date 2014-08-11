@@ -131,6 +131,39 @@ function login(){
 
 }
 
+//after promoting a new pair, update the table
+function updateTable()
+{
+	$.ajax({
+		type: "GET",
+		dataType: "json",
+		url: api_base + "/",
+		xhrFields: {
+				withCredentials: true
+			},
+		error: function(data){
+			// error
+		},
+		success: function(data){
+			//get new-inserted data
+			var newdata = data['data'][data['data'].length-1];
+			var row_html = '\
+				<tr> \
+					<td class="pair_table_col_thumbnail1"><img src="http://graph.facebook.com/'+ newdata['user1']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
+					<td class="pair_table_col_thumbnail2"><img src="http://graph.facebook.com/'+ newdata['user2']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
+					\
+					<td class="pair_table_col_nama1">'+ newdata['user1']['name'] +'</td> \
+					<td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
+					<td class="pair_table_col_name2">'+ newdata['user2']['name'] +'</td> \
+					<td class="pair_table_col_vote_count">' + newdata['count'] + '</td> \
+					<td class="pair_table_col_vote_unit">票</td> \
+					<td class=""> <button type="button" class="btn btn-info" id="btn_'+newdata['pid']+'" onclick="vote(' + newdata['pid'] + ',0)"><img width="30" width="20" src="assets/img/heart.png"/> 在一起</button> </td> \
+				</tr>';
+			$('#pair_table').append(row_html);
+		}
+	});
+}
+
 function vote(pid, is_retrieve){
 	$.ajax({
 		type: "POST",
@@ -263,11 +296,11 @@ $(document).ready(function() {
 
 	//Select user
 	//FIXME:can only display one user selector at one time
-	$("#btn2").hide();
-	$("#inputStr2").hide();
+	
 	$('#promote-button').click(function(){
-		fbid1 = "";
-		fbid2 = "";
+		user1_fbid = -1;
+		user2_fbid = -1;
+		
 		$('#user_table1 tr').empty();
 		$('#user_table2 tr').empty();
 
@@ -281,13 +314,14 @@ $(document).ready(function() {
 
 		table_id = "user_table1";
 		$('#user_table1 tr').empty();
-		console.log("clear");
-		finished_thread_count = 0;
-		result = new Array();
-		result1 = new Array();
-		result2 = new Array();
-		result3 = new Array();
-		result4 = new Array();
+		
+		user1_fbid = -1;
+		user1_finished_thread_count = 0;
+		user1_result = new Array();
+		user1_result1 = new Array();
+		user1_result2 = new Array();
+		user1_result3 = new Array();
+		user1_result4 = new Array();
 
 		var input = $("#inputStr1").val();
 		if(numericReg.test(input) || stringReg.test(input))
@@ -296,7 +330,7 @@ $(document).ready(function() {
 		else if(urlReg.test(input))
 			getIDfromLink(input);
 		else
-			finished_thread_count++;
+			user1_finished_thread_count++;
 
 		if(nameReg.test(input))
 		{
@@ -305,7 +339,7 @@ $(document).ready(function() {
 		}
 		else
 		{
-			finished_thread_count += 2;
+			user1_finished_thread_count += 2;
 			check_if_finish_and_display_result();
 		}
 	});
@@ -314,13 +348,14 @@ $(document).ready(function() {
 
 		table_id = "user_table2";
 		$('#user_table2 tr').empty();
-		console.log("clear");
-		finished_thread_count = 0;
-		result = new Array();
-		result1 = new Array();
-		result2 = new Array();
-		result3 = new Array();
-		result4 = new Array();
+		
+		user2_fbid = -1;
+		user2_finished_thread_count = 0;
+		user2_result = new Array();
+		user2_result1 = new Array();
+		user2_result2 = new Array();
+		user2_result3 = new Array();
+		user2_result4 = new Array();
 
 		var input = $("#inputStr2").val();
 		if(numericReg.test(input) || stringReg.test(input))
@@ -329,7 +364,7 @@ $(document).ready(function() {
 		else if(urlReg.test(input))
 			getIDfromLink(input);
 		else
-			finished_thread_count++;
+			user2_finished_thread_count++;
 
 		if(nameReg.test(input))
 		{
@@ -338,31 +373,35 @@ $(document).ready(function() {
 		}
 		else
 		{
-			finished_thread_count += 2;
+			user2_finished_thread_count += 2;
 			check_if_finish_and_display_result();
 		}
 	});
 
 	//promote new pair
 	$('#confirm-button').on('click', function(){
-		$.ajax({
-			type: "POST",
-			dataType: "json",
-			url: api_base + "/",
-			xhrFields: {
-				withCredentials: true
-			},
-			data: 'fbid1=' + fbid1 + '&fbid2=' + fbid2,
-			error: function(data){
-				console.log(data);
-				alert(data.responseJSON.message);
-			},
-			success: function(data){
-				console.log(data);
-				//update table
-				updateTable();
-			}
-		});
+		if( user1_fbid != -1 && user2_fbid != -1 )
+		{
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: api_base + "/",
+				xhrFields: {
+					withCredentials: true
+				},
+				data: 'fbid1=' + user1_fbid + '&fbid2=' + user2_fbid,
+				error: function(data){
+					console.log(data);
+					alert(data.responseJSON.message);
+				},
+				success: function(data){
+					console.log(data);
+					updateTable();
+				}
+			});
+		}
+		else
+			alert("Please select two users!");
 	});
 
 

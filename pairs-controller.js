@@ -157,7 +157,7 @@ function updateTable()
 					<td class="pair_table_col_name2">'+ newdata['user2']['name'] +'</td> \
 					<td class="pair_table_col_vote_count">' + newdata['count'] + '</td> \
 					<td class="pair_table_col_vote_unit">票</td> \
-					<td class=""> <button type="button" class="btn btn-info" id="btn_'+newdata['pid']+'" onclick="vote(' + newdata['pid'] + ',0)"><img width="30" width="20" src="assets/img/heart.png"/> 在一起</button> </td> \
+					<td class=""> <button type="button" class="btn btn-danger" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',1)"><img width="30" width="20" src="assets/img/brokenheart.png"/> 分開吧</button> </td> \
 				</tr>';
 			$('#pair_table').append(row_html);
 		}
@@ -286,6 +286,7 @@ $(document).ready(function() {
 		if (response.status === "connected") {  // 程式有連結到 Facebook 帳號
 			//var uid = response.authResponse.userID; // 取得 UID
 			accesstoken = response.authResponse.accessToken; // 取得 accessTokent
+			console.log("token = "+ accesstoken);
 
 		} else if (response.status === "not_authorized") {  // 帳號沒有連結到 Facebook 程式
 			alert("請允許授權！");
@@ -295,11 +296,9 @@ $(document).ready(function() {
 	});
 
 	//Select user
-	//FIXME:can only display one user selector at one time
-	
 	$('#promote-button').click(function(){
-		user1_fbid = -1;
-		user2_fbid = -1;
+		fbid1 = -1;
+		fbid2 = -1;
 		
 		$('#user_table1 tr').empty();
 		$('#user_table2 tr').empty();
@@ -312,75 +311,25 @@ $(document).ready(function() {
 
 	$("#btn1").click(function(){
 
-		table_id = "user_table1";
 		$('#user_table1 tr').empty();
-		
-		user1_fbid = -1;
-		user1_finished_thread_count = 0;
-		user1_result = new Array();
-		user1_result1 = new Array();
-		user1_result2 = new Array();
-		user1_result3 = new Array();
-		user1_result4 = new Array();
-
 		var input = $("#inputStr1").val();
-		if(numericReg.test(input) || stringReg.test(input))
-			getIDfromID(input);
-
-		else if(urlReg.test(input))
-			getIDfromLink(input);
-		else
-			user1_finished_thread_count++;
-
-		if(nameReg.test(input))
-		{
-			getIDfromName_FQL(input);
-			getIDfromName(input);
-		}
-		else
-		{
-			user1_finished_thread_count += 2;
-			check_if_finish_and_display_result();
-		}
+		obj = new newSearch(input,"user_table1",accesstoken);
+		obj.getResult();
+		
 	});
 
 	$("#btn2").click(function(){
 
-		table_id = "user_table2";
 		$('#user_table2 tr').empty();
-		
-		user2_fbid = -1;
-		user2_finished_thread_count = 0;
-		user2_result = new Array();
-		user2_result1 = new Array();
-		user2_result2 = new Array();
-		user2_result3 = new Array();
-		user2_result4 = new Array();
-
 		var input = $("#inputStr2").val();
-		if(numericReg.test(input) || stringReg.test(input))
-			getIDfromID(input);
-
-		else if(urlReg.test(input))
-			getIDfromLink(input);
-		else
-			user2_finished_thread_count++;
-
-		if(nameReg.test(input))
-		{
-			getIDfromName_FQL(input);
-			getIDfromName(input);
-		}
-		else
-		{
-			user2_finished_thread_count += 2;
-			check_if_finish_and_display_result();
-		}
+		obj = new newSearch(input,"user_table2",accesstoken);
+		obj.getResult();
+		
 	});
 
 	//promote new pair
 	$('#confirm-button').on('click', function(){
-		if( user1_fbid != -1 && user2_fbid != -1 )
+		if( fbid1 != -1 && fbid2 != -1 )
 		{
 			$.ajax({
 				type: "POST",
@@ -389,7 +338,7 @@ $(document).ready(function() {
 				xhrFields: {
 					withCredentials: true
 				},
-				data: 'fbid1=' + user1_fbid + '&fbid2=' + user2_fbid,
+				data: 'fbid1=' + fbid1 + '&fbid2=' + fbid2,
 				error: function(data){
 					console.log(data);
 					alert(data.responseJSON.message);

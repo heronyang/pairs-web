@@ -157,11 +157,15 @@ function vote(pid, is_retrieve){
 
 			}else if(is_retrieve ==0){
 
-				var count = parseInt($('#count_'+pid).html());
+				//refresh the table
+				$('#pair_table tr').empty();
+				listAllPairs(logged_in);
+	
+				/*var count = parseInt($('#count_'+pid).html());
 				$('#count_'+pid).html(count+1);
 				$('#btn_'+pid).attr('class','btn btn-danger');
 				$('#btn_'+pid).attr('onclick','vote(' + pid + ',1)');
-				$('#btn_'+pid).html('<img width="30" width="20" src="assets/img/brokenheart.png"/> 分開吧');
+				$('#btn_'+pid).html('<img width="30" width="20" src="assets/img/brokenheart.png"/> 分開吧');*/
 
 				var msg = "Supported!";
 				if(data['match'] == 1){

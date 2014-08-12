@@ -10,7 +10,7 @@ var logged_in = false;
 //TODO:show correct comment dialog
 function showComment(pid)
 {
-
+	window.location.hash = '#' + pid;
 	$.ajax({
 		type: "GET",
 		dataType: "json",
@@ -372,5 +372,9 @@ $(document).ready(function() {
 			alert("Please select two users!");
 	});
 
-
+	if(window.location.hash){
+		console.log(window.location.hash);
+		var pid = window.location.hash.replace('#','');
+		showComment(pid);
+	}
 });

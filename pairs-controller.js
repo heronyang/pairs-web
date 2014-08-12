@@ -24,7 +24,7 @@ function showComment(pid)
 		success: function(data){
 			// TODO: Determine if is voted, waiting for backend update
 			var pair = data['data'];
-			console.log(pair['user1']);
+			console.log(pair);
 			var content = '<img src="http://graph.facebook.com/' + pair['user1']['fbid_real'] + '/picture">' + pair['user1']['name'] + '<br>\
 			<img src="http://graph.facebook.com/' + pair['user2']['fbid_real'] + '/picture">' + pair['user2']['name'] + '<br>\
 			票數：' + pair['count'] + '<br>\

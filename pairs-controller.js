@@ -10,14 +10,31 @@ var logged_in = false;
 //TODO:show correct comment dialog
 function showComment(pid)
 {
-	var content = '<div class="fb-comments" data-href="http://api.pairs.cc/#'+pid+'" data-numposts="5" data-colorscheme="light"></fb:comments>';
 
-	//content = '<p>'+pid+'</p>';
-
-	$('#comment-body').html(content);
-	var commentDiv = document.getElementById('comment-body');
-	FB.XFBML.parse(commentDiv);
-	$('#comment_dialog').modal('show');
+	$.ajax({
+		type: "GET",
+		dataType: "json",
+		url: api_base + "/p/" + pid,
+		xhrFields: {
+				withCredentials: true
+			},
+		error: function(data){
+			// error
+		},
+		success: function(data){
+			// TODO: Determine if is voted, waiting for backend update
+			var pair = data['data'];
+			console.log(pair['user1']);
+			var content = '<img src="http://graph.facebook.com/' + pair['user1']['fbid_real'] + '/picture">' + pair['user1']['name'] + '<br>\
+			<img src="http://graph.facebook.com/' + pair['user2']['fbid_real'] + '/picture">' + pair['user2']['name'] + '<br>\
+			票數：' + pair['count'] + '<br>\
+ 			<div class="fb-comments" data-href="http://api.pairs.cc/#'+pid+'" data-numposts="5" data-colorscheme="light"></fb:comments>';
+			$('#comment-body').html(content);
+			var commentDiv = document.getElementById('comment-body');
+			FB.XFBML.parse(commentDiv);
+			$('#comment_dialog').modal('show');
+		}
+	});
 
 }
 
@@ -193,7 +210,7 @@ function vote(pid, is_retrieve){
 				//refresh the table
 				$('#pair_table tr').empty();
 				listAllPairs(logged_in);
-	
+
 				/*var count = parseInt($('#count_'+pid).html());
 				$('#count_'+pid).html(count+1);
 				$('#btn_'+pid).attr('class','btn btn-danger');
@@ -299,7 +316,7 @@ $(document).ready(function() {
 	$('#promote-button').click(function(){
 		fbid1 = -1;
 		fbid2 = -1;
-		
+
 		$('#user_table1 tr').empty();
 		$('#user_table2 tr').empty();
 
@@ -316,7 +333,7 @@ $(document).ready(function() {
 		var input = $("#inputStr1").val();
 		var obj = new newSearch(input,"user_table1",accesstoken);
 		obj.getResult();
-		
+
 	});
 
 	$("#btn2").click(function(){
@@ -326,7 +343,7 @@ $(document).ready(function() {
 		var input = $("#inputStr2").val();
 		var obj = new newSearch(input,"user_table2",accesstoken);
 		obj.getResult();
-		
+
 	});
 
 	//promote new pair

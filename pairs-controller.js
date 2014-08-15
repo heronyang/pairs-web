@@ -73,7 +73,7 @@ function listAllPairs(logged_in){
 			$.ajax({
 				type: "GET",
 				dataType: "json",
-				url: api_base + "/",
+				url: api_base + "/?interval=" + $('#filter_time').val() + "&sort=" + $('#filter_sort').val(),
 				xhrFields: {
 						withCredentials: true
 					},
@@ -407,6 +407,10 @@ $(document).ready(function() {
 		}
 		else
 			alert("Please select two users!");
+	});
+
+	$('#search-submit').click(function(){
+		listAllPairs(logged_in);
 	});
 
 	$('.selectpicker').selectpicker();

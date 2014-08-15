@@ -29,10 +29,9 @@ function showComment(pid)
 			<img src="http://graph.facebook.com/' + pair['user2']['fbid_real'] + '/picture">' + pair['user2']['name'] + '<br>\
 			票數：' + pair['count'] + '<br>\
  			<div class="fb-comments" data-href="http://api.pairs.cc/#'+pid+'" data-numposts="5" data-colorscheme="light"></fb:comments>';
-			$('#comment-body').html(content);
-			var commentDiv = document.getElementById('comment-body');
+			$('#main-detail').html(content);
+			var commentDiv = document.getElementById('main-detail');
 			FB.XFBML.parse(commentDiv);
-			$('#comment_dialog').modal('show');
 		}
 	});
 
@@ -241,6 +240,14 @@ $(document).ready(function() {
 		oauth: true
 	});
 
+	// check if user came with # or not
+
+	if(window.location.hash){
+		console.log(window.location.hash);
+		var pid = window.location.hash.replace('#','');
+		showComment(pid);
+	}
+
 	//check login status
 	$.ajax({
 		type: "GET",
@@ -374,9 +381,4 @@ $(document).ready(function() {
 
 	$('.selectpicker').selectpicker();
 
-	if(window.location.hash){
-		console.log(window.location.hash);
-		var pid = window.location.hash.replace('#','');
-		showComment(pid);
-	}
 });

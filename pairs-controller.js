@@ -7,7 +7,6 @@ if(!localStorage['base']){
 var api_base = localStorage['base'];
 var logged_in = false;
 
-//TODO:show correct comment dialog
 function showComment(pid)
 {
 	window.location.hash = '#' + pid;

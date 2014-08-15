@@ -256,7 +256,8 @@ $(document).ready(function() {
 	if(window.location.hash){
 		console.log(window.location.hash);
 		var pid = window.location.hash.replace('#','');
-		showComment(pid);
+		showComment(parseInt(pid));
+		in_detail = true;
 	}
 
 	//check login status
@@ -289,8 +290,11 @@ $(document).ready(function() {
 			}
 
 			$('#login-button').on('click', login);
-			// List all existing Pairs
-			listAllPairs(logged_in);
+
+			if(!in_detail){
+				// List all existing Pairs
+				listAllPairs(logged_in);
+			}
 		}
 	});
 

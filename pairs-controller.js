@@ -23,7 +23,10 @@ function showComment(pid)
 				withCredentials: true
 			},
 		error: function(data){
-			// error
+			// error, pid could be invalid
+			console.log('invalid pid requested');
+			window.location.hash = '';
+			listAllPairs(logged_in);
 		},
 		success: function(data){
 			// TODO: Determine if is voted, waiting for backend update

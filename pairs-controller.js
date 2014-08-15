@@ -10,7 +10,11 @@ var in_detail = false; // This indicates if user is currently in a detail page o
 
 function showComment(pid)
 {
-	window.location.hash = '#' + pid;
+	if(!in_detail){
+		window.location.hash = '#' + pid;
+		// user may be browsing at the bottom of table previously
+		window.scrollTo(0, 0);
+	}
 	$.ajax({
 		type: "GET",
 		dataType: "json",

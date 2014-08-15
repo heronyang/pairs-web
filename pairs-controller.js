@@ -6,7 +6,7 @@ if(!localStorage['base']){
 
 var api_base = localStorage['base'];
 var logged_in = false;
-var in_deatil = false; // This indicates if user is currently in a detail page or table page
+var in_detail = false; // This indicates if user is currently in a detail page or table page
 
 function showComment(pid)
 {

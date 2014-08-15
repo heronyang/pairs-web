@@ -1,6 +1,4 @@
-if(!localStorage['base']){
-	localStorage['base'] = prompt('請輸入要使用的 API Base URL (不用結尾斜線)', 'http://api.pairs.cc');
-}
+localStorage['base'] = 'http://api.pairs.cc';
 
 //global variables
 

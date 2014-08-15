@@ -87,15 +87,15 @@ function listAllPairs(logged_in){
 						console.log(data);
 						//TODO:check if the user has voted the pair or not
 						var row_html = '\
-							<tr onclick="showComment('+ data['pid'] +');"> \
-								<td class="pair_table_col_thumbnail1"><img src="http://graph.facebook.com/'+ data['user1']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
-								<td class="pair_table_col_thumbnail2"><img src="http://graph.facebook.com/'+ data['user2']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
+							<tr> \
+								<td onclick="showComment('+ data['pid'] +');" class="pair_table_col_thumbnail1"><img src="http://graph.facebook.com/'+ data['user1']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
+								<td onclick="showComment('+ data['pid'] +');" class="pair_table_col_thumbnail2"><img src="http://graph.facebook.com/'+ data['user2']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
 								\
-								<td class="pair_table_col_nama1">'+ data['user1']['name'] +'</td> \
-								<td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
-								<td class="pair_table_col_name2">'+ data['user2']['name'] +'</td> \
-								<td class="pair_table_col_vote_count" id="count_'+data['pid']+'">' + data['count'] + '</td> \
-								<td class="pair_table_col_vote_unit">票</td>';
+								<td onclick="showComment('+ data['pid'] +');" class="pair_table_col_nama1">'+ data['user1']['name'] +'</td> \
+								<td onclick="showComment('+ data['pid'] +');" class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
+								<td onclick="showComment('+ data['pid'] +');" class="pair_table_col_name2">'+ data['user2']['name'] +'</td> \
+								<td onclick="showComment('+ data['pid'] +');" class="pair_table_col_vote_count" id="count_'+data['pid']+'">' + data['count'] + '</td> \
+								<td onclick="showComment('+ data['pid'] +');" class="pair_table_col_vote_unit">票</td>';
 
 						if(voted.indexOf(data['pid']) == -1)
 						{

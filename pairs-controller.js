@@ -372,6 +372,8 @@ $(document).ready(function() {
 			alert("Please select two users!");
 	});
 
+	$('.selectpicker').selectpicker();
+
 	if(window.location.hash){
 		console.log(window.location.hash);
 		var pid = window.location.hash.replace('#','');

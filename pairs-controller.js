@@ -260,8 +260,8 @@ $(document).ready(function() {
 	if(window.location.hash){
 		console.log(window.location.hash);
 		var pid = window.location.hash.replace('#','');
-		showComment(parseInt(pid));
 		in_detail = true;
+		showComment(parseInt(pid));
 	}
 
 	//check login status

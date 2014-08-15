@@ -246,7 +246,14 @@ function vote(pid, is_retrieve){
 	});
 }
 
-
+function browseByHash(){
+	console.log(window.location.hash);
+	var pid = window.location.hash.replace('#','');
+	if(parseInt(pid) != NaN && parseInt(pid) == pid){
+		in_detail = true;
+		showComment(parseInt(pid));
+	}
+}
 
 
 $(document).ready(function() {
@@ -261,12 +268,7 @@ $(document).ready(function() {
 	// check if user came with # or not
 
 	if(window.location.hash){
-		console.log(window.location.hash);
-		var pid = window.location.hash.replace('#','');
-		if(parseInt(pid) != NaN){
-			in_detail = true;
-			showComment(parseInt(pid));
-		}
+		browseByHash();
 	}
 
 	//check login status
@@ -408,5 +410,12 @@ $(document).ready(function() {
 	});
 
 	$('.selectpicker').selectpicker();
+
+	$(window).on('hashchange', function() {
+		in_detail = true;
+		// HTML5 specifieds a hashchange event, supported by most modern browsers
+		// http://stackoverflow.com/questions/680785/on-window-location-hash-change
+		browseByHash();
+	});
 
 });

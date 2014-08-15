@@ -260,8 +260,10 @@ $(document).ready(function() {
 	if(window.location.hash){
 		console.log(window.location.hash);
 		var pid = window.location.hash.replace('#','');
-		in_detail = true;
-		showComment(parseInt(pid));
+		if(parseInt(pid) != NaN){
+			in_detail = true;
+			showComment(parseInt(pid));
+		}
 	}
 
 	//check login status

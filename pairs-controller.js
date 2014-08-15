@@ -6,6 +6,7 @@ if(!localStorage['base']){
 
 var api_base = localStorage['base'];
 var logged_in = false;
+var in_deatil = false; // This indicates if user is currently in a detail page or table page
 
 function showComment(pid)
 {
@@ -28,9 +29,16 @@ function showComment(pid)
 			<img src="http://graph.facebook.com/' + pair['user2']['fbid_real'] + '/picture">' + pair['user2']['name'] + '<br>\
 			票數：' + pair['count'] + '<br>\
  			<div class="fb-comments" data-href="http://api.pairs.cc/#'+pid+'" data-numposts="5" data-colorscheme="light"></fb:comments>';
+
+			$('#main-table').css('display', 'none');
+			$('#main-detail').css('display', '');
 			$('#main-detail').html(content);
+
 			var commentDiv = document.getElementById('main-detail');
 			FB.XFBML.parse(commentDiv);
+
+			in_detail = true;
+
 		}
 	});
 
@@ -38,6 +46,10 @@ function showComment(pid)
 
 
 function listAllPairs(logged_in){
+
+	$('#main-detail').css('display', 'none');
+	$('#main-table').css('display', '');
+	in_detail = false;
 
 	$.ajax({
 		type: "GET",
@@ -370,7 +382,11 @@ $(document).ready(function() {
 				},
 				success: function(data){
 					console.log(data);
-					updateTable();
+					if(in_detail){
+						showComment(data['pid']);
+					}else{
+						updateTable();
+					}
 				}
 			});
 		}

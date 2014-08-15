@@ -250,14 +250,12 @@ function vote(pid, is_retrieve){
 	});
 }
 
-function browseByHash(initialInvoke = 0){
+function browseByHash(){
 	console.log(window.location.hash);
 	var pid = window.location.hash.replace('#','');
 	if(parseInt(pid) != NaN && parseInt(pid) == pid){
 		in_detail = true;
 		showComment(parseInt(pid));
-	}else if(initialInvoke == 0){
-		listAllPairs(logged_in);
 	}
 }
 
@@ -274,7 +272,7 @@ $(document).ready(function() {
 	// check if user came with # or not
 
 	if(window.location.hash){
-		browseByHash(1);
+		browseByHash();
 	}
 
 	//check login status

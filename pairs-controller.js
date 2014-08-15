@@ -168,6 +168,7 @@ function login(){
 }
 
 //after promoting a new pair, update the table
+//TODO: integrate this function, who is only used in one place, back to where it was called
 function updateTable()
 {
 	$.ajax({

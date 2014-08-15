@@ -81,6 +81,10 @@ function listAllPairs(logged_in){
 					// error
 				},
 				success: function(data){
+
+					// clear table before updating
+					$('#pair_table').html('');
+
 					data['data'].forEach(function(data){
 						console.log(data);
 						//TODO:check if the user has voted the pair or not

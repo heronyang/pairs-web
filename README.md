@@ -21,3 +21,7 @@ Directory Structure
 * ├── index.html: index page
 * ├── pairs-controller.js: PAIRS's Controller (MVC)
 * └── pairs-view.css: PAIRS's View (MVC)
+
+Resources
+---------
+* Loading GIF: http://ajaxload.info/

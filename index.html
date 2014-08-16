@@ -4,10 +4,37 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" type="image/png" href="favicon.ico"/>
+
+        <!-- FIXME: this part is going with S&M -->
+        <!-- general -->
         <meta name="description" content="PAIRS - Vote for them, and Gossip!">
         <meta name="author" content="Zero Studio">
 
+        <!-- for Google -->
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+
+        <meta name="author" content="" />
+        <meta name="copyright" content="" />
+        <meta name="application-name" content="" />
+
+        <!-- for Facebook -->          
+        <meta property="og:title" content="" />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content="" />
+        <meta property="og:url" content="" />
+        <meta property="og:description" content="" />
+
+        <!-- for Twitter -->          
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="" />
+        <meta name="twitter:description" content="" />
+        <meta name="twitter:image" content="" />
+
+
         <title>PAIRS</title>
+
 
         <!-- Bootstrap core CSS -->
         <link href="assets/css/bootstrap.css" rel="stylesheet">
@@ -41,12 +68,13 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#"><img width="181" height="50" src="assets/img/logo_with_title.png" alt=""></a>
+                    <a class="navbar-brand" href=""><img width="181" height="50" src="assets/img/logo_with_title.png" alt=""></a>
 
                 </div>
                 <div class="navbar-collapse collapse" >
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="#" id="login-button">登入</a></li>
+                        <li class="active"><a href="http://facebook.com/pairs-app" target="_blank">Facebook</a></li>
+                        <li class="active"><a href="" id="login-button">登入</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div><!--/.container-fluid -->
@@ -57,7 +85,7 @@
             <div class="container">
                 <div class="row">
                     <div class="centered">
-                        <h3>已有88300對戀人在Pairs配對成功</h3>
+                        <h3>已有88300對戀人在PAIRS配對成功</h3>
                         <h4>只要你投下神聖的一票就可以讓他們在一起</h4>
                         <button type="button" class="btn btn-success" id="promote-button">配對</button>
                     </div><!-- /col-lg-8 -->
@@ -66,58 +94,62 @@
         </div><!--/#welcome_msg -->
 
         <!-- Table Options -->
-        <div class="container">
-            <div class="row centered">
+        <div id="main-option-container">
+            <div class="container" id="main-option">
+                <div class="row centered">
 
-                <!-- Filter on friend of me or not -->
-                <div class="btn-group">
-                    <button type="button" class="btn btn-success" id="btn-public">公開</button>
-                    <button type="button" class="btn btn-default" id="btn-showfriends">只顯示我朋友</button>
-                </div>
-
-                <!-- Sort -->
-                <div class="btn-group">
-                  排序方式：
-                    <select class="selectpicker" id="filter_sort">
-                    <option value="1">最高票數</option>
-                    <option value="2">最後更新</option>
-                    <option value="3">姓名</option>
-                    </select>
-                </div>
-
-                <!-- Filter on Time -->
-                <div class="btn-group">
-                  時間範圍：
-                    <select class="selectpicker" id="filter_time">
-                    <option value="0">不限時間</option>
-                    <option value="1">過去一個月內</option>
-                    <option value="2">過去一週內</option>
-                    <option value="3">今天</option>
-                    <option value="4">過去一小時內</option>
-                    </select>
-                </div>
-
-
-            </div>
-            <div class="row centered">
-                <!-- Search -->
-                <form class="navbar-form centered" role="search">
-                    <div class="form-group centered">
-                        <input type="text" class="form-control" placeholder="Search">
+                    <!-- Filter on friend of me or not -->
+                    <div class="btn-group" style="display: none;">
+                        <button type="button" class="btn btn-success default_hide" id="btn-public">公開</button>
+                        <button type="button" class="btn btn-default default_hide" id="btn-showfriends">只顯示我朋友</button>
                     </div>
-                    <button id="search-submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-                </form>
-            </div>
-        </div>
 
-        <!-- PAIR detail page -->
-        <div class="container" id="main-detail">
+                    <!-- Sort -->
+                    <div class="col-xs-12 col-sm-4">
+                        <div class="btn-group">
+                            <label>排序方式</label>
+                            <select class="selectpicker" id="filter_sort">
+                                <option value="1">最高票數</option>
+                                <option value="2">最後更新</option>
+                                <option value="3">姓名</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Filter on Time -->
+                    <div class="col-xs-12 col-sm-4">
+                        <div class="btn-group">
+                            <label>時間範圍</label>
+                            <select class="selectpicker" id="filter_time">
+                                <option value="0">不限時間</option>
+                                <option value="1">過去一個月內</option>
+                                <option value="2">過去一週內</option>
+                                <option value="3">今天</option>
+                                <option value="4">過去一小時內</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Search -->
+                    <div class="col-xs-12 col-sm-4 pull-right">
+                        <form class="navbar-form centered" role="search">
+                            <div class="form-group centered">
+                                <input type="text" class="form-control" placeholder="Search">
+                            </div>
+                            <button id="search-submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
         </div>
 
         <!-- PAIR list Table -->
         <div class="container" id="main-table">
             <div class="row">
                 <div id="pair_table_container" class="col-xs-12 col-sm-10 col-lg-8 centered">
+                    <img width="50" height="50" id="loader-gif" src="assets/img/loader.gif" alt="loading...">
                     <table class="table table-hover table-striped table-responsive">
                         <tbody id="pair_table">
                             <!-- content will be loaded by JS code -->
@@ -127,22 +159,68 @@
             </div>
         </div>
 
+        <!-- [Page: About] -->
+        <div class="container pages default_hide" id="page_about">
+            <div class="row centered">
+                <div class="col-xs-12 col-sm-4">
+                    <h3>Gossip</h3>
+                    <p>Gossiping the ones you know is the essential loves of human being. We just can’t stop ourselves from gossiping after a relaxing dinner.</p>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <h3>Openness</h3>
+                    <p>A transparent platform for these gossip is needed, and well be awesome to reflect the latest status of me or my friend. We want to share our own opinions and would like to see what does other people actually think about it.</p>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <h3>Care</h3>
+                    <p>However, above all, what we really concern is the ones we care. We care our own selves and we care the ones we love.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Page: Idea] -->
+        <div class="container pages default_hide" id="page_idea">
+            <div class="row centered">
+                <h2>Idea</h2>
+            </div>
+        </div>
+
+        <!-- [Page: Sponsor] -->
+        <div class="container pages default_hide" id="page_sponsor">
+            <div class="row centered">
+                <h2>Sponsor</h2>
+            </div>
+        </div>
+
+        <!-- [Page: Privacy] -->
+        <div class="container pages default_hide" id="page_privacy">
+            <div class="row centered">
+                <h2>Privacy</h2>
+            </div>
+        </div>
+
+        <!-- [Page: Term] -->
+        <div class="container pages default_hide" id="page_term">
+            <div class="row centered">
+                <h2>Term</h2>
+            </div>
+        </div>
+
         <section id="contact"></section>
         <div id="social">
             <div class="container">
                 <div class="row centered">
-                    <div class="col-lg-8 col-lg-offset-2">
+                    <div class="col-lg-8 col-lg-offset-2 centered">
                         <div class="col-md-3">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#about"><i class="fa fa-flag"></i></a>
                         </div>
                         <div class="col-md-3">
-                            <a href="#"><i class="fa fa-dribbble"></i></a>
+                            <a href="#idea"><i class="fa fa-lightbulb-o"></i></a>
                         </div>
                         <div class="col-md-3">
-                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#sponsor"><i class="fa fa-money"></i></a>
                         </div>
                         <div class="col-md-3">
-                            <a href="#"><i class="fa fa-envelope"></i></a>
+                            <a href="mailto:studio-zero@googlegroups.com" target="_top"><i class="fa fa-envelope"></i></a>
                         </div>
                     </div>
                 </div>
@@ -151,30 +229,13 @@
 
         <div id="f">
             <div class="container text-center">
-                <hr />
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="col-md-6">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#">介紹</a></li>
-                                <li><a href="#">點子</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#">支持我們</a></li>
-                                <li><a href="#">聯絡我們</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
                 <hr>
                 <div class="row">
                     <div class="col-lg-12">
                         <ul class="nav nav-pills nav-justified">
-                            <li><a href="#">使用條款</a></li>
-                            <li><a href="#">服務條款</a></li>
-                            <li><a href="/">Studio Zero Production© 2014.</a></li>
+                            <li><a href="#privacy">隱私條款</a></li>
+                            <li><a href="#term">使用條款</a></li>
+                            <li><a href="">Studio Zero Production © 2014.</a></li>
                         </ul>
                     </div>
                 </div>
@@ -198,8 +259,8 @@
 						<!--<iframe id="login_iframe"></iframe> -->
 						<button id = "login-facebook-button">Login with Facebook</button>
 					</div>
-		</div>
-		</div>
+                </div>
+            </div>
 		</div>
 
 		<!-- select user dialog -->
@@ -243,6 +304,7 @@
 			</div><!-- /.modal-content -->
 		  </div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->
+
 
         <!-- Placed at the end of the document so the pages load faster -->
 		<script src="http://connect.facebook.net/zh_TW/all.js"></script>

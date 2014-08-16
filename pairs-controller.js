@@ -35,8 +35,10 @@ function showComment(pid)
 			票數：' + pair['count'] + '<br>\
  			<div class="fb-comments" data-href="http://api.pairs.cc/#'+pid+'" data-numposts="5" data-colorscheme="light"></fb:comments>';
 
-			$('#main-table').css('display', 'none');
-			$('#main-detail').css('display', '');
+			//$('#main-table').css('display', 'none');
+			//$('#main-detail').css('display', '');
+			$('#main-table').hide();
+			$('#main-detail').show();
 			$('#main-detail').html(content);
 
 			var commentDiv = document.getElementById('main-detail');
@@ -52,8 +54,8 @@ function showComment(pid)
 
 function listAllPairs(logged_in){
 
-	$('#main-detail').css('display', 'none');
-	$('#main-table').css('display', '');
+	$('#main-detail').hide();
+	$('#main-table').show();
 	in_detail = false;
 
 	$.ajax({
@@ -82,6 +84,7 @@ function listAllPairs(logged_in){
 
 					// clear table before updating
 					$('#pair_table').html('');
+                    $('#loader-gif').hide();        // remove loading animation
 
 					data['data'].forEach(function(data){
 						console.log(data);
@@ -249,13 +252,38 @@ function vote(pid, is_retrieve){
 	});
 }
 
+function cleanForPages() {
+    in_detail = true;
+    $('#main-table').hide();
+    $('#main-detail').hide();
+    $('#main-option').hide();
+    $('.pages').hide();
+}
+
 function browseByHash(){
 	console.log(window.location.hash);
-	var pid = window.location.hash.replace('#','');
-	if(parseInt(pid) != NaN && parseInt(pid) == pid){
+	var hash_arg = window.location.hash.replace('#','');
+	if(parseInt(hash_arg) != NaN && parseInt(hash_arg) == hash_arg){
 		in_detail = true;
-		showComment(parseInt(pid));
-	}
+		showComment(parseInt(hash_arg));
+	} else if(hash_arg == 'about') {
+        cleanForPages();
+        $('#page_about').show();
+    } else if(hash_arg == 'idea') {
+        cleanForPages();
+        $('#page_idea').show();
+    } else if(hash_arg == 'sponsor') {
+        cleanForPages();
+        $('#page_sponsor').show();
+    } else if(hash_arg == 'privacy') {
+        cleanForPages();
+        $('#page_privacy').show();
+    } else if(hash_arg == 'term') {
+        cleanForPages();
+        $('#page_term').show();
+    } else {
+        // ignore
+    }
 }
 
 
@@ -415,6 +443,11 @@ $(document).ready(function() {
 	$('#search-submit').click(function(){
 		listAllPairs(logged_in);
 	});
+
+    // filter applies when <select> changes
+    $('.selectpicker').change(function() {
+		listAllPairs(logged_in);
+    });
 
 	$('.selectpicker').selectpicker();
 

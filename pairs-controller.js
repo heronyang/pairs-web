@@ -272,6 +272,7 @@ function browseByHash(){
     } else if(hash_arg == 'idea') {
         cleanForPages();
         $('#page_idea').show();
+        document.location.href = 'https://pairs.hunchbuzz.com/challenge/1570/';
     } else if(hash_arg == 'sponsor') {
         cleanForPages();
         $('#page_sponsor').show();

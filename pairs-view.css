@@ -77,6 +77,10 @@ a {
     display:none;
 }
 
+#main-option {
+    padding-bottom: 10px;
+}
+
 #main-option .btn {
     padding: 0px;
     padding-left: 0.5em;
@@ -133,4 +137,20 @@ button.btn, .btn-group > .btn-group:last-child > .btn:first-child {
 #main-table a:hover, #main-table a:focus {
     color: #115910;
     text-decoration: underline;
+}
+
+#search-box-container {
+    width: 75%;
+    max-width: 313px;
+    margin: auto;
+    padding: 0px 15px;
+}
+
+#search-box-container input.form-control {
+    width: 70%;
+    max-width: 270px;
+    float: left;
+}
+#search-box-container button {
+    float: right;
 }

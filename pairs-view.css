@@ -1,7 +1,7 @@
 body, html{
-   min-width: 520px; /* suppose you want minimun width of 1000px */
+   min-width: 320px; /* suppose you want minimun width of 1000px */
    width: auto !important;  /* Firefox will set width as auto */
-   width: 520px;             /* As IE ignores !important it will set width as 1000px; */
+   width: 320px;             /* As IE ignores !important it will set width as 1000px; */
 }
 
 div.green_background {
@@ -20,11 +20,15 @@ div.row {
 .table tbody>tr>td {
     vertical-align: middle;
 }
-td.pair_table_col_thumbnail1>img {
+td.pair_table_col_thumbnail1 img {
     float: right;
+    min-height: 40px;
+    min-width: 40px;
 }
-td.pair_table_col_thumbnail2>img {
+td.pair_table_col_thumbnail2 img {
     float: left;
+    min-height: 40px;
+    min-width: 40px;
 }
 
 td.pair_table_col_vote_count {
@@ -120,4 +124,13 @@ button.btn, .btn-group > .btn-group:last-child > .btn:first-child {
 
 #main-table .btn {
     padding: 0px;
+}
+
+#main-table a {
+    color: #606060;
+}
+
+#main-table a:hover, #main-table a:focus {
+    color: #115910;
+    text-decoration: underline;
 }

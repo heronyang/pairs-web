@@ -54,6 +54,7 @@ function showComment(pid)
 }
 
 
+/* listAllPairs: clean up the current table, and reload the main table */
 function listAllPairs(logged_in){
 
 	$('#main-detail').hide();
@@ -91,14 +92,17 @@ function listAllPairs(logged_in){
 					data['data'].forEach(function(data){
 						console.log(data);
 
+                        var fbid_real1 = data['user1']['fbid_real'];
+                        var fbid_real2 = data['user2']['fbid_real'];
+
 						var row_html = '\
 							<tr> \
-								<td class="pair_table_col_thumbnail1"><img src="http://graph.facebook.com/'+ data['user1']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
-								<td class="pair_table_col_thumbnail2"><img src="http://graph.facebook.com/'+ data['user2']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
+								<td class="pair_table_col_thumbnail1"><a href="https://facebook.com/'+fbid_real1+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real1 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
+								<td class="pair_table_col_thumbnail2"><a href="https://facebook.com/'+fbid_real2+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real2 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
 								\
-								<td class="pair_table_col_nama1">'+ data['user1']['name'] +'</td> \
+								<td class="pair_table_col_nama1"><a href="search?fbid='+fbid_real1+'">'+ data['user1']['name'] +'</a></td> \
 								<td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
-								<td class="pair_table_col_name2">'+ data['user2']['name'] +'</td> \
+								<td class="pair_table_col_name2"><a href="search?fbid='+fbid_real2+'">'+ data['user2']['name'] +'</a></td> \
 								<td class="pair_table_col_vote_count" id="count_'+data['pid']+'">' + data['count'] + '</td> \
 								<td class="pair_table_col_vote_unit">票</td>';
 

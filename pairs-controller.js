@@ -1,11 +1,14 @@
 localStorage['base'] = 'http://api.pairs.cc';
 
-//global variables
+/* Global variables */
 
 var api_base = localStorage['base'];
+
+// Default: not logged_in, not in_detail (table page)
 var logged_in = false;
 var in_detail = false; // This indicates if user is currently in a detail page or table page
 
+/* Functions */
 function showComment(pid)
 {
 	if(!in_detail){
@@ -30,13 +33,14 @@ function showComment(pid)
 			// TODO: Determine if is voted, waiting for backend update
 			var pair = data['data'];
 			console.log(pair);
+
+            // TODO: UI update, it may be better the HTML code is already in index.html, 
+            // but toggle hide/show and fill contents
 			var content = '<button class="btn btn-success" onclick="listAllPairs(logged_in)">返回列表</button><br><br><img src="http://graph.facebook.com/' + pair['user1']['fbid_real'] + '/picture">' + pair['user1']['name'] + ' x \
 			<img src="http://graph.facebook.com/' + pair['user2']['fbid_real'] + '/picture">' + pair['user2']['name'] + '<br>\
 			票數：' + pair['count'] + '<br>\
  			<div class="fb-comments" data-href="http://api.pairs.cc/#'+pid+'" data-numposts="5" data-colorscheme="light"></fb:comments>';
 
-			//$('#main-table').css('display', 'none');
-			//$('#main-detail').css('display', '');
 			$('#main-table').hide();
 			$('#main-detail').show();
 			$('#main-detail').html(content);
@@ -45,10 +49,8 @@ function showComment(pid)
 			FB.XFBML.parse(commentDiv);
 
 			in_detail = true;
-
 		}
 	});
-
 }
 
 
@@ -75,8 +77,8 @@ function listAllPairs(logged_in){
 				dataType: "json",
 				url: api_base + "/?interval=" + $('#filter_time').val() + "&sort=" + $('#filter_sort').val(),
 				xhrFields: {
-						withCredentials: true
-					},
+                    withCredentials: true
+                },
 				error: function(data){
 					// error
 				},
@@ -88,60 +90,49 @@ function listAllPairs(logged_in){
 
 					data['data'].forEach(function(data){
 						console.log(data);
-						//TODO:check if the user has voted the pair or not
+
 						var row_html = '\
 							<tr> \
-								<td onclick="showComment('+ data['pid'] +');" class="pair_table_col_thumbnail1"><img src="http://graph.facebook.com/'+ data['user1']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
-								<td onclick="showComment('+ data['pid'] +');" class="pair_table_col_thumbnail2"><img src="http://graph.facebook.com/'+ data['user2']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
+								<td class="pair_table_col_thumbnail1"><img src="http://graph.facebook.com/'+ data['user1']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
+								<td class="pair_table_col_thumbnail2"><img src="http://graph.facebook.com/'+ data['user2']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
 								\
-								<td onclick="showComment('+ data['pid'] +');" class="pair_table_col_nama1">'+ data['user1']['name'] +'</td> \
-								<td onclick="showComment('+ data['pid'] +');" class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
-								<td onclick="showComment('+ data['pid'] +');" class="pair_table_col_name2">'+ data['user2']['name'] +'</td> \
-								<td onclick="showComment('+ data['pid'] +');" class="pair_table_col_vote_count" id="count_'+data['pid']+'">' + data['count'] + '</td> \
-								<td onclick="showComment('+ data['pid'] +');" class="pair_table_col_vote_unit">票</td>';
+								<td class="pair_table_col_nama1">'+ data['user1']['name'] +'</td> \
+								<td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
+								<td class="pair_table_col_name2">'+ data['user2']['name'] +'</td> \
+								<td class="pair_table_col_vote_count" id="count_'+data['pid']+'">' + data['count'] + '</td> \
+								<td class="pair_table_col_vote_unit">票</td>';
 
-						if(voted.indexOf(data['pid']) == -1)
-						{
-							row_html +='\
-									<td class=""> <button type="button" class="btn btn-info" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',0)"><img width="30" width="20" src="assets/img/heart.png"/> 在一起</button> </td> \
-								</tr>';
+                        // if not voted
+                        /* let's still show the button even the user is not logged in, and popup login modal when clicked */
+						if(voted.indexOf(data['pid']) == -1) {
+							row_html +='<td class=""> <button type="button" class="btn btn-primary" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',0)"><img width="30" width="20" src="assets/img/heart.png"/></button></td>';
+						} else {
+							row_html += '<td class=""> <button type="button" class="btn btn-danger" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',1)"><img width="30" width="20" src="assets/img/brokenheart.png"/></button></td>';
 						}
-						else
-						{
-							row_html += '\
-									<td class=""> <button type="button" class="btn btn-danger" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',1)"><img width="30" width="20" src="assets/img/brokenheart.png"/> 分開吧</button> </td> \
-								</tr>';
-						}
+                        row_html += '<td class=""> <button type="button" class="btn btn-info" onclick="showComment('+ data['pid'] + ');" >&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;</button> </td> </tr>';
 
+                        // finally
 						$('#pair_table').append(row_html);
-						if(!logged_in)
-							$('#btn_'+data['pid']).hide();
 					});
 				}
 			});
 		}
 	});
-	}
-
-function changeList()
-{
-	$("#pair_table button").each( function (index,element){
-		$('#'+element.id).hide();
-	});
 }
 
-function login(){
+function login(){   // FIXME: it should be loginToggle(), which may imply both login/logout
 
-	//TODO:jump to the webpage directly
+	// TODO: jump to the webpage directly
+    // FIXME: shouldn't it be considered with variable (logged_in) instead of string comparison?
+    // should it be: 'if(logged_in)' ?
 	if($('#login-button').html() == '登入'){
 
 		// Show login button from API
 		$('#login_dialog').modal('show');
 
-	}else{
+	} else {
 
 		// Call logout url
-
 		$.ajax({
 			type: "GET",
 			dataType: "json",
@@ -157,21 +148,22 @@ function login(){
 
 					// Successfully logged out
 					logged_in = false;
+
+                    // hide useless button in table option
 					$('#btn-showfriends').hide();
 					$('#btn-public').hide();
-					changeList();
 
 					$('#login-button').html('登入');
 				}
 			}
 		});
-
 	}
 
 }
 
 //after promoting a new pair, update the table
 //TODO: integrate this function, who is only used in one place, back to where it was called
+//FIXME: refresh the whole page if better, so no two same HTML code in this js file
 function updateTable()
 {
 	$.ajax({
@@ -205,6 +197,7 @@ function updateTable()
 }
 
 function vote(pid, is_retrieve){
+
 	$.ajax({
 		type: "POST",
 		dataType: "json",
@@ -215,18 +208,20 @@ function vote(pid, is_retrieve){
 		},
 		error: function(data){
 			console.log(data);
-			alert(data.responseJSON.message);
+			console.log(data.responseJSON.message);
+            alert("系統連線問題，請確定網路連線後再試試！");
 		},
 		success: function(data){
 			console.log(data);
 			if(is_retrieve == 1){
+
+                // FIXME: just refresh the table, don't do "delta-calculations" (that will be troublesome)
+
 				var count = parseInt($('#count_'+pid).html());
 				$('#count_'+pid).html(count-1);
 				$('#btn_'+pid).attr('class','btn btn-info');
 				$('#btn_'+pid).attr('onclick','vote(' + pid + ',0)');
 				$('#btn_'+pid).html('<img width="30" width="20" src="assets/img/heart.png"/> 在一起');
-
-				//alert('Retrieved!');
 
 			}else if(is_retrieve ==0){
 
@@ -240,18 +235,116 @@ function vote(pid, is_retrieve){
 				$('#btn_'+pid).attr('onclick','vote(' + pid + ',1)');
 				$('#btn_'+pid).html('<img width="30" width="20" src="assets/img/brokenheart.png"/> 分開吧');*/
 
+                // FIXME: match or not shouldn't be seem by the user like this way, crontab works instead
+                // they should be able to hack (read your json response) to know if matched or not
+
+                /*
 				var msg = "Supported!";
 				if(data['match'] == 1){
 					msg += "\nIt's a match!";
 				}
 				//alert(msg);
+                */
+
 				return data['pid'];
 			}
-
 		}
 	});
 }
 
+/* promoteControllerInit: this is for setting up the popup modal for voting new pairs */
+function promoteControllerInit() {
+
+	//Select user
+	$('#promote-button').click(function(){
+		fbid1 = -1;
+		fbid2 = -1;
+
+		$('#user_table1 tr').empty();
+		$('#user_table2 tr').empty();
+
+		if(logged_in) {
+			$('#select_dialog1').modal('show');
+        } else {
+			$('#login_dialog').modal('show');
+        }
+	});
+
+	$("#btn1").click(function(){
+
+		fbid1 = -1;
+		$('#user_table1 tr').empty();
+		var input = $("#inputStr1").val();
+		var obj = new newSearch(input,"user_table1",accesstoken);
+		obj.getResult();
+
+	});
+
+	$("#btn2").click(function(){
+
+		fbid2 = -1;
+		$('#user_table2 tr').empty();
+		var input = $("#inputStr2").val();
+		var obj = new newSearch(input,"user_table2",accesstoken);
+		obj.getResult();
+
+	});
+
+	//Promote new pair
+	$('#confirm-button').on('click', function(){
+		if( fbid1 != -1 && fbid2 != -1 )
+		{
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: api_base + "/",
+				xhrFields: {
+					withCredentials: true
+				},
+				data: 'fbid1=' + fbid1 + '&fbid2=' + fbid2,
+				error: function(data){
+					console.log(data);
+					alert(data.responseJSON.message);
+				},
+				success: function(data){
+					console.log(data);
+					if(in_detail){
+						showComment(data['pid']);
+					}else{
+                        /* 
+                         * FIXME: can it be refreshing whole page instead? bugs may raise if updating, like:
+                         * $('#pair_table tr').empty(); 
+                         * listAllPairs(logged_in);
+                         */
+						updateTable();
+					}
+				}
+			});
+		}
+		else {
+			alert("請正確選擇兩位Facebook使用者");
+        }
+	});
+}
+
+/* tableOptionInit: setup the controllers in table option */
+function tableOptionInit() {
+
+	$('#search-submit').click(function(){
+		listAllPairs(logged_in);
+	});
+
+    // filter applies when <select> changes
+    $('.selectpicker').change(function() {
+		listAllPairs(logged_in);
+    });
+
+	$('.selectpicker').selectpicker();
+
+}
+
+/* cleanForPages: use hashtags in request URL, we should like to show some pages
+ * instead of the table, call this function to clean up for the pages */
 function cleanForPages() {
     in_detail = true;
     $('#main-table').hide();
@@ -260,6 +353,7 @@ function cleanForPages() {
     $('.pages').hide();
 }
 
+/* browseByHash: routing by using hash tag in request URL */
 function browseByHash(){
 	console.log(window.location.hash);
 	var hash_arg = window.location.hash.replace('#','');
@@ -287,7 +381,7 @@ function browseByHash(){
     }
 }
 
-
+/* main function */
 $(document).ready(function() {
 
 	FB.init({ appId: "520188428109474",
@@ -303,7 +397,7 @@ $(document).ready(function() {
 		browseByHash();
 	}
 
-	//check login status
+	// check login status and display table
 	$.ajax({
 		type: "GET",
 		dataType: "json",
@@ -322,6 +416,7 @@ $(document).ready(function() {
 				$('#login-button').html('登出');
 				$('#btn-showfriends').show();
 				$('#btn-public').show();
+
 			}else{
 
 				// Not logged in
@@ -334,7 +429,7 @@ $(document).ready(function() {
 
 			$('#login-button').on('click', login);
 
-			if(!in_detail){
+			if(!in_detail){ // in_detail is set in browseByHash
 				// List all existing Pairs
 				listAllPairs(logged_in);
 			}
@@ -353,7 +448,6 @@ $(document).ready(function() {
 				// error
 			},
 			success: function(data){
-
 				if(data['login_url'] != null)
 					document.location.href = data['login_url'];
 			}
@@ -361,9 +455,8 @@ $(document).ready(function() {
 
 	});
 
+
 	//FB SDK get user accesstoken
-
-
 	FB.getLoginStatus(function (response) {
 		if (response.status === "connected") {  // 程式有連結到 Facebook 帳號
 			//var uid = response.authResponse.userID; // 取得 UID
@@ -371,86 +464,14 @@ $(document).ready(function() {
 			console.log("token = "+ accesstoken);
 
 		} else if (response.status === "not_authorized") {  // 帳號沒有連結到 Facebook 程式
-			alert("請允許授權！");
+			alert("請允許授權才能開始投票哦！");
 		} else {    // 帳號沒有登入
 			// 在本例子中，此段永遠不會進入...XD
 		}
 	});
 
-	//Select user
-	$('#promote-button').click(function(){
-		fbid1 = -1;
-		fbid2 = -1;
-
-		$('#user_table1 tr').empty();
-		$('#user_table2 tr').empty();
-
-		if(logged_in)
-			$('#select_dialog1').modal('show');
-		else
-			$('#login_dialog').modal('show');
-	});
-
-	$("#btn1").click(function(){
-
-		fbid1 = -1;
-		$('#user_table1 tr').empty();
-		var input = $("#inputStr1").val();
-		var obj = new newSearch(input,"user_table1",accesstoken);
-		obj.getResult();
-
-	});
-
-	$("#btn2").click(function(){
-
-		fbid2 = -1;
-		$('#user_table2 tr').empty();
-		var input = $("#inputStr2").val();
-		var obj = new newSearch(input,"user_table2",accesstoken);
-		obj.getResult();
-
-	});
-
-	//promote new pair
-	$('#confirm-button').on('click', function(){
-		if( fbid1 != -1 && fbid2 != -1 )
-		{
-			$.ajax({
-				type: "POST",
-				dataType: "json",
-				url: api_base + "/",
-				xhrFields: {
-					withCredentials: true
-				},
-				data: 'fbid1=' + fbid1 + '&fbid2=' + fbid2,
-				error: function(data){
-					console.log(data);
-					alert(data.responseJSON.message);
-				},
-				success: function(data){
-					console.log(data);
-					if(in_detail){
-						showComment(data['pid']);
-					}else{
-						updateTable();
-					}
-				}
-			});
-		}
-		else
-			alert("Please select two users!");
-	});
-
-	$('#search-submit').click(function(){
-		listAllPairs(logged_in);
-	});
-
-    // filter applies when <select> changes
-    $('.selectpicker').change(function() {
-		listAllPairs(logged_in);
-    });
-
-	$('.selectpicker').selectpicker();
+    promoteControllerInit();
+    tableOptionInit();
 
 	$(window).on('hashchange', function() {
 		in_detail = true;

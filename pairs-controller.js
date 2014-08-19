@@ -34,7 +34,7 @@ function showComment(pid)
 			var pair = data['data'];
 			console.log(pair);
 
-            // TODO: UI update, it may be better the HTML code is already in index.html, 
+            // TODO: UI update, it may be better the HTML code is already in index.html,
             // but toggle hide/show and fill contents
 			var content = '<button class="btn btn-success" onclick="listAllPairs(logged_in)">返回列表</button><br><br><img src="http://graph.facebook.com/' + pair['user1']['fbid_real'] + '/picture">' + pair['user1']['name'] + ' x \
 			<img src="http://graph.facebook.com/' + pair['user2']['fbid_real'] + '/picture">' + pair['user2']['name'] + '<br>\
@@ -239,17 +239,6 @@ function vote(pid, is_retrieve){
 				$('#btn_'+pid).attr('onclick','vote(' + pid + ',1)');
 				$('#btn_'+pid).html('<img width="30" width="20" src="assets/img/brokenheart.png"/> 分開吧');*/
 
-                // FIXME: match or not shouldn't be seem by the user like this way, crontab works instead
-                // they should be able to hack (read your json response) to know if matched or not
-
-                /*
-				var msg = "Supported!";
-				if(data['match'] == 1){
-					msg += "\nIt's a match!";
-				}
-				//alert(msg);
-                */
-
 				return data['pid'];
 			}
 		}
@@ -315,9 +304,9 @@ function promoteControllerInit() {
 					if(in_detail){
 						showComment(data['pid']);
 					}else{
-                        /* 
+                        /*
                          * FIXME: can it be refreshing whole page instead? bugs may raise if updating, like:
-                         * $('#pair_table tr').empty(); 
+                         * $('#pair_table tr').empty();
                          * listAllPairs(logged_in);
                          */
 						updateTable();

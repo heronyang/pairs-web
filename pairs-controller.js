@@ -417,7 +417,7 @@ $(document).ready(function() {
 
 			}
 
-			$('#login-button').on('click', login);
+			$('#login-button').click(login);
 
 			if(!in_detail){ // in_detail is set in browseByHash
 				// List all existing Pairs

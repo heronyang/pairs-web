@@ -430,22 +430,7 @@ $(document).ready(function() {
 	});
 
 	$('#login-facebook-button').click(function() {
-		$.ajax({
-			type: "GET",
-			dataType: "json",
-			url: api_base + '/login',
-			xhrFields: {
-					withCredentials: true
-				},
-			error: function(data){
-				// error
-			},
-			success: function(data){
-				if(data['login_url'] != null)
-					document.location.href = data['login_url'];
-			}
-		})
-
+		document.location.href = api_base + '/login';
 	});
 
 

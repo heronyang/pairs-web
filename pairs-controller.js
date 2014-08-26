@@ -1,8 +1,14 @@
-localStorage['base'] = 'http://api.pairs.cc';
-
 /* Global variables */
 
-var api_base = localStorage['base'];
+var api_base = '';
+
+if(localStorage['base']){
+	// Set api_base if custom settings detected
+	api_base = localStorage['base'];
+}else{
+	// Default api_base
+	api_base = 'http://api.pairs.cc';
+}
 
 // Default: not logged_in, not in_detail (table page)
 var logged_in = false;

@@ -126,10 +126,7 @@ function listAllPairs(logged_in){
 
 function login(){   // FIXME: it should be loginToggle(), which may imply both login/logout
 
-	// TODO: jump to the webpage directly
-    // FIXME: shouldn't it be considered with variable (logged_in) instead of string comparison?
-    // should it be: 'if(logged_in)' ?
-	if($('#login-button').html() == '登入'){
+	if(logged_in == false){
 
 		// Show login button from API
 		$('#login_dialog').modal('show');

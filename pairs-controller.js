@@ -1,8 +1,14 @@
-localStorage['base'] = 'http://api.pairs.cc';
-
 /* Global variables */
 
-var api_base = localStorage['base'];
+var api_base = '';
+
+if(localStorage['base']){
+	// Set api_base if custom settings detected
+	api_base = localStorage['base'];
+}else{
+	// Default api_base
+	api_base = 'http://api.pairs.cc';
+}
 
 // Default: not logged_in, not in_detail (table page)
 var logged_in = false;
@@ -100,9 +106,9 @@ function listAllPairs(logged_in){
 								<td class="pair_table_col_thumbnail1"><a href="https://facebook.com/'+fbid_real1+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real1 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
 								<td class="pair_table_col_thumbnail2"><a href="https://facebook.com/'+fbid_real2+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real2 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
 								\
-								<td class="pair_table_col_nama1"><a href="search?fbid='+fbid_real1+'">'+ data['user1']['name'] +'</a></td> \
+								<td class="pair_table_col_nama1"><a href="#search?uid='+data['user1']['uid']+'">'+ data['user1']['name'] +'</a></td> \
 								<td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
-								<td class="pair_table_col_name2"><a href="search?fbid='+fbid_real2+'">'+ data['user2']['name'] +'</a></td> \
+								<td class="pair_table_col_name2"><a href="#search?uid='+data['user2']['uid']+'">'+ data['user2']['name'] +'</a></td> \
 								<td class="pair_table_col_vote_count" id="count_'+data['pid']+'">' + data['count'] + '</td> \
 								<td class="pair_table_col_vote_unit">票</td>';
 
@@ -126,10 +132,7 @@ function listAllPairs(logged_in){
 
 function login(){   // FIXME: it should be loginToggle(), which may imply both login/logout
 
-	// TODO: jump to the webpage directly
-    // FIXME: shouldn't it be considered with variable (logged_in) instead of string comparison?
-    // should it be: 'if(logged_in)' ?
-	if($('#login-button').html() == '登入'){
+	if(logged_in == false){
 
 		// Show login button from API
 		$('#login_dialog').modal('show');
@@ -420,7 +423,7 @@ $(document).ready(function() {
 
 			}
 
-			$('#login-button').on('click', login);
+			$('#login-button').click(login);
 
 			if(!in_detail){ // in_detail is set in browseByHash
 				// List all existing Pairs
@@ -430,22 +433,7 @@ $(document).ready(function() {
 	});
 
 	$('#login-facebook-button').click(function() {
-		$.ajax({
-			type: "GET",
-			dataType: "json",
-			url: api_base + '/login',
-			xhrFields: {
-					withCredentials: true
-				},
-			error: function(data){
-				// error
-			},
-			success: function(data){
-				if(data['login_url'] != null)
-					document.location.href = data['login_url'];
-			}
-		})
-
+		document.location.href = api_base + '/login';
 	});
 
 

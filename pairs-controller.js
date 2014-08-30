@@ -1,5 +1,6 @@
 /* Global variables */
 
+// Setup api_base
 var api_base = '';
 
 if(localStorage['base']){
@@ -160,7 +161,7 @@ function login(){   // FIXME: it should be loginToggle(), which may imply both l
 					$('#btn-showfriends').hide();
 					$('#btn-public').hide();
 
-					$('#login-button').html('登入');
+					$('#login-modal-button').html('登入');
 				}
 			}
 		});
@@ -228,7 +229,7 @@ function vote(pid, is_retrieve){
 				$('#count_'+pid).html(count-1);
 				$('#btn_'+pid).attr('class','btn btn-info');
 				$('#btn_'+pid).attr('onclick','vote(' + pid + ',0)');
-				$('#btn_'+pid).html('<img width="30" width="20" src="assets/img/heart.png"/> 在一起');
+				$('#btn_'+pid).html('<img width="30" width="20" src="assets/img/heart.png"/>');
 
 			}else if(is_retrieve ==0){
 
@@ -251,8 +252,11 @@ function vote(pid, is_retrieve){
 /* promoteControllerInit: this is for setting up the popup modal for voting new pairs */
 function promoteControllerInit() {
 
+    // NOTE: remove client FB login method (but keep it for future plans)
+    accesstoken = "";
+
 	//Select user
-	$('.login-modal-button').click(function(){
+	$('#add-pair-button').click(function(){
 		fbid1 = -1;
 		fbid2 = -1;
 
@@ -380,12 +384,14 @@ function browseByHash(){
 /* main function */
 $(document).ready(function() {
 
+    /*
 	FB.init({ appId: "520188428109474",
 		status: true,
 		cookie: true,
 		xfbml: true,
 		oauth: true
 	});
+    */
 
 	// check if user came with # or not
 
@@ -409,21 +415,25 @@ $(document).ready(function() {
 
 				// Logged in
 				logged_in = true;
-				$('#login-button').html('登出');
+				$('#login-modal-button').html('登出');
 				$('#btn-showfriends').show();
 				$('#btn-public').show();
+
+                console.log("login_status: logged in");
 
 			}else{
 
 				// Not logged in
 				logged_in = false;
-				$('#login-button').html('登入');
+				$('#login-modal-button').html('登入');
 				$('#btn-showfriends').hide();
 				$('#btn-public').hide();
 
+                console.log("login_status: not logged in");
+
 			}
 
-			$('#login-button').click(login);
+			$('#login-modal-button').click(login);
 
 			if(!in_detail){ // in_detail is set in browseByHash
 				// List all existing Pairs
@@ -432,12 +442,13 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#login-facebook-button').click(function() {
+	$('#login-button').click(function() {
 		document.location.href = api_base + '/login';
 	});
 
 
 	//FB SDK get user accesstoken
+    /*
 	FB.getLoginStatus(function (response) {
 		if (response.status === "connected") {  // 程式有連結到 Facebook 帳號
 			//var uid = response.authResponse.userID; // 取得 UID
@@ -450,6 +461,7 @@ $(document).ready(function() {
 			// 在本例子中，此段永遠不會進入...XD
 		}
 	});
+    */
 
     promoteControllerInit();
     tableOptionInit();

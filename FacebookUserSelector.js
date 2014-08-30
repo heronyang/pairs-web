@@ -1,3 +1,5 @@
+var SEARCH_MAX = 30;
+
 var fbid1 = -1;
 var fbid2 = -1;
 
@@ -13,27 +15,22 @@ var nameReg = /^[^~`!@#$%^&*\/?]+\s?[^~`!@#$%^&*\/?]+$/;
 //split name
 var separator = /[\s-._]+/;
 
-var SEARCH_MAX = 30;
-
-
-
-function pickUser1(id)
-{
+function pickUser1(id) {
 	fbid1 = id;
 }
-function pickUser2(id)
-{
+
+function pickUser2(id) {
 	fbid2 = id;
 }
 
-function newSearch(input,table,token){
+function newSearch(input, table, token){
 	
 	//private variables
-	
 	var input = input;
 	var table_id = table;
 	var accessToken = token;
 	var finished_thread_count = 0;
+
 	var result = new Array();
 	var result1 = new Array();
 	var result2 = new Array();
@@ -55,8 +52,9 @@ function newSearch(input,table,token){
 
 		if(nameReg.test(input))
 		{
-			getIDfromName_FQL();
-			getIDfromName();
+            // NOTE: don't do client-side FB login at this point
+			// getIDfromName_FQL();
+			// getIDfromName();
 		}
 		else
 		{
@@ -151,6 +149,7 @@ function newSearch(input,table,token){
 		;
 	}
 	
+    /*
 	var getIDfromName_FQL =
 	function getIDfromName_FQL(){
 
@@ -198,7 +197,9 @@ function newSearch(input,table,token){
 		;
 		
 	}
+    */
 
+    /*
 	var getIDfromName =
 	function (){
 		count = 0;
@@ -276,6 +277,7 @@ function newSearch(input,table,token){
 			});
 		;
 	}
+    */
 	
 	var match =
 	function (Result,Input){

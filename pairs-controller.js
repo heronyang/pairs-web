@@ -249,7 +249,7 @@ function vote(pid, is_retrieve){
 function promoteControllerInit() {
 
 	//Select user
-	$('#promote-button').click(function(){
+	$('.login-modal-button').click(function(){
 		fbid1 = -1;
 		fbid2 = -1;
 

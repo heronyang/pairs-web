@@ -258,7 +258,7 @@
                         <h4 class="modal-title">PAIRS - 開始投票</h4>
                     </div>
                     <div class="modal-body centered">
-                        <p>放心</br>登入Facebook是用來識別不同的使用者以累積票數</br>我們不會在您牆上貼文或傳送廣告等</p>
+                        <p>放心</br>登入Facebook是用來識別不同的使用者以累積票數</br>我們不會主動在您牆上貼文或傳送廣告等</p>
                         <hr/>
                         <button type="button" class="btn btn-success" id="login-button"><i class="fa fa-facebook"></i>&nbsp;&nbsp;&nbsp;GO!</button>
                     </div>
@@ -266,51 +266,46 @@
             </div>
         </div>
 
-		<!-- select user dialog -->
-		<div class="modal fade" id="select_dialog1" aria-hidden="true" data-width="760" >
-		  <div class="modal-dialog">
-			<div class="modal-content">
-			  <div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title">Select User</h4>
-			  </div>
+        <!-- select user dialog -->
+        <div class="modal fade" id="select_dialog1" aria-hidden="true" data-width="760" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">建立新的PAIR</h4>
+                    </div>
 
-			  <div class="modal-body" data-spy="scroll">
+                    <div class="modal-body" data-spy="scroll">
+                        <div class="container-fluid">
+                            <div id="us-main" class="row-fluid">
+                                <div class="col-xs-8 col-sm-5 col-lg-5 centered">
+                                    <img id="us-img0" src="assets/img/user.png" width="128" height="128" class="img-responsive img-circle" alt="Thumbnail Image"/>
+                                    <h3 id="us-name0">User 1</h3>
+                                    <input type = "text" id = "inputStr1" placeholder="FB帳號或網址" onclick="this.value=''"/>
+                                </div>
+                                <div id="new-pair-heart" class="col-xs-2 col-sm-2 col-lg-2 centered">
+                                    <i class="glyphicon glyphicon-heart heartc"></i>
+                                </div>
+                                <div class="col-xs-8 col-sm-5 col-lg-5 centered">
+                                    <img id="us-img1" src="assets/img/user.png" width="128" height="128" class="img-responsive img-circle" alt="Thumbnail Image"/>
+                                    <h3 id="us-name1">User 2</h3>
+                                    <input type = "text" id = "inputStr2" placeholder="FB帳號或網址" onclick="this.value=''"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-				<div class="container-fluid">
-				<div class="row-fluid" style = "height:500px;overflow:auto">
-					<div class="span4">
-						<input type = "text" id = "inputStr1" placeholder="input user1" onclick="this.value=''"/>
-						<button type="button" id = "btn1">Submit</button><br/>
-						<table ><!--class="table table-hover table-striped table-responsive"> -->
-							<tbody id="user_table1">
-								<!-- content will be loaded by JS code -->
-							</tbody>
-						</table>
-					</div>
-					<div class="span4 offset4">
-						<br><input type = "text" id = "inputStr2" placeholder="input user2" onclick="this.value=''"/>
-						<button type="button" id = "btn2">Submit</button><br/>
-						<table ><!--class="table table-hover table-striped table-responsive"> -->
-							<tbody id="user_table2">
-								<!-- content will be loaded by JS code -->
-							</tbody>
-						</table>
-					</div>
-				</div>
-				</div>
-			  </div>
-
-			  <div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal" id="confirm-button">Confirm</button>
-			  </div>
-			</div><!-- /.modal-content -->
-		  </div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-info"></i> 我不會用，教我</button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal" id="confirm-button">PAIR!</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
 
 
         <!-- Placed at the end of the document so the pages load faster -->
-		<script src="http://connect.facebook.net/zh_TW/all.js"></script>
+        <!--<script src="http://connect.facebook.net/zh_TW/all.js"></script>-->
 	    <script src="assets/js/bootstrap.js"></script>
         <script src="FacebookUserSelector.js"></script>
 		<script src="pairs-controller.js"></script>

@@ -77,6 +77,8 @@ function listAllPairs(logged_in){
 			},
 		error: function(data){
 			// error
+            // should get empty array if not logged in
+            networkError();
 		},
 		success: function(data){
 			var voted = data['data']['voted'];
@@ -89,6 +91,7 @@ function listAllPairs(logged_in){
                 },
 				error: function(data){
 					// error
+                    networkError();
 				},
 				success: function(data){
 
@@ -116,11 +119,11 @@ function listAllPairs(logged_in){
                         // if not voted
                         /* let's still show the button even the user is not logged in, and popup login modal when clicked */
 						if(voted.indexOf(data['pid']) == -1) {
-							row_html +='<td class=""> <button type="button" class="btn btn-primary" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',0)"><img width="30" width="20" src="assets/img/heart.png"/></button></td>';
+							row_html += '<td class=""> <button type="button" class="btn btn-primary" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',0)"><img width="30" width="20" src="assets/img/heart.png"/></button></td>';
 						} else {
 							row_html += '<td class=""> <button type="button" class="btn btn-danger" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',1)"><img width="30" width="20" src="assets/img/brokenheart.png"/></button></td>';
 						}
-                        row_html += '<td class=""> <button type="button" class="btn btn-info" onclick="showComment('+ data['pid'] + ');" >&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;</button> </td> </tr>';
+                        row_html += '<td class=""> <button type="button" class="btn btn-default" onclick="showComment('+ data['pid'] + ');" >&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;</button> </td> </tr>';
 
                         // finally
 						$('#pair_table').append(row_html);
@@ -131,44 +134,54 @@ function listAllPairs(logged_in){
 	});
 }
 
-function login(){   // FIXME: it should be loginToggle(), which may imply both login/logout
+function logout() {
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: api_base + "/logout",
+        xhrFields: {
+            withCredentials: true
+        },
+        error: function(data){
+            // error
+            networkError();
+        },
+        success: function(data){
+            if(data['status'] == 0 && data['result'] == 'ok'){
+
+                // Successfully logged out
+                logged_in = false;
+
+                // hide useless button in table option
+                $('#btn-showfriends').hide();
+                $('#btn-public').hide();
+
+                $('#login-modal-button').html('登入');
+            }
+        }
+    });
+}
+
+function loginPrompt() {
+	if(logged_in == false){
+		$('#login_dialog').modal('show');
+    }
+    else {
+        // ignore
+    }
+}
+
+function loginToggle(){
 
 	if(logged_in == false){
-
-		// Show login button from API
-		$('#login_dialog').modal('show');
-
+        loginPrompt();
 	} else {
-
-		// Call logout url
-		$.ajax({
-			type: "GET",
-			dataType: "json",
-			url: api_base + "/logout",
-			xhrFields: {
-				withCredentials: true
-			},
-			error: function(data){
-				// error
-			},
-			success: function(data){
-				if(data['status'] == 0 && data['result'] == 'ok'){
-
-					// Successfully logged out
-					logged_in = false;
-
-                    // hide useless button in table option
-					$('#btn-showfriends').hide();
-					$('#btn-public').hide();
-
-					$('#login-modal-button').html('登入');
-				}
-			}
-		});
+        logout();
 	}
 
 }
 
+/*
 //after promoting a new pair, update the table
 //TODO: integrate this function, who is only used in one place, back to where it was called
 //FIXME: refresh the whole page if better, so no two same HTML code in this js file
@@ -203,8 +216,15 @@ function updateTable()
 		}
 	});
 }
+*/
 
+/* NOTE: this function will only update current table, not won't reload */
 function vote(pid, is_retrieve){
+
+    if(!logged_in) {
+        loginPrompt();
+        return;
+    }
 
 	$.ajax({
 		type: "POST",
@@ -217,34 +237,30 @@ function vote(pid, is_retrieve){
 		error: function(data){
 			console.log(data);
 			console.log(data.responseJSON.message);
-            alert("系統連線問題，請確定網路連線後再試試！");
+            networkError();
 		},
 		success: function(data){
+
 			console.log(data);
-			if(is_retrieve == 1){
 
-                // FIXME: just refresh the table, don't do "delta-calculations" (that will be troublesome)
+            if(is_retrieve == 1) {
 
-				var count = parseInt($('#count_'+pid).html());
-				$('#count_'+pid).html(count-1);
-				$('#btn_'+pid).attr('class','btn btn-info');
-				$('#btn_'+pid).attr('onclick','vote(' + pid + ',0)');
-				$('#btn_'+pid).html('<img width="30" width="20" src="assets/img/heart.png"/>');
+                var count = parseInt($('#count_'+pid).html());
+                $('#count_'+pid).html(count-1);
+                $('#btn_'+pid).attr('class','btn btn-primary');
+                $('#btn_'+pid).attr('onclick','vote(' + pid + ',0)');
+                $('#btn_'+pid).html('<img width="30" width="20" src="assets/img/heart.png"/>');
 
-			}else if(is_retrieve ==0){
+            } else if(is_retrieve ==0) {
 
-				//refresh the table
-				$('#pair_table tr').empty();
-				listAllPairs(logged_in);
+                var count = parseInt($('#count_'+pid).html());
+                $('#count_'+pid).html(count+1);
+                $('#btn_'+pid).attr('class','btn btn-danger');
+                $('#btn_'+pid).attr('onclick','vote(' + pid + ',1)');
+                $('#btn_'+pid).html('<img width="30" width="20" src="assets/img/brokenheart.png"/>');
 
-				/*var count = parseInt($('#count_'+pid).html());
-				$('#count_'+pid).html(count+1);
-				$('#btn_'+pid).attr('class','btn btn-danger');
-				$('#btn_'+pid).attr('onclick','vote(' + pid + ',1)');
-				$('#btn_'+pid).html('<img width="30" width="20" src="assets/img/brokenheart.png"/> 分開吧');*/
-
-				return data['pid'];
-			}
+                return data['pid'];
+            }
 		}
 	});
 }
@@ -253,77 +269,70 @@ function vote(pid, is_retrieve){
 function promoteControllerInit() {
 
     // NOTE: remove client FB login method (but keep it for future plans)
-    accesstoken = "";
+    // accesstoken = "";
 
 	//Select user
 	$('#add-pair-button').click(function(){
-		fbid1 = -1;
-		fbid2 = -1;
 
-		$('#user_table1 tr').empty();
-		$('#user_table2 tr').empty();
-
+        // check if login
 		if(logged_in) {
 			$('#select_dialog1').modal('show');
         } else {
-			$('#login_dialog').modal('show');
+            loginPrompt();
         }
-	});
 
-	$("#btn1").click(function(){
-
-		fbid1 = -1;
+        // clean up
 		$('#user_table1 tr').empty();
-		var input = $("#inputStr1").val();
-		var obj = new newSearch(input,"user_table1",accesstoken);
-		obj.getResult();
-
-	});
-
-	$("#btn2").click(function(){
-
-		fbid2 = -1;
 		$('#user_table2 tr').empty();
-		var input = $("#inputStr2").val();
-		var obj = new newSearch(input,"user_table2",accesstoken);
-		obj.getResult();
 
 	});
+
+    $("#inputStr1").keyup(function() {
+		var input = $("#inputStr1").val();
+        FBIdConvertor(input, 0);
+    });
+
+    $("#inputStr2").keyup(function() {
+		var input = $("#inputStr2").val();
+        FBIdConvertor(input, 1);
+    });
 
 	//Promote new pair
 	$('#confirm-button').on('click', function(){
-		if( fbid1 != -1 && fbid2 != -1 )
-		{
-			$.ajax({
-				type: "POST",
-				dataType: "json",
-				url: api_base + "/",
-				xhrFields: {
-					withCredentials: true
-				},
-				data: 'fbid1=' + fbid1 + '&fbid2=' + fbid2,
-				error: function(data){
-					console.log(data);
-					alert(data.responseJSON.message);
-				},
-				success: function(data){
-					console.log(data);
-					if(in_detail){
-						showComment(data['pid']);
-					}else{
-                        /*
-                         * FIXME: can it be refreshing whole page instead? bugs may raise if updating, like:
-                         * $('#pair_table tr').empty();
-                         * listAllPairs(logged_in);
-                         */
-						updateTable();
-					}
-				}
-			});
-		}
-		else {
+
+        if(result[0] == null || result[1] == null) {
 			alert("請正確選擇兩位Facebook使用者");
+            return;
         }
+
+        var fbid1 = result[0]["id"],
+            fbid2 = result[1]["id"];
+        console.log("pairing: " + fbid1 + " and " + fbid2);
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: api_base + "/",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: 'fbid1=' + fbid1 + '&fbid2=' + fbid2,
+            error: function(data){
+                console.log(data);
+                console.log(data.responseJSON.message);
+                networkError();
+            },
+            success: function(data){
+                console.log(data);
+                // FIXME: direct to pid's comment page
+                if(in_detail){
+                    showComment(data['pid']);
+                } else {
+                    $('#pair_table tr').empty();
+                    listAllPairs(logged_in);
+                }
+            }
+        });
+
 	});
 }
 
@@ -409,6 +418,7 @@ $(document).ready(function() {
 			},
 		error: function(data){
 			// error
+            networkError();
 		},
 		success: function(data){
 			if(data['status'] == 1){
@@ -433,7 +443,7 @@ $(document).ready(function() {
 
 			}
 
-			$('#login-modal-button').click(login);
+			$('#login-modal-button').click(loginToggle);
 
 			if(!in_detail){ // in_detail is set in browseByHash
 				// List all existing Pairs
@@ -474,3 +484,12 @@ $(document).ready(function() {
 	});
 
 });
+
+function networkError() {
+    if (confirm('網路連線問題')) {
+        location.reload();
+    }
+    else {
+        // do nothing
+    }
+}

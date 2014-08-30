@@ -154,3 +154,18 @@ button.btn, .btn-group > .btn-group:last-child > .btn:first-child {
 #search-box-container button {
     float: right;
 }
+
+#us-img0, #us-img1 {
+    margin:0 auto;
+}
+
+#new-pair-heart {
+    padding-top: 100px;
+    color: #6ca438;
+    font-size: large;
+}
+
+#us-main {
+    height:500px;overflow:auto;
+    padding-top: 20px;
+}

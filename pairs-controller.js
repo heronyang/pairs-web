@@ -23,49 +23,101 @@ function showComment(pid)
 		// user may be browsing at the bottom of table previously
 		window.scrollTo(0, 0);
 	}
-	$.ajax({
-		type: "GET",
-		dataType: "json",
-		url: api_base + "/p/" + pid,
-		xhrFields: {
-				withCredentials: true
-			},
-		error: function(data){
-			// error, pid could be invalid
-			console.log('invalid pid requested');
-			window.location.hash = '';
-			listAllPairs(logged_in);
-		},
-		success: function(data){
-			// TODO: Determine if is voted, waiting for backend update
-			var pair = data['data'];
-			console.log(pair);
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: api_base + "/my_votes",
+        xhrFields: {
+                withCredentials: true
+            },
+        error: function(data){
+            // error
+            // should get empty array if not logged in
+            networkError();
+        },
+        success: function(data){
+            var voted = data['data']['voted'];
 
-            // TODO: UI update, it may be better the HTML code is already in index.html,
-            // but toggle hide/show and fill contents
-			var content = '<button class="btn btn-success" onclick="listAllPairs(logged_in)">返回列表</button><br><br><img src="http://graph.facebook.com/' + pair['user1']['fbid_real'] + '/picture">' + pair['user1']['name'] + ' x \
-			<img src="http://graph.facebook.com/' + pair['user2']['fbid_real'] + '/picture">' + pair['user2']['name'] + '<br>\
-			票數：' + pair['count'] + '<br>\
- 			<div class="fb-comments" data-href="'+api_base+'/'+pid+'" data-numposts="5" data-colorscheme="light"></fb:comments>';
+            console.log(voted);
 
-			$('#main-table').hide();
-			$('#main-detail').show();
-			$('#main-detail').html(content);
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: api_base + "/p/" + pid,
+                xhrFields: {
+                        withCredentials: true
+                    },
+                error: function(data){
+                    // error, pid could be invalid
+                    console.log('invalid pid requested');
+                    window.location.hash = '';
+                    listAllPairs(logged_in);
+                },
+                success: function(data){
+                    var pair = data['data'];
+                    console.log(pair);
 
-			var commentDiv = document.getElementById('main-detail');
-			FB.XFBML.parse(commentDiv);
+                    var fbid_real1 = pair['user1']['fbid_real'],
+                        fbid_real2 = pair['user2']['fbid_real'];
+                    var name1 = pair['user1']['name'],
+                        name2 = pair['user2']['name'];
+                    var uid1 = pair['user1']['uid'],
+                        uid2 = pair['user2']['uid'];
+                    var count = pair['count'];
 
-			in_detail = true;
-		}
+                    var row_html = '\
+                        <tr> \
+                            <td class="pair_table_col_thumbnail1"><a href="https://facebook.com/'+fbid_real1+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real1 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
+                            <td class="pair_table_col_thumbnail2"><a href="https://facebook.com/'+fbid_real2+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real2 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
+                            \
+                            <td class="pair_table_col_nama1"><a href="#search?uid='+uid1+'">'+ name1 +'</a></td> \
+                            <td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
+                            <td class="pair_table_col_name2"><a href="#search?uid='+uid2+'">'+ name2 +'</a></td> \
+                            <td class="pair_table_col_vote_count" id="count_'+pid+'">' + count + '</td> \
+                            <td class="pair_table_col_vote_unit">票</td>';
+
+                    /* let's still show the button even the user is not logged in, and popup login modal when clicked */
+                    if(voted.indexOf(pid+'') == -1) {
+                        row_html += '<td class=""> <button type="button" class="btn btn-danger" id="btn_'+pid+'" onclick="vote(' + pid + ',0, 1)"><img width="30" width="20" src="assets/img/heart.png"/></button></td>';
+                    } else {
+                        row_html += '<td class=""> <button type="button" class="btn btn-primary" id="btn_'+pid+'" onclick="vote(' + pid + ',1, 1)"><img width="30" width="20" src="assets/img/brokenheart.png"/></button></td>';
+                    }
+                    row_html += '</tr>';
+
+                    var comment_html = '<div class="fb-comments" data-href="'+api_base+'/'+pid+'" data-numposts="100" data-order-by="time" data-width="100%" data-colorscheme="light"></div>';
+                    comment_html += '<div class="row centered"><button type="button" class="btn btn-default" onclick="listAllPairs(logged_in);"><i id="back-home-content" class="fa fa-home"></i></button></div>';
+
+                    console.log(comment_html);
+
+                    // finally
+                    $('#loader-single-gif').hide();
+
+                    $('#comment-table').html('');
+                    $('#comment-table').append(row_html);
+                    $('#comment-div').html('');
+                    $('#comment-div').html(comment_html);
+
+                    $('#top-table-outer').hide();
+                    $('#comment-table-outer').show();
+                    $('#me-table-outer').hide();
+
+                    in_detail = true;
+                }
+            });
+         }
 	});
 }
 
 
+function listPairHelper(logged_in, table, voted, data) {
+}
+
 /* listAllPairs: clean up the current table, and reload the main table */
 function listAllPairs(logged_in){
 
-	$('#main-detail').hide();
-	$('#main-table').show();
+	$('#comment-table-outer').hide();
+	$('#top-table-outer').show();
+    if(logged_in)   $('#me-table-outer').show();
 	in_detail = false;
 
 	$.ajax({
@@ -96,7 +148,7 @@ function listAllPairs(logged_in){
 				success: function(data){
 
 					// clear table before updating
-					$('#pair_table').html('');
+					$('#top-table').html('');
                     $('#loader-gif').hide();        // remove loading animation
 
 					data['data'].forEach(function(data){
@@ -119,14 +171,14 @@ function listAllPairs(logged_in){
                         // if not voted
                         /* let's still show the button even the user is not logged in, and popup login modal when clicked */
 						if(voted.indexOf(data['pid']) == -1) {
-							row_html += '<td class=""> <button type="button" class="btn btn-primary" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',0)"><img width="30" width="20" src="assets/img/heart.png"/></button></td>';
+							row_html += '<td class=""> <button type="button" class="btn btn-danger" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',0, 0)"><img width="30" width="20" src="assets/img/heart.png"/></button></td>';
 						} else {
-							row_html += '<td class=""> <button type="button" class="btn btn-danger" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',1)"><img width="30" width="20" src="assets/img/brokenheart.png"/></button></td>';
+							row_html += '<td class=""> <button type="button" class="btn btn-primary" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',1, 0)"><img width="30" width="20" src="assets/img/brokenheart.png"/></button></td>';
 						}
                         row_html += '<td class=""> <button type="button" class="btn btn-default" onclick="showComment('+ data['pid'] + ');" >&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;</button> </td> </tr>';
 
                         // finally
-						$('#pair_table').append(row_html);
+						$('#top-table').append(row_html);
 					});
 				}
 			});
@@ -155,6 +207,8 @@ function logout() {
                 // hide useless button in table option
                 $('#btn-showfriends').hide();
                 $('#btn-public').hide();
+                $('#welcome_msg').show();
+                $('#me-table-outer').hide();
 
                 $('#login-modal-button').html('登入');
             }
@@ -212,14 +266,14 @@ function updateTable()
 					<td class="pair_table_col_vote_unit">票</td> \
 					<td class=""> <button type="button" class="btn btn-danger" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',1)"><img width="30" width="20" src="assets/img/brokenheart.png"/> 分開吧</button> </td> \
 				</tr>';
-			$('#pair_table').append(row_html);
+			$('#top-table').append(row_html);
 		}
 	});
 }
 */
 
 /* NOTE: this function will only update current table, not won't reload */
-function vote(pid, is_retrieve){
+function vote(pid, is_retrieve, just_reload){
 
     if(!logged_in) {
         loginPrompt();
@@ -243,20 +297,25 @@ function vote(pid, is_retrieve){
 
 			console.log(data);
 
+            if(just_reload) {
+                location.reload();
+                return;
+            }
+
             if(is_retrieve == 1) {
 
                 var count = parseInt($('#count_'+pid).html());
                 $('#count_'+pid).html(count-1);
-                $('#btn_'+pid).attr('class','btn btn-primary');
-                $('#btn_'+pid).attr('onclick','vote(' + pid + ',0)');
+                $('#btn_'+pid).attr('class','btn btn-danger');
+                $('#btn_'+pid).attr('onclick','vote(' + pid + ',0, 0)');
                 $('#btn_'+pid).html('<img width="30" width="20" src="assets/img/heart.png"/>');
 
             } else if(is_retrieve ==0) {
 
                 var count = parseInt($('#count_'+pid).html());
                 $('#count_'+pid).html(count+1);
-                $('#btn_'+pid).attr('class','btn btn-danger');
-                $('#btn_'+pid).attr('onclick','vote(' + pid + ',1)');
+                $('#btn_'+pid).attr('class','btn btn-primary');
+                $('#btn_'+pid).attr('onclick','vote(' + pid + ',1, 0)');
                 $('#btn_'+pid).html('<img width="30" width="20" src="assets/img/brokenheart.png"/>');
 
                 return data['pid'];
@@ -276,7 +335,7 @@ function promoteControllerInit() {
 
         // check if login
 		if(logged_in) {
-			$('#select_dialog1').modal('show');
+			$('#us-container').modal('show');
         } else {
             loginPrompt();
         }
@@ -327,7 +386,7 @@ function promoteControllerInit() {
                 if(in_detail){
                     showComment(data['pid']);
                 } else {
-                    $('#pair_table tr').empty();
+                    $('#top-table tr').empty();
                     listAllPairs(logged_in);
                 }
             }
@@ -356,9 +415,11 @@ function tableOptionInit() {
  * instead of the table, call this function to clean up for the pages */
 function cleanForPages() {
     in_detail = true;
-    $('#main-table').hide();
-    $('#main-detail').hide();
+    $('#top-table-outer').hide();
+    $('#comment-table-outer').hide();
     $('#main-option').hide();
+    $('#me-table-outer').hide();
+    $('#tool-bar').hide();
     $('.pages').hide();
 }
 
@@ -372,10 +433,6 @@ function browseByHash(){
 	} else if(hash_arg == 'about') {
         cleanForPages();
         $('#page_about').show();
-    } else if(hash_arg == 'idea') {
-        cleanForPages();
-        $('#page_idea').show();
-        document.location.href = 'https://pairs.hunchbuzz.com/challenge/1570/';
     } else if(hash_arg == 'sponsor') {
         cleanForPages();
         $('#page_sponsor').show();
@@ -394,7 +451,7 @@ function browseByHash(){
 $(document).ready(function() {
 
     /*
-	FB.init({ appId: "520188428109474",
+	FB.init({ appId: "547776065350710",
 		status: true,
 		cookie: true,
 		xfbml: true,
@@ -428,6 +485,8 @@ $(document).ready(function() {
 				$('#login-modal-button').html('登出');
 				$('#btn-showfriends').show();
 				$('#btn-public').show();
+                $('#welcome_msg').hide();
+                $('#me-table-outer').show();
 
                 console.log("login_status: logged in");
 
@@ -438,6 +497,8 @@ $(document).ready(function() {
 				$('#login-modal-button').html('登入');
 				$('#btn-showfriends').hide();
 				$('#btn-public').hide();
+                $('#welcome_msg').show();
+                $('#me-table-outer').hide();
 
                 console.log("login_status: not logged in");
 
@@ -492,4 +553,9 @@ function networkError() {
     else {
         // do nothing
     }
+}
+
+function promptSearchDialog() {
+    console.log("search dialog showed");
+    $('#search_dialog').modal('show');
 }

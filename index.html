@@ -85,23 +85,54 @@
             <div class="container">
                 <div class="row">
                     <div class="centered">
-                        <h3>已有88300對戀人在PAIRS配對成功</h3>
-                        <h4>只要你投下神聖的一票就可以讓他們在一起</h4>
-                        <button type="button" class="btn btn-success" id="add-pair-button">配對</button>
+                        <h3>已有88300個八卦在PAIRS被討論中</h3>
+                        <h4>快來投下神聖的一票，八卦一下</h4>
                     </div><!-- /col-lg-8 -->
                 </div><!--/.row -->
             </div> <!--/.container -->
         </div><!--/#welcome_msg -->
 
+        <!-- Top Tool Bar -->
+        <div id="tool-bar">
+            <div class="container">
+                <div class="row centered">
+                    <button type="button" class="btn btn-success" onclick="promptSearchDialog();" id="search-button"><span class="glyphicon glyphicon-search"></button>
+                    <button type="button" class="btn btn-success" id="add-pair-button">+</button>
+                    <button type="button" class="btn btn-success" id="play-button">PLAY</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Modal Prompt -->
+        <div class="modal fade" id="search_dialog" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">搜尋</h4>
+                    </div>
+                    <div class="modal-body centered">
+                        <p>輸入Facebook名稱、帳號或網址</p>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Table Options -->
-        <div id="main-option-container">
+        <!-- NOT Using -->
+        <div id="main-option-container" hidden>
             <div class="container" id="main-option">
                 <div class="row centered">
 
                     <!-- Filter on friend of me or not -->
                     <div class="btn-group" style="display: none;">
-                        <button type="button" class="btn btn-success default_hide" id="btn-public">公開</button>
                         <button type="button" class="btn btn-default default_hide" id="btn-showfriends">只顯示我朋友</button>
+                        <button type="button" class="btn btn-success default_hide" id="btn-public">公開</button>
                     </div>
 
                     <!-- Sort -->
@@ -146,13 +177,16 @@
             </div>
         </div>
 
-        <!-- PAIR list Table -->
-        <div class="container" id="main-table">
+        <!-- ME list Table -->
+        <div class="container pair-table-outer" id="me-table-outer" hidden>
+            <div class="row centered">
+                <h1>Me</h1>
+            </div>
             <div class="row">
-                <div id="pair_table_container" class="col-xs-12 col-sm-10 col-lg-8 centered">
-                    <img width="50" height="50" id="loader-gif" src="assets/img/loader.gif" alt="loading...">
+                <div id="me-table-container" class="pair-table-container col-xs-12 col-sm-10 col-lg-8 centered">
+                    <img width="50" height="50" id="me-loader-gif" src="assets/img/loader.gif" alt="loading...">
                     <table class="table table-hover table-striped table-responsive">
-                        <tbody id="pair_table">
+                        <tbody class="pair-table" id="me-table">
                             <!-- content will be loaded by JS code -->
                         </tbody>
                     </table>
@@ -160,22 +194,58 @@
             </div>
         </div>
 
+        <!-- PAIR list Table -->
+        <div class="container pair-table-outer" id="top-table-outer">
+            <div class="row centered">
+                <h1>Top 10</h1>
+            </div>
+            <div class="row">
+                <div id="top-table-container" class="pair-table-container col-xs-12 col-sm-10 col-lg-8 centered">
+                    <img width="50" height="50" id="loader-gif" src="assets/img/loader.gif" alt="loading...">
+                    <table class="table table-hover table-striped table-responsive">
+                        <tbody class="pair-table" id="top-table">
+                            <!-- content will be loaded by JS code -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAIR detail -->
+        <div class="container pair-table-outer" id="comment-table-outer">
+            <div class="row">
+                <div id="comment-table-container" class="pair-table-container col-xs-12 col-sm-10 col-lg-8 centered">
+                    <img width="50" height="50" id="loader-single-gif" src="assets/img/loader.gif" alt="loading...">
+                    <table class="table table-hover table-striped table-responsive">
+                        <tbody class="pair-table" id="comment-table">
+                            <!-- content will be loaded by JS code -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="comment-div" class="row"></div>
+        </div>
+
         <!-- [Page: About] -->
         <div class="container pages default_hide" id="page_about">
             <div class="row centered">
                 <div class="col-xs-12 col-sm-4">
+                    <img width="240" height="240" src="assets/img/gossip.png" alt="Gossip Image"/>
                     <h3>Gossip</h3>
                     <p>Gossiping the ones you know is the essential loves of human being. We never stop doing it after a relaxing dinner.</p>
                 </div>
                 <div class="col-xs-12 col-sm-4">
+                    <img width="240" height="240" src="assets/img/openness.png" alt="Openness Image"/>
                     <h3>Openness</h3>
                     <p>A transparent platform for gossip is desired. People love to see what other people think and share their own opinions.</p>
                 </div>
                 <div class="col-xs-12 col-sm-4">
+                    <img width="240" height="240" src="assets/img/care.png" alt="Care Image"/>
                     <h3>Care</h3>
                     <p>However, above all, what we really concern is the ones we care. We care our own selves and the ONES WE LOVE.</p>
                 </div>
             </div>
+                <div class="row centered"><button type="button" class="btn btn-default" onclick="window.location.replace('');"><i id="back-home-content" class="fa fa-home"></i></button></div>
         </div>
 
         <!-- [Page: Idea] -->
@@ -216,7 +286,7 @@
                             <a href="#about"><i class="fa fa-flag"></i></a>
                         </div>
                         <div class="col-md-3">
-                            <a href="#idea"><i class="fa fa-lightbulb-o"></i></a>
+                            <a href="https://pairs.hunchbuzz.com/challenge/1570/" target="_top"><i class="fa fa-lightbulb-o"></i></a>
                         </div>
                         <div class="col-md-3">
                             <a href="#sponsor"><i class="fa fa-money"></i></a>
@@ -267,7 +337,7 @@
         </div>
 
         <!-- select user dialog -->
-        <div class="modal fade" id="select_dialog1" aria-hidden="true" data-width="760" >
+        <div class="modal fade" id="us-container" aria-hidden="true" data-width="760" >
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -306,9 +376,21 @@
 
         <!-- Placed at the end of the document so the pages load faster -->
         <!--<script src="http://connect.facebook.net/zh_TW/all.js"></script>-->
+        <div id="fb-root"></div>
 	    <script src="assets/js/bootstrap.js"></script>
         <script src="FacebookUserSelector.js"></script>
 		<script src="pairs-controller.js"></script>
+
+        <script>
+            var app_id = "547776065350710";
+            (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId="+app_id+"&version=v2.0";
+            fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
 
     </body>
 </html>

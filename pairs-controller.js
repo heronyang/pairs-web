@@ -51,7 +51,7 @@ function showComment(pid)
                     // error, pid could be invalid
                     console.log('invalid pid requested');
                     window.location.hash = '';
-                    listAllPairs(logged_in);
+                    listTopPairs(logged_in);
                 },
                 success: function(data){
                     var pair = data['data'];
@@ -65,27 +65,29 @@ function showComment(pid)
                         uid2 = pair['user2']['uid'];
                     var count = pair['count'];
 
+                    var table_id = "comment_";
+
                     var row_html = '\
                         <tr> \
                             <td class="pair_table_col_thumbnail1"><a href="https://facebook.com/'+fbid_real1+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real1 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
                             <td class="pair_table_col_thumbnail2"><a href="https://facebook.com/'+fbid_real2+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real2 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
                             \
-                            <td class="pair_table_col_nama1"><a href="#search?uid='+uid1+'">'+ name1 +'</a></td> \
+                            <td class="pair_table_col_nama1"><a href="/?su='+uid1+'">'+ name1 +'</a></td> \
                             <td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
-                            <td class="pair_table_col_name2"><a href="#search?uid='+uid2+'">'+ name2 +'</a></td> \
-                            <td class="pair_table_col_vote_count" id="count_'+pid+'">' + count + '</td> \
+                            <td class="pair_table_col_name2"><a href="/?su='+uid2+'">'+ name2 +'</a></td> \
+                            <td class="pair_table_col_vote_count" id="count_'+table_id+pid+'">' + count + '</td> \
                             <td class="pair_table_col_vote_unit">票</td>';
 
                     /* let's still show the button even the user is not logged in, and popup login modal when clicked */
                     if(voted.indexOf(pid+'') == -1) {
-                        row_html += '<td class=""> <button type="button" class="btn btn-danger" id="btn_'+pid+'" onclick="vote(' + pid + ',0, 1)"><img width="30" width="20" src="assets/img/heart.png"/></button></td>';
+                        row_html += '<td class=""> <button type="button" class="btn btn-danger" id="btn_'+pid+'" onclick="vote(' + pid + ',0, 1, \''+table_id+'\')"><img width="30" width="20" src="assets/img/heart.png"/></button></td>';
                     } else {
-                        row_html += '<td class=""> <button type="button" class="btn btn-primary" id="btn_'+pid+'" onclick="vote(' + pid + ',1, 1)"><img width="30" width="20" src="assets/img/brokenheart.png"/></button></td>';
+                        row_html += '<td class=""> <button type="button" class="btn btn-primary" id="btn_'+pid+'" onclick="vote(' + pid + ',1, 1, \''+table_id+'\')"><img width="30" width="20" src="assets/img/brokenheart.png"/></button></td>';
                     }
                     row_html += '</tr>';
 
                     var comment_html = '<div class="fb-comments" data-href="'+api_base+'/'+pid+'" data-numposts="100" data-order-by="time" data-width="100%" data-colorscheme="light"></div>';
-                    comment_html += '<div class="row centered"><button type="button" class="btn btn-default" onclick="listAllPairs(logged_in);"><i id="back-home-content" class="fa fa-home"></i></button></div>';
+                    comment_html += '<div class="row centered"><button type="button" class="btn btn-default" onclick="window.location.replace(\'/\');"><i id="back-home-content" class="fa fa-home"></i></button></div>';
 
                     console.log(comment_html);
 
@@ -109,15 +111,78 @@ function showComment(pid)
 }
 
 
-function listPairHelper(logged_in, table, voted, data) {
+/* This helper do the layout for top-table, me-table, search-table, etc */
+function listPairHelper(logged_in, table, voted, data, loader) {
+
+    // clean up
+    table.html('');
+    loader.hide();
+
+    var table_id = table.attr('id')+'_';
+
+    data['data'].forEach(function(data){
+
+        var fbid_real1 = data['user1']['fbid_real'],
+            fbid_real2 = data['user2']['fbid_real'];
+        var name1 = data['user1']['name'],
+            name2 = data['user2']['name'];
+        var uid1 = data['user1']['uid'],
+            uid2 = data['user2']['uid'];
+        var count = data['count'];
+        var pid = data['pid'];
+
+        var row_html = '\
+            <tr> \
+                <td class="pair_table_col_thumbnail1"><a href="https://facebook.com/'+fbid_real1+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real1 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
+                <td class="pair_table_col_thumbnail2"><a href="https://facebook.com/'+fbid_real2+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real2 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
+                \
+                <td class="pair_table_col_nama1"><a href="/?su='+uid1+'">'+ name1 +'</a></td> \
+                <td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
+                <td class="pair_table_col_name2"><a href="/?su='+uid2+'">'+ name2 +'</a></td> \
+                <td class="pair_table_col_vote_count" id="count_'+table_id+pid+'">' + count + '</td> \
+                <td class="pair_table_col_vote_unit">票</td>';
+
+        // if not voted
+        /* let's still show the button even the user is not logged in, and popup login modal when clicked */
+        if(voted.indexOf(pid) == -1) {
+            row_html += '<td class=""><button type="button" class="btn btn-danger" id="btn_'+table_id+pid+'" onclick="vote(' + pid + ',0, 0, \''+table_id+'\')"><img width="30" width="20" src="assets/img/heart.png"/></button></td>';
+        } else {
+            row_html += '<td class=""><button type="button" class="btn btn-primary" id="btn_'+table_id+pid+'" onclick="vote(' + pid + ',1, 0, \''+table_id+'\')"><img width="30" width="20" src="assets/img/brokenheart.png"/></button></td>';
+        }
+        row_html += '<td class=""> <button type="button" class="btn btn-default" onclick="window.location.replace(\'/?p='+ pid + '\');" >&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;</button> </td> </tr>';
+
+        // finally
+        table.append(row_html);
+    });
+
 }
 
-/* listAllPairs: clean up the current table, and reload the main table */
-function listAllPairs(logged_in){
+function listMePairs(logged_in, voted) {
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: api_base + "/search?uid=" + 1,
+        xhrFields: {
+            withCredentials: true
+        },
+        error: function(data){
+            // error
+            networkError();
+        },
+        success: function(data){
+            listPairHelper(logged_in, $('#me-table'), voted, data, $('#me-loader-gif'));
+        }
+    });
+}
+
+function listSearchPairs(logged_in, key, is_uid) {
+
+    console.log("key = " + key);
+
+    var api = (is_uid) ? "/search?uid=" : "/search?q=";
 
 	$('#comment-table-outer').hide();
-	$('#top-table-outer').show();
-    if(logged_in)   $('#me-table-outer').show();
+	$('#top-table-outer').hide();
 	in_detail = false;
 
 	$.ajax({
@@ -134,6 +199,52 @@ function listAllPairs(logged_in){
 		},
 		success: function(data){
 			var voted = data['data']['voted'];
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: api_base + api + key,
+                xhrFields: {
+                    withCredentials: true
+                },
+                error: function(data){
+                    // error
+                    networkError();
+                },
+                success: function(data){
+                    listPairHelper(logged_in, $('#search-table'), voted, data, $('#search-loader-gif'));
+                }
+            });
+        }
+    });
+}
+
+/* listTopPairs: clean up the current table, and reload the main table */
+function listTopPairs(logged_in){
+
+	$('#comment-table-outer').hide();
+	$('#top-table-outer').show();
+    if(logged_in) {
+        $('#me-table-outer').show();
+    }
+	in_detail = false;
+
+	$.ajax({
+		type: "GET",
+		dataType: "json",
+		url: api_base + "/my_votes",
+		xhrFields: {
+				withCredentials: true
+			},
+		error: function(data){
+			// error
+            // should get empty array if not logged in
+            networkError();
+		},
+		success: function(data){
+			var voted = data['data']['voted'];
+            if(logged_in) {
+                listMePairs(logged_in, voted);
+            }
 			$.ajax({
 				type: "GET",
 				dataType: "json",
@@ -146,40 +257,7 @@ function listAllPairs(logged_in){
                     networkError();
 				},
 				success: function(data){
-
-					// clear table before updating
-					$('#top-table').html('');
-                    $('#loader-gif').hide();        // remove loading animation
-
-					data['data'].forEach(function(data){
-						console.log(data);
-
-                        var fbid_real1 = data['user1']['fbid_real'];
-                        var fbid_real2 = data['user2']['fbid_real'];
-
-						var row_html = '\
-							<tr> \
-								<td class="pair_table_col_thumbnail1"><a href="https://facebook.com/'+fbid_real1+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real1 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
-								<td class="pair_table_col_thumbnail2"><a href="https://facebook.com/'+fbid_real2+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real2 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
-								\
-								<td class="pair_table_col_nama1"><a href="#search?uid='+data['user1']['uid']+'">'+ data['user1']['name'] +'</a></td> \
-								<td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
-								<td class="pair_table_col_name2"><a href="#search?uid='+data['user2']['uid']+'">'+ data['user2']['name'] +'</a></td> \
-								<td class="pair_table_col_vote_count" id="count_'+data['pid']+'">' + data['count'] + '</td> \
-								<td class="pair_table_col_vote_unit">票</td>';
-
-                        // if not voted
-                        /* let's still show the button even the user is not logged in, and popup login modal when clicked */
-						if(voted.indexOf(data['pid']) == -1) {
-							row_html += '<td class=""> <button type="button" class="btn btn-danger" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',0, 0)"><img width="30" width="20" src="assets/img/heart.png"/></button></td>';
-						} else {
-							row_html += '<td class=""> <button type="button" class="btn btn-primary" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',1, 0)"><img width="30" width="20" src="assets/img/brokenheart.png"/></button></td>';
-						}
-                        row_html += '<td class=""> <button type="button" class="btn btn-default" onclick="showComment('+ data['pid'] + ');" >&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;</button> </td> </tr>';
-
-                        // finally
-						$('#top-table').append(row_html);
-					});
+                    listPairHelper(logged_in, $('#top-table'), voted, data, $('#loader-gif'));
 				}
 			});
 		}
@@ -235,45 +313,8 @@ function loginToggle(){
 
 }
 
-/*
-//after promoting a new pair, update the table
-//TODO: integrate this function, who is only used in one place, back to where it was called
-//FIXME: refresh the whole page if better, so no two same HTML code in this js file
-function updateTable()
-{
-	$.ajax({
-		type: "GET",
-		dataType: "json",
-		url: api_base + "/",
-		xhrFields: {
-				withCredentials: true
-			},
-		error: function(data){
-			// error
-		},
-		success: function(data){
-			//get new-inserted data
-			var newdata = data['data'][data['data'].length-1];
-			var row_html = '\
-				<tr> \
-					<td class="pair_table_col_thumbnail1"><img src="http://graph.facebook.com/'+ newdata['user1']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
-					<td class="pair_table_col_thumbnail2"><img src="http://graph.facebook.com/'+ newdata['user2']['fbid_real'] +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></td> \
-					\
-					<td class="pair_table_col_nama1">'+ newdata['user1']['name'] +'</td> \
-					<td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
-					<td class="pair_table_col_name2">'+ newdata['user2']['name'] +'</td> \
-					<td class="pair_table_col_vote_count">' + newdata['count'] + '</td> \
-					<td class="pair_table_col_vote_unit">票</td> \
-					<td class=""> <button type="button" class="btn btn-danger" id="btn_'+data['pid']+'" onclick="vote(' + data['pid'] + ',1)"><img width="30" width="20" src="assets/img/brokenheart.png"/> 分開吧</button> </td> \
-				</tr>';
-			$('#top-table').append(row_html);
-		}
-	});
-}
-*/
-
 /* NOTE: this function will only update current table, not won't reload */
-function vote(pid, is_retrieve, just_reload){
+function vote(pid, is_retrieve, just_reload, table_id){
 
     if(!logged_in) {
         loginPrompt();
@@ -304,19 +345,19 @@ function vote(pid, is_retrieve, just_reload){
 
             if(is_retrieve == 1) {
 
-                var count = parseInt($('#count_'+pid).html());
-                $('#count_'+pid).html(count-1);
-                $('#btn_'+pid).attr('class','btn btn-danger');
-                $('#btn_'+pid).attr('onclick','vote(' + pid + ',0, 0)');
-                $('#btn_'+pid).html('<img width="30" width="20" src="assets/img/heart.png"/>');
+                var count = parseInt($('#count_'+table_id+pid).html());
+                $('#count_'+table_id+pid).html(count-1);
+                $('#btn_'+table_id+pid).attr('class','btn btn-danger');
+                $('#btn_'+table_id+pid).attr('onclick','vote(' + pid + ',0, 0, \''+table_id+'\')');
+                $('#btn_'+table_id+pid).html('<img width="30" width="20" src="assets/img/heart.png"/>');
 
             } else if(is_retrieve ==0) {
 
-                var count = parseInt($('#count_'+pid).html());
-                $('#count_'+pid).html(count+1);
-                $('#btn_'+pid).attr('class','btn btn-primary');
-                $('#btn_'+pid).attr('onclick','vote(' + pid + ',1, 0)');
-                $('#btn_'+pid).html('<img width="30" width="20" src="assets/img/brokenheart.png"/>');
+                var count = parseInt($('#count_'+table_id+pid).html());
+                $('#count_'+table_id+pid).html(count+1);
+                $('#btn_'+table_id+pid).attr('class','btn btn-primary');
+                $('#btn_'+table_id+pid).attr('onclick','vote(' + pid + ',1, 0, \''+table_id+'\')');
+                $('#btn_'+table_id+pid).html('<img width="30" width="20" src="assets/img/brokenheart.png"/>');
 
                 return data['pid'];
             }
@@ -387,7 +428,7 @@ function promoteControllerInit() {
                     showComment(data['pid']);
                 } else {
                     $('#top-table tr').empty();
-                    listAllPairs(logged_in);
+                    listTopPairs(logged_in);
                 }
             }
         });
@@ -399,16 +440,25 @@ function promoteControllerInit() {
 function tableOptionInit() {
 
 	$('#search-submit').click(function(){
-		listAllPairs(logged_in);
+		listTopPairs(logged_in);
 	});
 
     // filter applies when <select> changes
     $('.selectpicker').change(function() {
-		listAllPairs(logged_in);
+		listTopPairs(logged_in);
     });
 
 	$('.selectpicker').selectpicker();
 
+}
+
+/* searchButtonInit: setup search button in popup modal */
+function searchButtonInit() {
+    $('#btn-search').click(function() {
+        var key = $('#input-search').val();
+        console.log("key = " + key);
+        window.location.replace('/?s=' + key);
+    });
 }
 
 /* cleanForPages: use hashtags in request URL, we should like to show some pages
@@ -447,23 +497,37 @@ function browseByHash(){
     }
 }
 
+function getURLVars() {
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++) {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+
 /* main function */
 $(document).ready(function() {
 
-    /*
-	FB.init({ appId: "547776065350710",
-		status: true,
-		cookie: true,
-		xfbml: true,
-		oauth: true
-	});
-    */
-
 	// check if user came with # or not
-
 	if(window.location.hash){
 		browseByHash();
 	}
+
+    var URLVars = getURLVars();
+    if(URLVars[0] == 's') {
+        // search
+        listSearchPairs(logged_in, URLVars['s'], 0);
+    } else if (URLVars[0] == 'su') {
+        listSearchPairs(logged_in, URLVars['su'], 1);
+    } else if(URLVars[0] == 'p') {
+        // comment
+		in_detail = true;
+		showComment(parseInt(URLVars['p']));
+    }
+    console.log(URLVars);
 
 	// check login status and display table
 	$.ajax({
@@ -508,7 +572,7 @@ $(document).ready(function() {
 
 			if(!in_detail){ // in_detail is set in browseByHash
 				// List all existing Pairs
-				listAllPairs(logged_in);
+				listTopPairs(logged_in);
 			}
 		}
 	});
@@ -517,25 +581,9 @@ $(document).ready(function() {
 		document.location.href = api_base + '/login';
 	});
 
-
-	//FB SDK get user accesstoken
-    /*
-	FB.getLoginStatus(function (response) {
-		if (response.status === "connected") {  // 程式有連結到 Facebook 帳號
-			//var uid = response.authResponse.userID; // 取得 UID
-			accesstoken = response.authResponse.accessToken; // 取得 accessTokent
-			console.log("token = "+ accesstoken);
-
-		} else if (response.status === "not_authorized") {  // 帳號沒有連結到 Facebook 程式
-			alert("請允許授權才能開始投票哦！");
-		} else {    // 帳號沒有登入
-			// 在本例子中，此段永遠不會進入...XD
-		}
-	});
-    */
-
     promoteControllerInit();
     tableOptionInit();
+    searchButtonInit();
 
 	$(window).on('hashchange', function() {
 		in_detail = true;

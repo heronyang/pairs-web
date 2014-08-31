@@ -147,6 +147,15 @@ td.pair_table_col_vote_count {
     text-align: right;
 }
 
+td.pair_table_col_name1, td.pair_table_col_name2 {
+    width: 30%;
+    min-width: 70px;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 8px 3px;
+}
+
 
 /* Other */
 
@@ -191,4 +200,8 @@ td.pair_table_col_vote_count {
 
 #us-container div.modal-body {
     margin-bottom: 30px;
+}
+
+#page_about {
+    padding-top: 20px;
 }

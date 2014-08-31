@@ -11,18 +11,78 @@ if(localStorage['base']){
 	api_base = 'http://api.pairs.cc';
 }
 
+// Page State (ENUM)
+var PageState = {
+    MAIN:    0,
+    COMMENT: 1,
+    SEARCH:  2,
+    PAGE:    3,
+    LOGIN:   4,
+    LOGOUT:  5
+};
+
 // Default: not logged_in, not in_detail (table page)
 var logged_in = false;
 var in_detail = false; // This indicates if user is currently in a detail page or table page
 
+function pageLayout(page_state) {
+    console.log("page_state = " + page_state);
+    if(page_state == PageState.MAIN) {
+        hideAllLayout();
+        $('#tool-bar').show();
+        $('#top-table-outer').show();
+        if(logged_in) {
+            $('#me-table-outer').show();
+        }
+    } else if(page_state == PageState.COMMENT) {
+        hideAllLayout();
+        in_detail = true;
+        $('#tool-bar').show();
+        $('#comment-table-outer').show();
+    } else if(page_state == PageState.SEARCH) {
+        hideAllLayout();
+		in_detail = true;
+        $('#tool-bar').show();
+        $('#search-table-outer').show();
+    } else if(page_state == PageState.PAGE) {
+        in_detail = true;
+        hideAllLayout();
+    } else if(page_state == PageState.LOGOUT) {
+        $('#login-modal-button').html('登入');
+        $('#btn-showfriends').hide();
+        $('#btn-public').hide();
+        $('#welcome_msg').show();
+        $('#me-table-outer').hide();
+    } else if(page_state == PageState.LOGIN) {
+        $('#login-modal-button').html('登出');
+        $('#btn-showfriends').show();
+        $('#btn-public').show();
+        $('#welcome_msg').hide();
+        if(!in_detail)  $('#me-table-outer').show();
+    }
+}
+
+function hideAllLayout() {
+    $('#top-table-outer').hide();
+    $('#comment-table-outer').hide();
+    $('#main-option').hide();
+    $('#me-table-outer').hide();
+    $('#search-table-outer').hide();
+    $('#tool-bar').hide();
+    $('.pages').hide();
+    in_detail = false;
+}
+
 /* Functions */
 function showComment(pid)
 {
+    /*
 	if(!in_detail){
 		window.location.hash = '#' + pid;
 		// user may be browsing at the bottom of table previously
 		window.scrollTo(0, 0);
 	}
+    */
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -51,7 +111,7 @@ function showComment(pid)
                     // error, pid could be invalid
                     console.log('invalid pid requested');
                     window.location.hash = '';
-                    listTopPairs(logged_in);
+                    listTopPairs();
                 },
                 success: function(data){
                     var pair = data['data'];
@@ -72,7 +132,7 @@ function showComment(pid)
                             <td class="pair_table_col_thumbnail1"><a href="https://facebook.com/'+fbid_real1+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real1 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
                             <td class="pair_table_col_thumbnail2"><a href="https://facebook.com/'+fbid_real2+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real2 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
                             \
-                            <td class="pair_table_col_nama1"><a href="/?su='+uid1+'">'+ name1 +'</a></td> \
+                            <td class="pair_table_col_name1"><a href="/?su='+uid1+'">'+ name1 +'</a></td> \
                             <td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
                             <td class="pair_table_col_name2"><a href="/?su='+uid2+'">'+ name2 +'</a></td> \
                             <td class="pair_table_col_vote_count" id="count_'+table_id+pid+'">' + count + '</td> \
@@ -99,11 +159,7 @@ function showComment(pid)
                     $('#comment-div').html('');
                     $('#comment-div').html(comment_html);
 
-                    $('#top-table-outer').hide();
-                    $('#comment-table-outer').show();
-                    $('#me-table-outer').hide();
-
-                    in_detail = true;
+                    pageLayout(PageState.COMMENT);
                 }
             });
          }
@@ -112,7 +168,7 @@ function showComment(pid)
 
 
 /* This helper do the layout for top-table, me-table, search-table, etc */
-function listPairHelper(logged_in, table, voted, data, loader) {
+function listPairHelper(table, voted, data, loader) {
 
     // clean up
     table.html('');
@@ -136,7 +192,7 @@ function listPairHelper(logged_in, table, voted, data, loader) {
                 <td class="pair_table_col_thumbnail1"><a href="https://facebook.com/'+fbid_real1+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real1 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
                 <td class="pair_table_col_thumbnail2"><a href="https://facebook.com/'+fbid_real2+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real2 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
                 \
-                <td class="pair_table_col_nama1"><a href="/?su='+uid1+'">'+ name1 +'</a></td> \
+                <td class="pair_table_col_name1"><a href="/?su='+uid1+'">'+ name1 +'</a></td> \
                 <td class="pair_table_col_heart"><i class="glyphicon glyphicon-heart heartc"></i></td> \
                 <td class="pair_table_col_name2"><a href="/?su='+uid2+'">'+ name2 +'</a></td> \
                 <td class="pair_table_col_vote_count" id="count_'+table_id+pid+'">' + count + '</td> \
@@ -157,7 +213,7 @@ function listPairHelper(logged_in, table, voted, data, loader) {
 
 }
 
-function listMePairs(logged_in, voted) {
+function listMePairs(voted) {
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -170,20 +226,17 @@ function listMePairs(logged_in, voted) {
             networkError();
         },
         success: function(data){
-            listPairHelper(logged_in, $('#me-table'), voted, data, $('#me-loader-gif'));
+            listPairHelper($('#me-table'), voted, data, $('#me-loader-gif'));
         }
     });
 }
 
-function listSearchPairs(logged_in, key, is_uid) {
+function listSearchPairs(key, is_uid) {
 
     console.log("key = " + key);
 
     var api = (is_uid) ? "/search?uid=" : "/search?q=";
-
-	$('#comment-table-outer').hide();
-	$('#top-table-outer').hide();
-	in_detail = false;
+    pageLayout(PageState.SEARCH);
 
 	$.ajax({
 		type: "GET",
@@ -211,7 +264,7 @@ function listSearchPairs(logged_in, key, is_uid) {
                     networkError();
                 },
                 success: function(data){
-                    listPairHelper(logged_in, $('#search-table'), voted, data, $('#search-loader-gif'));
+                    listPairHelper($('#search-table'), voted, data, $('#search-loader-gif'));
                 }
             });
         }
@@ -219,14 +272,9 @@ function listSearchPairs(logged_in, key, is_uid) {
 }
 
 /* listTopPairs: clean up the current table, and reload the main table */
-function listTopPairs(logged_in){
+function listTopPairs(){
 
-	$('#comment-table-outer').hide();
-	$('#top-table-outer').show();
-    if(logged_in) {
-        $('#me-table-outer').show();
-    }
-	in_detail = false;
+    pageLayout(PageState.MAIN);
 
 	$.ajax({
 		type: "GET",
@@ -243,7 +291,7 @@ function listTopPairs(logged_in){
 		success: function(data){
 			var voted = data['data']['voted'];
             if(logged_in) {
-                listMePairs(logged_in, voted);
+                listMePairs(voted);
             }
 			$.ajax({
 				type: "GET",
@@ -257,7 +305,7 @@ function listTopPairs(logged_in){
                     networkError();
 				},
 				success: function(data){
-                    listPairHelper(logged_in, $('#top-table'), voted, data, $('#loader-gif'));
+                    listPairHelper($('#top-table'), voted, data, $('#loader-gif'));
 				}
 			});
 		}
@@ -278,17 +326,10 @@ function logout() {
         },
         success: function(data){
             if(data['status'] == 0 && data['result'] == 'ok'){
-
                 // Successfully logged out
                 logged_in = false;
-
-                // hide useless button in table option
-                $('#btn-showfriends').hide();
-                $('#btn-public').hide();
-                $('#welcome_msg').show();
-                $('#me-table-outer').hide();
-
-                $('#login-modal-button').html('登入');
+                pageLayout(PageState.LOGOUT);
+                window.location.replace('');
             }
         }
     });
@@ -428,7 +469,7 @@ function promoteControllerInit() {
                     showComment(data['pid']);
                 } else {
                     $('#top-table tr').empty();
-                    listTopPairs(logged_in);
+                    listTopPairs();
                 }
             }
         });
@@ -440,12 +481,12 @@ function promoteControllerInit() {
 function tableOptionInit() {
 
 	$('#search-submit').click(function(){
-		listTopPairs(logged_in);
+		listTopPairs();
 	});
 
     // filter applies when <select> changes
     $('.selectpicker').change(function() {
-		listTopPairs(logged_in);
+		listTopPairs();
     });
 
 	$('.selectpicker').selectpicker();
@@ -455,22 +496,20 @@ function tableOptionInit() {
 /* searchButtonInit: setup search button in popup modal */
 function searchButtonInit() {
     $('#btn-search').click(function() {
-        var key = $('#input-search').val();
-        console.log("key = " + key);
-        window.location.replace('/?s=' + key);
+        searchButtonHelper();
+    });
+    $('#input-search').keypress(function (e) {
+        if (e.which == 13) {
+            searchButtonHelper();
+            return false;
+        }
     });
 }
 
-/* cleanForPages: use hashtags in request URL, we should like to show some pages
- * instead of the table, call this function to clean up for the pages */
-function cleanForPages() {
-    in_detail = true;
-    $('#top-table-outer').hide();
-    $('#comment-table-outer').hide();
-    $('#main-option').hide();
-    $('#me-table-outer').hide();
-    $('#tool-bar').hide();
-    $('.pages').hide();
+function searchButtonHelper() {
+    var key = $('#input-search').val();
+    console.log("key = " + key);
+    window.location.replace('/?s=' + key);
 }
 
 /* browseByHash: routing by using hash tag in request URL */
@@ -478,19 +517,21 @@ function browseByHash(){
 	console.log(window.location.hash);
 	var hash_arg = window.location.hash.replace('#','');
 	if(parseInt(hash_arg) != NaN && parseInt(hash_arg) == hash_arg){
+        /*
 		in_detail = true;
 		showComment(parseInt(hash_arg));
+        */
 	} else if(hash_arg == 'about') {
-        cleanForPages();
+        pageLayout(PageState.PAGE);
         $('#page_about').show();
     } else if(hash_arg == 'sponsor') {
-        cleanForPages();
+        pageLayout(PageState.PAGE);
         $('#page_sponsor').show();
     } else if(hash_arg == 'privacy') {
-        cleanForPages();
+        pageLayout(PageState.PAGE);
         $('#page_privacy').show();
     } else if(hash_arg == 'term') {
-        cleanForPages();
+        pageLayout(PageState.PAGE);
         $('#page_term').show();
     } else {
         // ignore
@@ -519,13 +560,13 @@ $(document).ready(function() {
     var URLVars = getURLVars();
     if(URLVars[0] == 's') {
         // search
-        listSearchPairs(logged_in, URLVars['s'], 0);
+        listSearchPairs(URLVars['s'], 0);
     } else if (URLVars[0] == 'su') {
-        listSearchPairs(logged_in, URLVars['su'], 1);
+        listSearchPairs(URLVars['su'], 1);
     } else if(URLVars[0] == 'p') {
         // comment
-		in_detail = true;
 		showComment(parseInt(URLVars['p']));
+    } else {
     }
     console.log(URLVars);
 
@@ -543,37 +584,19 @@ $(document).ready(function() {
 		},
 		success: function(data){
 			if(data['status'] == 1){
-
 				// Logged in
 				logged_in = true;
-				$('#login-modal-button').html('登出');
-				$('#btn-showfriends').show();
-				$('#btn-public').show();
-                $('#welcome_msg').hide();
-                $('#me-table-outer').show();
-
+                pageLayout(PageState.LOGIN);
                 console.log("login_status: logged in");
-
 			}else{
-
 				// Not logged in
 				logged_in = false;
-				$('#login-modal-button').html('登入');
-				$('#btn-showfriends').hide();
-				$('#btn-public').hide();
-                $('#welcome_msg').show();
-                $('#me-table-outer').hide();
-
+                pageLayout(PageState.LOGOUT);
                 console.log("login_status: not logged in");
-
 			}
 
 			$('#login-modal-button').click(loginToggle);
-
-			if(!in_detail){ // in_detail is set in browseByHash
-				// List all existing Pairs
-				listTopPairs(logged_in);
-			}
+            if(!in_detail)  listTopPairs();
 		}
 	});
 

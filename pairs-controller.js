@@ -147,7 +147,7 @@ function showComment(pid)
                     row_html += '</tr>';
 
                     var comment_html = '<div class="fb-comments" data-href="'+api_base+'/'+pid+'" data-numposts="100" data-order-by="time" data-width="100%" data-colorscheme="light"></div>';
-                    comment_html += '<div class="row centered"><button type="button" class="btn btn-default" onclick="window.location.replace(\'/\');"><i id="back-home-content" class="fa fa-home"></i></button></div>';
+                    comment_html += '<div class="row centered"><button type="button" class="btn btn-primary share-button" onclick="shareComment('+pid+');">分享八卦</button></div>';
 
                     console.log(comment_html);
 
@@ -355,7 +355,7 @@ function loginToggle(){
 }
 
 /* NOTE: this function will only update current table, not won't reload */
-function vote(pid, is_retrieve, just_reload, table_id){
+function vote(pid, is_retrieve, go_redirect, table_id){
 
     if(!logged_in) {
         loginPrompt();
@@ -379,8 +379,9 @@ function vote(pid, is_retrieve, just_reload, table_id){
 
 			console.log(data);
 
-            if(just_reload) {
-                location.reload();
+            var pid = data['pid'];
+            if(go_redirect) {
+                window.location.replace("/?p="+pid);
                 return;
             }
 
@@ -464,13 +465,8 @@ function promoteControllerInit() {
             },
             success: function(data){
                 console.log(data);
-                // FIXME: direct to pid's comment page
-                if(in_detail){
-                    showComment(data['pid']);
-                } else {
-                    $('#top-table tr').empty();
-                    listTopPairs();
-                }
+                var pid = data['pid'];
+                window.location.replace("/?p="+pid);
             }
         });
 
@@ -608,6 +604,8 @@ $(document).ready(function() {
     tableOptionInit();
     searchButtonInit();
 
+    setupFacebookCommentCustomCSS();
+
 	$(window).on('hashchange', function() {
 		in_detail = true;
 		// HTML5 specifieds a hashchange event, supported by most modern browsers
@@ -629,4 +627,28 @@ function networkError() {
 function promptSearchDialog() {
     console.log("search dialog showed");
     $('#search_dialog').modal('show');
+}
+
+function  setupFacebookCommentCustomCSS() {
+    var css_filepath = 'pairs-view-facebook-comment.css';
+    $("iframe.fb_ltr").contents().find('head').append('<link href="pairs-view.css" rel="stylesheet">')
+}
+
+function shareComment(pid) {
+    FB.ui({
+            method: 'feed',
+            name: 'Facebook Dialogs',
+            link: 'https://developers.facebook.com/docs/dialogs/',
+            picture: 'http://fbrell.com/f8.jpg',
+            caption: 'Reference Documentation',
+            description: 'We are using Fake Data now for testing purpose.'
+        },
+            function(response) {
+            if (response && response.post_id) {
+                alert('Post was published.');
+            } else {
+                alert('Post was not published.');
+            }
+        }
+     );
 }

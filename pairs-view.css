@@ -106,15 +106,15 @@ button.btn, .btn-group > .btn-group:last-child > .btn:first-child {
 }
 
 /* - pair-table */
-div.pair-table-outer .btn {
+div.pair-table-outer tr .btn {
     padding: 0px;
 }
 
-div.pair-table-outer a {
+div.pair-table-outer tr a {
     color: #606060;
 }
 
-div.pair-table-outer a:hover, div.pair-table-outer a:focus {
+div.pair-table-outer tr a:hover, div.pair-table-outer tr a:focus {
     color: #115910;
     text-decoration: underline;
 }
@@ -220,4 +220,18 @@ div.enhance {
     font-size: 24px;
     font-weight: bold;
     margin: 12px 0px;
+}
+
+#comment-div {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.fb-comments, .fb-comments span, .fb-comments iframe {
+    min-width: 100% !important;
+    max-width: 100% !important;
+}
+
+.share-button {
+    margin-bottom: 20px;
 }

@@ -73,6 +73,7 @@
                 </div>
                 <div class="navbar-collapse collapse" >
                     <ul class="nav navbar-nav navbar-right">
+                        <li class=""><a href="/">Username</a></li>
                         <li class="active"><a href="http://facebook.com/pairs-app" target="_blank">Facebook</a></li>
                         <li class="active"><a href="javascript:void(0)" id="login-modal-button">登入</a></li>
                     </ul>
@@ -190,6 +191,7 @@
                             <!-- content will be loaded by JS code -->
                         </tbody>
                     </table>
+                    <hr />
                 </div>
             </div>
         </div>
@@ -262,7 +264,7 @@
                     <p>However, above all, what we really concern is the ones we care. We care our own selves and the ONES WE LOVE.</p>
                 </div>
             </div>
-                <div class="row centered"><button type="button" class="btn btn-default" onclick="window.location.replace('');"><i id="back-home-content" class="fa fa-home"></i></button></div>
+            <!--<div class="row centered"><button type="button" class="btn btn-default" onclick="window.location.replace('');"><i id="back-home-content" class="fa fa-home"></i></button></div>-->
         </div>
 
         <!-- [Page: Idea] -->
@@ -300,16 +302,16 @@
                 <div class="row centered">
                     <div class="col-lg-8 col-lg-offset-2 centered">
                         <div class="col-md-3">
-                            <a href="#about"><i class="fa fa-flag"></i></a>
+                            <a href="#about"><i class="fa fa-flag"></i><br /><p class="page-icon-name">介紹</p></a>
                         </div>
                         <div class="col-md-3">
-                            <a href="https://pairs.hunchbuzz.com/challenge/1570/" target="_top"><i class="fa fa-lightbulb-o"></i></a>
+                            <a href="https://pairs.hunchbuzz.com/challenge/1570/" target="_blank"><i class="fa fa-lightbulb-o"></i><br /><p class="page-icon-name">點子</p></a>
                         </div>
                         <div class="col-md-3">
-                            <a href="#sponsor"><i class="fa fa-money"></i></a>
+                            <a href="#sponsor"><i class="fa fa-money"></i><br /><p class="page-icon-name">支持</p></a>
                         </div>
                         <div class="col-md-3">
-                            <a href="mailto:studio-zero@googlegroups.com" target="_top"><i class="fa fa-envelope"></i></a>
+                            <a href="mailto:studio-zero@googlegroups.com" target="_top"><i class="fa fa-envelope"></i><br /><p class="page-icon-name">聯絡</p></a>
                         </div>
                     </div>
                 </div>
@@ -345,7 +347,8 @@
                         <h4 class="modal-title">PAIRS - 開始投票</h4>
                     </div>
                     <div class="modal-body centered">
-                        <p>放心</br>登入Facebook是用來識別不同的使用者以累積票數</br>我們不會主動在您牆上貼文或傳送廣告等</p>
+                        <div class="enhance">放心</div>
+                        <p>登入Facebook是用來識別不同的使用者以累積票數</br>我們不會主動在您牆上貼文或傳送廣告等</p>
                         <hr/>
                         <button type="button" class="btn btn-success" id="login-button"><i class="fa fa-facebook"></i>&nbsp;&nbsp;&nbsp;GO!</button>
                     </div>
@@ -365,26 +368,29 @@
                     <div class="modal-body" data-spy="scroll">
                         <div class="container-fluid">
                             <div id="us-main" class="row-fluid">
-                                <div class="col-xs-8 col-sm-5 col-lg-5 centered">
-                                    <img id="us-img0" src="assets/img/user.png" width="128" height="128" class="img-responsive img-circle" alt="Thumbnail Image"/>
+                                <div class="col-xs-12 col-sm-5 col-lg-5 centered">
+                                    <img id="us-img0" src="assets/img/user.png" width="64" height="64" class="img-responsive img-circle" alt="Thumbnail Image"/>
                                     <h3 id="us-name0">User 1</h3>
-                                    <input type = "text" id = "inputStr1" placeholder="FB帳號或網址" onclick="this.value=''" autofocus/>
+                                    <input type="text" id="inputStr1" placeholder="FB帳號或網址" onclick="this.value=''" autofocus/>
                                 </div>
-                                <div id="new-pair-heart" class="col-xs-2 col-sm-2 col-lg-2 centered">
+                                <div id="new-pair-heart" class="col-xs-12 col-sm-2 col-lg-2 centered">
                                     <i class="glyphicon glyphicon-heart heartc"></i>
                                 </div>
-                                <div class="col-xs-8 col-sm-5 col-lg-5 centered">
-                                    <img id="us-img1" src="assets/img/user.png" width="128" height="128" class="img-responsive img-circle" alt="Thumbnail Image"/>
+                                <div class="col-xs-12 col-sm-5 col-lg-5 centered">
+                                    <img id="us-img1" src="assets/img/user.png" width="64" height="64" class="img-responsive img-circle" alt="Thumbnail Image"/>
                                     <h3 id="us-name1">User 2</h3>
-                                    <input type = "text" id = "inputStr2" placeholder="FB帳號或網址" onclick="this.value=''"/>
+                                    <input type="text" id="inputStr2" placeholder="FB帳號或網址" onclick="this.value=''"/>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-info"></i> 我不會用，教我</button>
-                        <button type="button" class="btn btn-success" data-dismiss="modal" id="confirm-button">PAIR!</button>
+                        <div class="col-xs-6 col-sm-6 col-lg-6 centered">
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-lg-6 centered">
+                            <button type="button" class="btn btn-success modal-right-button" data-dismiss="modal" id="confirm-button">PAIR!</button>
+                        </div>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->

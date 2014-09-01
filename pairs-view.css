@@ -180,9 +180,9 @@ td.pair_table_col_name1, td.pair_table_col_name2 {
 }
 
 #new-pair-heart {
-    padding-top: 100px;
+    padding-top: 40px;
     color: #6ca438;
-    font-size: large;
+    font-size: 50px;
 }
 
 #us-main {
@@ -204,4 +204,20 @@ td.pair_table_col_name1, td.pair_table_col_name2 {
 
 #page_about {
     padding-top: 20px;
+}
+
+p.page-icon-name {
+    color: #606060;
+    padding-top: 15px;
+    margin: 0px;
+}
+
+button.modal-right-button {
+    width: 70%;
+}
+
+div.enhance {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 12px 0px;
 }

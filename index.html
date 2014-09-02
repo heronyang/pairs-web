@@ -73,7 +73,7 @@
                 </div>
                 <div class="navbar-collapse collapse" >
                     <ul class="nav navbar-nav navbar-right">
-                        <li class=""><a href="/">Username</a></li>
+                        <li class="" id="username-li"><a id="username-a" href="/">載入中</a></li>
                         <li class="active"><a href="http://facebook.com/pairs-app" target="_blank">Facebook</a></li>
                         <li class="active"><a href="javascript:void(0)" id="login-modal-button">登入</a></li>
                     </ul>
@@ -369,7 +369,7 @@
                         <div class="container-fluid">
                             <div id="us-main" class="row-fluid">
                                 <div class="col-xs-12 col-sm-5 col-lg-5 centered">
-                                    <img id="us-img0" src="assets/img/user.png" width="64" height="64" class="img-responsive img-circle" alt="Thumbnail Image"/>
+                                    <img id="us-img0" src="assets/img/user.png" width="84" height="84" class="img-responsive img-circle modal-user" alt="Thumbnail Image"/>
                                     <h4 id="us-name0">User 1</h4>
                                     <input type="text" id="inputStr1" placeholder="FB帳號或網址" onclick="this.value=''" autofocus/>
                                 </div>
@@ -377,7 +377,7 @@
                                     <i class="glyphicon glyphicon-heart heartc"></i>
                                 </div>
                                 <div class="col-xs-12 col-sm-5 col-lg-5 centered">
-                                    <img id="us-img1" src="assets/img/user.png" width="64" height="64" class="img-responsive img-circle" alt="Thumbnail Image"/>
+                                    <img id="us-img1" src="assets/img/user.png" width="84" height="84" class="img-responsive img-circle modal-user" alt="Thumbnail Image"/>
                                     <h4 id="us-name1">User 2</h4>
                                     <input type="text" id="inputStr2" placeholder="FB帳號或網址" onclick="this.value=''"/>
                                 </div>
@@ -388,15 +388,66 @@
                     <div class="modal-footer">
                         <div class="row-fluid">
                             <div class="col-xs-6 col-sm-6 col-lg-6 centered">
+                                <button type="button" class="btn btn-default modal-button" data-dismiss="modal">
+                                    取消
+                                </button>
                             </div>
                             <div class="col-xs-6 col-sm-6 col-lg-6 centered">
-                                <button type="button" class="btn btn-success modal-right-button" data-dismiss="modal" id="confirm-button">PAIR!</button>
+                                <button type="button" class="btn btn-success modal-button" data-dismiss="modal" id="confirm-button">PAIR!</button>
                             </div>
                         </div>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
+
+        <!-- Play dialog -->
+        <div class="modal fade" id="play-dialog" aria-hidden="true" data-width="760" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">PLAY - 我支持⋯</h4>
+                    </div>
+
+                    <div class="modal-body" data-spy="scroll">
+                        <div class="container-fluid">
+                            <div id="play-main" class="row-fluid">
+                                <div class="col-xs-12 col-sm-5 col-lg-5 centered">
+                                    <img id="play-img0" src="assets/img/user.png" width="84" height="84" class="img-responsive img-circle modal-user" alt="Thumbnail Image"/>
+                                    <h4 id="play-name0">User 1</h4>
+                                </div>
+                                <div id="play-pair-heart" class="col-xs-12 col-sm-2 col-lg-2 centered">
+                                    <i class="glyphicon glyphicon-heart heartc"></i>
+                                </div>
+                                <div class="col-xs-12 col-sm-5 col-lg-5 centered">
+                                    <img id="play-img1" src="assets/img/user.png" width="84" height="84" class="img-responsive img-circle modal-user" alt="Thumbnail Image"/>
+                                    <h4 id="play-name1">User 2</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="row-fluid">
+                            <div class="col-xs-12 col-sm-6 col-lg-6 centered modal-button-container">
+                                <button id="play-cancel" type="button" class="btn btn-primary modal-button">
+                                    <img width="30" width"20" src="assets/img/brokenheart.png"/>
+                                    分開吧
+                                </button>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-lg-6 centered modal-button-container">
+                                <button id="play-submit" type="button" class="btn btn-danger modal-button">
+                                    <img width="30" width"20" src="assets/img/heart.png"/>
+                                    在一起
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
 
 
         <!-- Placed at the end of the document so the pages load faster -->

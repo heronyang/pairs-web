@@ -13,7 +13,7 @@ Applying Bootstrap Theme from http://www.bootstrapzero.com/bootstrap-template/bo
 * Run this client web
     > make run
 * Setup Test URL, open browser console and type:
-    > localstorage['base'] = "http://localhost:5000/"
+    > localStorage['base'] = "http://localhost:5000/"
 
 * Open **index.html** in browser
 
@@ -21,7 +21,7 @@ Applying Bootstrap Theme from http://www.bootstrapzero.com/bootstrap-template/bo
 * Run this client web
     > make run
 * Setup Deployed Server URL, open browser console and type:
-    > locastorage['base'] = "http://api.pairs.cc/"
+    > locaStorage['base'] = "http://api.pairs.cc/"
 * Open **index.html** in browser
 
 # Directory Structure

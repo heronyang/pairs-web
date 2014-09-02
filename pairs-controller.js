@@ -1,7 +1,11 @@
 /* Global variables */
+var PLAY_LIST_QUOTA = 100;
 
 // Setup api_base
 var api_base = '';
+
+var MyName = '', MyUid = '';
+var PlayList = [], isPlayDialogEmpty = true;
 
 if(localStorage['base']){
 	// Set api_base if custom settings detected
@@ -53,11 +57,13 @@ function pageLayout(page_state) {
         $('#btn-public').hide();
         $('#welcome_msg').show();
         $('#me-table-outer').hide();
+        $('#username-li').hide();
     } else if(page_state == PageState.LOGIN) {
         $('#login-modal-button').html('登出');
         $('#btn-showfriends').show();
         $('#btn-public').show();
         $('#welcome_msg').hide();
+        $('#username-li').show();
         if(!in_detail)  $('#me-table-outer').show();
     }
 }
@@ -166,7 +172,6 @@ function showComment(pid)
 	});
 }
 
-
 /* This helper do the layout for top-table, me-table, search-table, etc */
 function listPairHelper(table, voted, data, loader) {
 
@@ -175,17 +180,21 @@ function listPairHelper(table, voted, data, loader) {
     loader.hide();
 
     var table_id = table.attr('id')+'_';
+    var data_content = data['data'];
+    var data_sorted = data_content.sort(function (a, b) {
+        return (parseInt(b['count']) - parseInt(a['count']));
+    });
 
-    data['data'].forEach(function(data){
+    data_sorted.forEach(function(data_s){
 
-        var fbid_real1 = data['user1']['fbid_real'],
-            fbid_real2 = data['user2']['fbid_real'];
-        var name1 = data['user1']['name'],
-            name2 = data['user2']['name'];
-        var uid1 = data['user1']['uid'],
-            uid2 = data['user2']['uid'];
-        var count = data['count'];
-        var pid = data['pid'];
+        var fbid_real1 = data_s['user1']['fbid_real'],
+            fbid_real2 = data_s['user2']['fbid_real'];
+        var name1 = data_s['user1']['name'],
+            name2 = data_s['user2']['name'];
+        var uid1 = data_s['user1']['uid'],
+            uid2 = data_s['user2']['uid'];
+        var count = data_s['count'];
+        var pid = data_s['pid'];
 
         var row_html = '\
             <tr> \
@@ -379,7 +388,6 @@ function vote(pid, is_retrieve, go_redirect, table_id){
 
 			console.log(data);
 
-            var pid = data['pid'];
             if(go_redirect) {
                 window.location.replace("/?p="+pid);
                 return;
@@ -393,6 +401,8 @@ function vote(pid, is_retrieve, go_redirect, table_id){
                 $('#btn_'+table_id+pid).attr('onclick','vote(' + pid + ',0, 0, \''+table_id+'\')');
                 $('#btn_'+table_id+pid).html('<img width="30" width="20" src="assets/img/heart.png"/>');
 
+                console.log("retrieved: " + pid + "; table: " + table_id);
+
             } else if(is_retrieve ==0) {
 
                 var count = parseInt($('#count_'+table_id+pid).html());
@@ -401,7 +411,6 @@ function vote(pid, is_retrieve, go_redirect, table_id){
                 $('#btn_'+table_id+pid).attr('onclick','vote(' + pid + ',1, 0, \''+table_id+'\')');
                 $('#btn_'+table_id+pid).html('<img width="30" width="20" src="assets/img/brokenheart.png"/>');
 
-                return data['pid'];
             }
 		}
 	});
@@ -502,6 +511,43 @@ function searchButtonInit() {
     });
 }
 
+function playButtonInit() {
+    console.log("init!!!!!!");
+    $('#play-button').click(function() {
+        $('#play-dialog').modal('show');
+        if(isPlayDialogEmpty) {
+            // first time fill
+            fillPlayDialog();
+        }
+    });
+    $('#play-submit').click(function() {
+        fillPlayDialog();
+        $('#play-dialog').modal('hide');
+        // TODO: submit POST here
+        setTimeout(function() { $('#play-dialog').modal('show'); }, 350);
+    });
+    $('#play-cancel').click(function() {
+        fillPlayDialog();
+        $('#play-dialog').modal('hide');
+        setTimeout(function() { $('#play-dialog').modal('show'); }, 350);
+    });
+}
+
+function fillPlayDialog() {
+
+    fillPlayList(); // it will detect if needed
+
+    var pair = PlayList.shift();
+    $('#play-name0').text(pair[0]['name']);
+    $('#play-name1').text(pair[1]['name']);
+    $('#play-img0').attr('src', pair[0]['photo_url']);
+    $('#play-img1').attr('src', pair[1]['photo_url']);
+
+    console.log("update done");
+
+    if(PlayList.length > 0) isPlayDialogEmpty = false;
+}
+
 function searchButtonHelper() {
     var key = $('#input-search').val();
     console.log("key = " + key);
@@ -584,6 +630,14 @@ $(document).ready(function() {
 				logged_in = true;
                 pageLayout(PageState.LOGIN);
                 console.log("login_status: logged in");
+
+                MyName = data['data']['name'];
+                MyUid = data['data']['uid'];
+
+                $('#username-a').text(MyName);
+
+                fillPlayList();
+
 			}else{
 				// Not logged in
 				logged_in = false;
@@ -603,6 +657,7 @@ $(document).ready(function() {
     promoteControllerInit();
     tableOptionInit();
     searchButtonInit();
+    playButtonInit();
 
     setupFacebookCommentCustomCSS();
 
@@ -651,4 +706,30 @@ function shareComment(pid) {
             }
         }
      );
+}
+
+function fillPlayList () {
+    
+    // no need to refill
+    if(PlayList.length >= PLAY_LIST_QUOTA)  return;
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: api_base + "/play_list",
+        xhrFields: { withCredentials: true },
+        error: function(data){
+            console.log(data);
+            networkError();
+        },
+        success: function(data){
+            console.log(data);
+            var data_content = data['data'];
+            data_content.forEach(function(data_pair){
+                PlayList.push(data_pair);
+                fillPlayList();
+            });
+        }
+    });
+
 }

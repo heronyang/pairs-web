@@ -175,17 +175,17 @@ td.pair_table_col_name1, td.pair_table_col_name2 {
     float: right;
 }
 
-#us-img0, #us-img1 {
+img.modal-user {
     margin:0 auto;
 }
 
-#new-pair-heart {
-    padding-top: 40px;
+#new-pair-heart, #play-pair-heart {
+    padding-top: 24px;
     color: #6ca438;
     font-size: 50px;
 }
 
-#us-main {
+#us-main, #play-main {
     padding-top: 20px;
 }
 
@@ -212,7 +212,7 @@ p.page-icon-name {
     margin: 0px;
 }
 
-button.modal-right-button {
+button.modal-button {
     width: 70%;
 }
 
@@ -234,4 +234,12 @@ div.enhance {
 
 .share-button {
     margin-bottom: 20px;
+}
+
+div.modal-button-container {
+    margin: 10px 0;
+}
+
+div.modal {
+    min-width: 320px;
 }

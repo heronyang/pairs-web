@@ -7,6 +7,7 @@ var api_base = '';
 var MyName = '', MyUid = '';
 var PlayList = [];
 var isPlayDialogEmpty = true;
+var needStartPlay = false;
 
 if(localStorage['base']){
 	// Set api_base if custom settings detected
@@ -103,7 +104,7 @@ function showComment(pid)
         error: function(data){
             // error
             // should get empty array if not logged in
-            networkError();
+            networkerror();
         },
         success: function(data){
             var voted = data['data']['voted'];
@@ -390,7 +391,11 @@ function vote(pid, is_retrieve, go_redirect, table_id){
 		error: function(data){
 			console.log(data);
 			console.log(data.responseJSON.message);
-            networkError();
+            if( data['status'] == 401 ) {
+                $('#login_dialog').modal('show');
+            } else {
+                networkError();
+            }
 		},
 		success: function(data){
 
@@ -478,7 +483,11 @@ function promoteControllerInit() {
             error: function(data){
                 console.log(data);
                 console.log(data.responseJSON.message);
-                networkError();
+                if( data['status'] == 401 ) {
+                    $('#login_dialog').modal('show');
+                } else {
+                    networkError();
+                }
             },
             success: function(data){
                 console.log(data);
@@ -520,13 +529,8 @@ function searchButtonInit() {
 }
 
 function playButtonInit() {
-    console.log("init!!!!!!");
     $('#play-button').click(function() {
-        $('#play-dialog').modal('show');
-        if(isPlayDialogEmpty) {
-            // first time fill
-            fillPlayDialog();
-        }
+        startPlay();
     });
     $('#play-submit').click(function() {
         fillPlayDialog();
@@ -539,6 +543,14 @@ function playButtonInit() {
         $('#play-dialog').modal('hide');
         setTimeout(function() { $('#play-dialog').modal('show'); }, 350);
     });
+}
+
+function startPlay() {
+    if(isPlayDialogEmpty) {
+        // first time fill
+        fillPlayDialog();
+    }
+    $('#play-dialog').modal('show');
 }
 
 function fillPlayDialog() {
@@ -652,7 +664,8 @@ $(document).ready(function() {
     } else if(URLVars[0] == 'p') {
         // comment
 		showComment(parseInt(URLVars['p']));
-    } else {
+    } else if(URLVars[0] == 'play'){
+        needStartPlay = true;
     }
     console.log(URLVars);
 
@@ -766,13 +779,21 @@ function fillPlayList () {
         xhrFields: { withCredentials: true },
         error: function(data){
             console.log(data);
-            networkError();
+            if( data['status'] == 401 ) {
+                $('#login_dialog').modal('show');
+            } else {
+                networkError();
+            }
         },
         success: function(data){
             console.log(data);
             var data_content = data['data'];
             data_content.forEach(function(data_pair){
                 PlayList.push(data_pair);
+                if(needStartPlay) {
+                    startPlay();
+                    needStartPlay = false;
+                }
             });
         }
     });

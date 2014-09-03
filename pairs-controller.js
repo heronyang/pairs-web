@@ -90,6 +90,9 @@ function showComment(pid)
 		window.scrollTo(0, 0);
 	}
     */
+
+    pageLayout(PageState.COMMENT);
+
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -165,8 +168,6 @@ function showComment(pid)
                     $('#comment-table').append(row_html);
                     $('#comment-div').html('');
                     $('#comment-div').html(comment_html);
-
-                    pageLayout(PageState.COMMENT);
                 }
             });
          }

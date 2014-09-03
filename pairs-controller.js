@@ -1,11 +1,12 @@
 /* Global variables */
-var PLAY_LIST_QUOTA = 100;
+var PLAY_LIST_QUOTA = 5;
 
 // Setup api_base
 var api_base = '';
 
 var MyName = '', MyUid = '';
-var PlayList = [], isPlayDialogEmpty = true;
+var PlayList = [];
+var isPlayDialogEmpty = true;
 
 if(localStorage['base']){
 	// Set api_base if custom settings detected
@@ -185,6 +186,10 @@ function listPairHelper(table, voted, data, loader) {
         return (parseInt(b['count']) - parseInt(a['count']));
     });
 
+    if(data_sorted.length <= 0) {
+        table.append('<h4>無資料</h4>');
+    }
+
     data_sorted.forEach(function(data_s){
 
         var fbid_real1 = data_s['user1']['fbid_real'],
@@ -226,7 +231,7 @@ function listMePairs(voted) {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: api_base + "/search?uid=" + 1,
+        url: api_base + "/search?uid=" + MyUid,
         xhrFields: {
             withCredentials: true
         },
@@ -246,6 +251,8 @@ function listSearchPairs(key, is_uid) {
 
     var api = (is_uid) ? "/search?uid=" : "/search?q=";
     pageLayout(PageState.SEARCH);
+
+    var encoded_key = encodeURI(key);
 
 	$.ajax({
 		type: "GET",
@@ -551,7 +558,43 @@ function fillPlayDialog() {
 function searchButtonHelper() {
     var key = $('#input-search').val();
     console.log("key = " + key);
+
+    // parse if it's URL
+    key = parseIDfromURL(key);
+    console.log("parsed key = " + key);
+
     window.location.replace('/?s=' + key);
+}
+
+function parseIDfromURL(input) {
+    var words = input.split('/');
+    var id = words[words.length-1];
+
+    // case: https://www.facebook.com/100002177545908
+    if(numericReg.test(id) || stringReg.test(id)){
+        return id;
+    }
+
+    words = id.split('?');
+    var id_2 = words[0];
+
+    // case: https://www.facebook.com/profile.php?id=100002177545908
+    if(id_2 == 'profile.php')
+    {							
+        //case: https://www.facebook.com/profile.php?id=100001326482055&fref=pb&hc_location=friends_tab
+        words = id.split('=');
+        id = words[1];
+        words = id.split('&');
+        id = words[0];
+        if(numericReg.test(id) || stringReg.test(id)) {
+            return id;
+        }
+    }
+    // case: https://www.facebook.com/sunwolf.chang?fref=ts
+    if(numericReg.test(id_2) || stringReg.test(id_2)) {
+        return id_2;
+    }
+    return key;
 }
 
 /* browseByHash: routing by using hash tag in request URL */
@@ -709,6 +752,8 @@ function shareComment(pid) {
 }
 
 function fillPlayList () {
+
+    console.log("length: " + PlayList.length);
     
     // no need to refill
     if(PlayList.length >= PLAY_LIST_QUOTA)  return;
@@ -727,7 +772,6 @@ function fillPlayList () {
             var data_content = data['data'];
             data_content.forEach(function(data_pair){
                 PlayList.push(data_pair);
-                fillPlayList();
             });
         }
     });

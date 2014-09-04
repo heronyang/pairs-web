@@ -48,24 +48,6 @@ function newSearch(input, table, token){
 			getIDfromLink();
         }
 
-        /*
-		else {
-			finished_thread_count++;
-        }
-
-		if(nameReg.test(input))
-		{
-            // NOTE: don't do client-side FB login at this point
-			// getIDfromName_FQL();
-			// getIDfromName();
-		}
-		else
-		{
-			finished_thread_count += 2;
-			check_if_finish_and_display_result();
-		}
-        */
-
 	}
 	
 	//private functions
@@ -153,165 +135,7 @@ function newSearch(input, table, token){
 			
         });
 	}
-	
-    /*
-	var getIDfromName_FQL =
-	function getIDfromName_FQL(){
 
-		var weblink = 'https://graph.facebook.com/fql?access_token='+accessToken+'&q=user&q=SELECT uid,name FROM user WHERE uid IN (SELECT id FROM profile WHERE name="'+input+'")';
-		console.log("link:"+weblink);
-		
-		$.get(weblink, function(data){
-			
-			var datas = JSON.stringify(data.data);
-			
-			if( datas.indexOf('{') != -1)
-			{
-				var words = datas.split("[{");
-				datas = words[1];
-				words = datas.split("}]");
-				datas = words[0];
-				words = datas.split("},{");
-				console.log(words);
-				
-				for(var i = 0; i < words.length; i++)
-				{
-					if( i == SEARCH_MAX )
-						break;
-					
-					var obj = JSON.parse("{"+words[i]+"}");
-					result3[result3.length] = obj.uid.toString();
-					result3[result3.length] = obj.name;						
-				}
-				
-				finished_thread_count++;
-				check_if_finish_and_display_result();
-			}
-			else
-			{
-				finished_thread_count++;
-				check_if_finish_and_display_result();
-			}
-			
-		}).fail(function() {
-			
-			finished_thread_count++;
-			check_if_finish_and_display_result();
-			
-			});
-		;
-		
-	}
-    */
-
-    /*
-	var getIDfromName =
-	function (){
-		count = 0;
-		console.log("name:"+input);
-
-		var weblink = 'https://graph.facebook.com/search?access_token='+accessToken+'&type=user&q='+input;
-		console.log("link:"+weblink);
-		
-		$.get(weblink, function(data){
-			
-			var datas = JSON.stringify(data.data);
-			
-			if( datas.indexOf('{') != -1)
-			{
-				var words = datas.split("[{");
-				datas = words[1];
-				words = datas.split("}]");
-				datas = words[0];
-				words = datas.split("},{");
-				
-				var matchCount = 0;
-				var matchResult = new Array();
-				
-				
-				for(var i = 0; i < words.length; i++)
-				{
-					var obj = JSON.parse("{"+words[i]+"}");
-
-					var t_match = match(obj.name,input);
-					if( t_match == 0 )
-					{
-						result4[result4.length] = obj.id;
-						result4[result4.length] = obj.name;
-						
-						count ++;
-						matchCount ++;
-					}
-					else if( t_match == 1 )
-					{
-						count ++;
-						matchResult[matchResult.length] = obj.id+"?"+obj.name;
-					}
-
-					if(count == 30)
-							break;
-				}
-				
-				if(count != 0)
-				{
-					matchCount++;
-					for(var i = 0; i < matchResult.length; i++)
-					{
-						var m_data = matchResult[i].split("?");
-						
-						result4[result4.length] = m_data[0];
-						result4[result4.length] = m_data[1];
-					}
-				}
-
-				finished_thread_count++;
-				check_if_finish_and_display_result();
-				
-			}
-			else
-			{
-				finished_thread_count++;
-				check_if_finish_and_display_result();
-			}	
-			
-		}).fail(function() {
-		
-			finished_thread_count++;
-			check_if_finish_and_display_result();
-			
-			});
-		;
-	}
-	
-	var match =
-	function (Result,Input){
-	
-		var result = Result.toLowerCase();
-		var input = Input.toLowerCase();
-		
-		var segment = input.split(separator);
-		var notmatch = 0;
-		for (var i = 0; i < segment.length; i++)
-		{
-			if(result.indexOf(segment[i]) == -1)
-			{
-				notmatch ++;
-				break;
-			}
-		}
-		segment = result.split(separator);
-		for (var i = 0; i < segment.length; i++)
-		{
-			if(input.indexOf(segment[i]) == -1)
-			{
-				notmatch ++;
-				break;
-			}
-		}
-		return notmatch;
-	}
-    */
-	
 	var check_if_finish_and_display_result = 
 	function(){
 	
@@ -375,24 +199,6 @@ function newSearch(input, table, token){
 				//merge results
 				result = result1.concat(result2);
 				var index = result.length;
-                /*
-				for(var i = 0; i < result3.length; i+=2)
-				{
-					if(result.indexOf(result3[i]) == -1)
-					{
-						result = result.concat(result3[i]);		
-						result = result.concat(result3[i+1]);
-					}
-				}
-				for(var i=0; i < result4.length; i+=2)
-				{
-					if(result.indexOf(result4[i]) == -1)
-					{
-						result = result.concat(result4[i]);	
-						result = result.concat(result4[i+1]);
-					}
-				}
-                */
 				
 				console.log(result);
 				
@@ -426,5 +232,3 @@ function newSearch(input, table, token){
 		}
 	}
 }
-
-

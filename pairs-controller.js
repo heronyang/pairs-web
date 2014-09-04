@@ -538,7 +538,7 @@ function playButtonInit() {
         //$('#play-dialog').modal('hide');
         $('div.play-user-container').animate({ opacity: 0 })
         submitPlayPost();
-        setTimeout(function() { fillPlayDialog(); }, 200);
+        setTimeout(function() { fillPlayDialog(); }, 500);
         // TODO: submit POST here
         //setTimeout(function() { $('#play-dialog').modal('show'); }, 500);
         $('div.play-user-container').animate({ opacity: 1 })
@@ -546,7 +546,7 @@ function playButtonInit() {
     $('#play-cancel').click(function() {
         //$('#play-dialog').modal('hide');
         $('div.play-user-container').animate({ opacity: 0 })
-        setTimeout(function() { fillPlayDialog(); }, 200);
+        setTimeout(function() { fillPlayDialog(); }, 500);
         //setTimeout(function() { $('#play-dialog').modal('show'); }, 500);
         $('div.play-user-container').animate({ opacity: 1 })
     });

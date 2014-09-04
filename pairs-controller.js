@@ -160,7 +160,7 @@ function showComment(pid)
                     row_html += '</tr>';
 
                     var comment_html = '<div class="fb-comments" data-href="'+api_base+'/p/'+pid+'" fb-xfbml-state="rendered" data-numposts="100" data-order-by="time" data-width="100%" data-colorscheme="light"></div>';
-                    //comment_html += '<div class="row centered"><button type="button" class="btn btn-primary share-button" onclick="shareComment('+pid+');">分享八卦</button></div>';
+                    comment_html += '<div class="row centered"><button type="button" class="btn btn-primary share-button" onclick="shareComment('+pid+');">分享八卦</button></div>';
 
                     console.log(comment_html);
 
@@ -797,7 +797,6 @@ function  setupFacebookCommentCustomCSS() {
     $("iframe.fb_ltr").contents().find('head').append('<link href="pairs-view.css" rel="stylesheet">')
 }
 
-/*
 function shareComment(pid) {
     FB.ui({
             method: 'feed',
@@ -816,7 +815,6 @@ function shareComment(pid) {
         }
      );
 }
-*/
 
 function fillPlayList () {
 

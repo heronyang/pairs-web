@@ -1,5 +1,5 @@
 /* Global variables */
-var PLAY_LIST_MIN_QUOTA = 299;
+var PLAY_LIST_MIN_QUOTA = 150;
 
 // Setup api_base
 var api_base = '';

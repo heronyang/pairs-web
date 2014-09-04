@@ -535,16 +535,20 @@ function playButtonInit() {
         startPlay();
     });
     $('#play-submit').click(function() {
-        $('#play-dialog').modal('hide');
+        //$('#play-dialog').modal('hide');
+        $('div.play-user-container').animate({ opacity: 0 })
         submitPlayPost();
         setTimeout(function() { fillPlayDialog(); }, 200);
         // TODO: submit POST here
-        setTimeout(function() { $('#play-dialog').modal('show'); }, 500);
+        //setTimeout(function() { $('#play-dialog').modal('show'); }, 500);
+        $('div.play-user-container').animate({ opacity: 1 })
     });
     $('#play-cancel').click(function() {
-        $('#play-dialog').modal('hide');
+        //$('#play-dialog').modal('hide');
+        $('div.play-user-container').animate({ opacity: 0 })
         setTimeout(function() { fillPlayDialog(); }, 200);
-        setTimeout(function() { $('#play-dialog').modal('show'); }, 500);
+        //setTimeout(function() { $('#play-dialog').modal('show'); }, 500);
+        $('div.play-user-container').animate({ opacity: 1 })
     });
 }
 

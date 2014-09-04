@@ -265,6 +265,10 @@ div.modal {
     .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
         padding: 3px 1px;
     }
+    #comment-div {
+        width: 100%;
+    }
+
 }
 @media(min-width:768px){}
 @media(min-width:992px){}

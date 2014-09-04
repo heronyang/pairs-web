@@ -159,7 +159,7 @@ function showComment(pid)
                     }
                     row_html += '</tr>';
 
-                    var comment_html = '<div class="fb-comments" data-href="'+api_base+'/'+pid+'" data-numposts="100" data-order-by="time" data-width="100%" data-colorscheme="light"></div>';
+                    var comment_html = '<div class="fb-comments" data-href="'+api_base+'/p/'+pid+'" data-numposts="100" data-order-by="time" data-width="100%" data-colorscheme="light"></div>';
                     comment_html += '<div class="row centered"><button type="button" class="btn btn-primary share-button" onclick="shareComment('+pid+');">分享八卦</button></div>';
 
                     console.log(comment_html);

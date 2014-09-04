@@ -536,17 +536,17 @@ function playButtonInit() {
     });
     $('#play-submit').click(function() {
         //$('#play-dialog').modal('hide');
-        $('div.play-user-container').animate({ opacity: 0 })
+        $('div.play-user-container').animate({ opacity: 0 }, 50)
         submitPlayPost();
-        setTimeout(function() { fillPlayDialog(); }, 500);
+        setTimeout(function() { fillPlayDialog(); }, 200);
         // TODO: submit POST here
         //setTimeout(function() { $('#play-dialog').modal('show'); }, 500);
         $('div.play-user-container').animate({ opacity: 1 })
     });
     $('#play-cancel').click(function() {
         //$('#play-dialog').modal('hide');
-        $('div.play-user-container').animate({ opacity: 0 })
-        setTimeout(function() { fillPlayDialog(); }, 500);
+        $('div.play-user-container').animate({ opacity: 0 }, 50)
+        setTimeout(function() { fillPlayDialog(); }, 200);
         //setTimeout(function() { $('#play-dialog').modal('show'); }, 500);
         $('div.play-user-container').animate({ opacity: 1 })
     });

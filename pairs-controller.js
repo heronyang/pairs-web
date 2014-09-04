@@ -537,13 +537,13 @@ function playButtonInit() {
     $('#play-submit').click(function() {
         $('#play-dialog').modal('hide');
         submitPlayPost();
-        setTimeout(function() { fillPlayDialog();, 200);
+        setTimeout(function() { fillPlayDialog(); }, 200);
         // TODO: submit POST here
         setTimeout(function() { $('#play-dialog').modal('show'); }, 500);
     });
     $('#play-cancel').click(function() {
         $('#play-dialog').modal('hide');
-        setTimeout(function() { fillPlayDialog();, 200);
+        setTimeout(function() { fillPlayDialog(); }, 200);
         setTimeout(function() { $('#play-dialog').modal('show'); }, 500);
     });
 }

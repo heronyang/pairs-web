@@ -71,12 +71,13 @@
 		<div id="fb-root"></div>
         <script>
             var app_id = "520188428109474";
-            FB.init({
-                appId      : app_id,
-                status     : true,
-                xfbml      : true,
-                version    : 'v2.0'
-            });
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId      : app_id,
+                    xfbml      : true,
+                    version    : 'v2.0'
+                });
+            };
             (function(d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) return;

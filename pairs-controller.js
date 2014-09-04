@@ -223,7 +223,7 @@ function listPairHelper(table, voted, data, loader) {
         } else {
             row_html += '<td class=""><button type="button" class="btn btn-primary" id="btn_'+table_id+pid+'" onclick="vote(' + pid + ',1, 0, \''+table_id+'\')"><img width="30" width="20" src="assets/img/brokenheart.png"/></button></td>';
         }
-        row_html += '<td class=""> <button type="button" class="btn btn-default" onclick="window.location.assign(\'/?p='+ pid + '\');" >&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;</button> </td> </tr>';
+        row_html += '<td class=""> <button type="button" class="btn btn-default" onclick="window.location.replace(\'/?p='+ pid + '\');" >&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;</button> </td> </tr>';
 
         // finally
         table.append(row_html);
@@ -404,7 +404,7 @@ function vote(pid, is_retrieve, go_redirect, table_id){
 			console.log(data);
 
             if(go_redirect) {
-                window.location.assign("/?p="+pid);
+                window.location.replace("/?p="+pid);
                 return;
             }
 
@@ -494,7 +494,7 @@ function promoteControllerInit() {
             success: function(data){
                 console.log(data);
                 var pid = data['pid'];
-                window.location.assign("/?p="+pid);
+                window.location.replace("/?p="+pid);
             }
         });
 
@@ -779,7 +779,7 @@ $(document).ready(function() {
 });
 
 function networkError() {
-    if (confirm('網路連線問題')) {
+    if (confirm('網路連線問題, 難免呀...')) {
         location.reload();
     }
     else {

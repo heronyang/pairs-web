@@ -268,6 +268,24 @@ div.modal {
     #comment-div {
         width: 100%;
     }
+    a.navbar-brand {
+        vertical-align: middle;
+    }
+    #img-logo {
+        height: 38px;
+        width: 130px;
+        margin: auto 0px;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    div.navbar.navbar-default.navbar-fixed-top {
+        padding: 5px 0px;
+        margin-bottom: 5px;
+    }
+    #tool-bar {
+        padding-top: 10px;
+    }
 
 }
 @media(min-width:768px){}

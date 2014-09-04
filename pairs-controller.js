@@ -169,9 +169,12 @@ function showComment(pid)
 
                     // finally
                     $('#loader-single-gif').hide();
+                    $('#comment-loader-gif').hide();
 
                     $('#comment-table').html('');
                     $('#comment-table').append(row_html);
+
+                    $('div.fb-comments').show();
                 }
             });
          }

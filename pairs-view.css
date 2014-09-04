@@ -134,13 +134,9 @@ div.pair-table-container {
 /* - row / col */
 td.pair_table_col_thumbnail1 img {
     float: right;
-    min-height: 40px;
-    min-width: 40px;
 }
 td.pair_table_col_thumbnail2 img {
     float: left;
-    min-height: 40px;
-    min-width: 40px;
 }
 
 td.pair_table_col_vote_count {
@@ -243,3 +239,33 @@ div.modal-button-container {
 div.modal {
     min-width: 320px;
 }
+
+/* Responsive CSS Code */
+@media(max-width:767px){
+    .table-responsive td {
+        font-size: 14px;
+        padding: 5px 1px;
+    }
+    .table-responsive img {
+        min-width: 32px;
+        min-height: 32px;
+    }
+    .table-responsive td button img {
+        width: 16px;
+        height: 16px;
+        min-width: 16px;
+        min-height: 16px;
+    }
+    div.pair-table-container {
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
+        margin-top: 20px;
+    }
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+        padding: 3px 1px;
+    }
+}
+@media(min-width:768px){}
+@media(min-width:992px){}
+@media(min-width:1200px){}

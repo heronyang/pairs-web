@@ -1,13 +1,15 @@
 /* Global variables */
-var PLAY_LIST_QUOTA = 5;
+var PLAY_LIST_MIN_QUOTA = 299;
 
 // Setup api_base
 var api_base = '';
 
 var MyName = '', MyUid = '';
 var PlayList = [];
+var CurrentPlayPair;
 var isPlayDialogEmpty = true;
 var needStartPlay = false;
+var lockPlayList = false;
 
 if(localStorage['base']){
 	// Set api_base if custom settings detected
@@ -534,14 +536,15 @@ function playButtonInit() {
     });
     $('#play-submit').click(function() {
         $('#play-dialog').modal('hide');
-        fillPlayDialog();
+        submitPlayPost();
+        setTimeout(function() { fillPlayDialog();, 200);
         // TODO: submit POST here
-        setTimeout(function() { $('#play-dialog').modal('show'); }, 350);
+        setTimeout(function() { $('#play-dialog').modal('show'); }, 500);
     });
     $('#play-cancel').click(function() {
         $('#play-dialog').modal('hide');
-        fillPlayDialog();
-        setTimeout(function() { $('#play-dialog').modal('show'); }, 350);
+        setTimeout(function() { fillPlayDialog();, 200);
+        setTimeout(function() { $('#play-dialog').modal('show'); }, 500);
     });
 }
 
@@ -553,11 +556,51 @@ function startPlay() {
     $('#play-dialog').modal('show');
 }
 
+function submitPlayPost() {
+
+    console.log(CurrentPlayPair);
+
+    if(!logged_in) {
+        loginPrompt();
+        return;
+    }
+
+    var type1 = CurrentPlayPair[0]['type'],
+        type2 = CurrentPlayPair[1]['type'],
+        id1 = CurrentPlayPair[0]['id'],
+        id2 = CurrentPlayPair[1]['id'];
+
+	$.ajax({
+		type: "POST",
+		dataType: "json",
+		url: api_base + "/",
+		data: 'type1=' + type1 + '&type2=' + type2 + '&id1=' + id1 + '&id2=' + id2,
+		xhrFields: {
+			withCredentials: true
+		},
+		error: function(data){
+			console.log(data);
+            if( data['status'] == 401 ) {
+                $('#login_dialog').modal('show');
+            } else if ( data['status'] == 400 ) {
+                console.log("not accepable photo id");
+            } else {
+                networkError();
+            }
+		},
+		success: function(data){
+			console.log(data);
+            // do nothing
+		}
+	});
+}
+
 function fillPlayDialog() {
 
     fillPlayList(); // it will detect if needed
 
     var pair = PlayList.shift();
+    CurrentPlayPair = pair;
     $('#play-name0').text(pair[0]['name']);
     $('#play-name1').text(pair[1]['name']);
     $('#play-img0').attr('src', pair[0]['photo_url']);
@@ -685,16 +728,18 @@ $(document).ready(function() {
 		},
 		success: function(data){
 			if(data['status'] == 1){
-				// Logged in
+
 				logged_in = true;
                 pageLayout(PageState.LOGIN);
-                console.log("login_status: logged in");
 
+                // update global variables
                 MyName = data['data']['name'];
                 MyUid = data['data']['uid'];
 
+                // update top username display
                 $('#username-a').text(MyName);
 
+                // get play_list
                 fillPlayList();
 
 			}else{
@@ -772,7 +817,10 @@ function fillPlayList () {
     console.log("length: " + PlayList.length);
     
     // no need to refill
-    if(PlayList.length >= PLAY_LIST_QUOTA)  return;
+    if(PlayList.length >= PLAY_LIST_MIN_QUOTA)  return;
+
+    if(lockPlayList)    return;
+    lockPlayList = true;
 
     $.ajax({
         type: "GET",
@@ -786,9 +834,9 @@ function fillPlayList () {
             } else {
                 networkError();
             }
+            lockPlayList = false;
         },
         success: function(data){
-            console.log(data);
             var data_content = data['data'];
             data_content.forEach(function(data_pair){
                 PlayList.push(data_pair);
@@ -797,6 +845,7 @@ function fillPlayList () {
                     needStartPlay = false;
                 }
             });
+            lockPlayList = false;
         }
     });
 

@@ -53,6 +53,7 @@ function pageLayout(page_state) {
     } else if(page_state == PageState.PAGE) {
         in_detail = true;
         hideAllLayout();
+        window.scrollTo(0, 0);
     } else if(page_state == PageState.LOGOUT) {
         $('#login-modal-button').html('登入');
         $('#btn-showfriends').hide();
@@ -78,7 +79,6 @@ function hideAllLayout() {
     $('#search-table-outer').hide();
     $('#tool-bar').hide();
     $('.pages').hide();
-    in_detail = false;
 }
 
 /* Functions */

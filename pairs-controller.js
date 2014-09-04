@@ -533,14 +533,14 @@ function playButtonInit() {
         startPlay();
     });
     $('#play-submit').click(function() {
-        fillPlayDialog();
         $('#play-dialog').modal('hide');
+        fillPlayDialog();
         // TODO: submit POST here
         setTimeout(function() { $('#play-dialog').modal('show'); }, 350);
     });
     $('#play-cancel').click(function() {
-        fillPlayDialog();
         $('#play-dialog').modal('hide');
+        fillPlayDialog();
         setTimeout(function() { $('#play-dialog').modal('show'); }, 350);
     });
 }

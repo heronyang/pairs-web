@@ -803,6 +803,7 @@ function  setupFacebookCommentCustomCSS() {
 
 function shareComment(pid) {
     console.log("about to comment pid: " + pid);
+    /*
     FB.ui({
             method: 'feed',
             name: 'Facebook Dialogs',
@@ -819,6 +820,7 @@ function shareComment(pid) {
             }
         }
      );
+     */
 }
 
 function fillPlayList () {

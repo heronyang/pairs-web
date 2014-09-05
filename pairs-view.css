@@ -15,8 +15,8 @@ div.row {
 
 
 div#social {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     background: #e8f0c5;
 }
 #social i {
@@ -251,6 +251,11 @@ p.modal-button-content {
 
 i.thumbnail-fb-icon {
     color: #3B5998;
+}
+
+div.page-button {
+    padding-bottom: 20px;
+    padding-top: 15px;
 }
 
 /* Responsive CSS Code */

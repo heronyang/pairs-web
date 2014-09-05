@@ -249,6 +249,10 @@ p.modal-button-content {
     width: 100%;
 }
 
+i.thumbnail-fb-icon {
+    color: #3B5998;
+}
+
 /* Responsive CSS Code */
 @media(max-width:767px){
     .table-responsive td {

@@ -540,20 +540,28 @@ function playButtonInit() {
     });
     $('#play-submit').click(function() {
         //$('#play-dialog').modal('hide');
-        $('div.play-user-container').animate({ opacity: 0 }, 50)
-        submitPlayPost();
-        setTimeout(function() { fillPlayDialog(); }, 200);
-        // TODO: submit POST here
-        //setTimeout(function() { $('#play-dialog').modal('show'); }, 500);
-        $('div.play-user-container').animate({ opacity: 1 })
+        $('div.play-user-container').animate({ opacity: 0 }, 100, function() {
+            // animation complete
+            playDialogPutDefaultThumbnail();
+            submitPlayPost();
+            fillPlayDialog();
+            setTimeout(function() { $('div.play-user-container').animate({ opacity: 1 }); }, 200);
+        });
+        
     });
     $('#play-cancel').click(function() {
         //$('#play-dialog').modal('hide');
-        $('div.play-user-container').animate({ opacity: 0 }, 50)
-        setTimeout(function() { fillPlayDialog(); }, 200);
-        //setTimeout(function() { $('#play-dialog').modal('show'); }, 500);
-        $('div.play-user-container').animate({ opacity: 1 })
+        $('div.play-user-container').animate({ opacity: 0 }, 100, function() {
+            playDialogPutDefaultThumbnail();
+            fillPlayDialog();
+            setTimeout(function() { $('div.play-user-container').animate({ opacity: 1 }); }, 200);
+        });
     });
+}
+
+function playDialogPutDefaultThumbnail() {
+    $('#play-img0').attr('src', "assets/img/user.png");
+    $('#play-img1').attr('src', "assets/img/user.png");
 }
 
 function startPlay() {

@@ -175,7 +175,7 @@ img.modal-user {
     margin:0 auto;
 }
 
-#new-pair-heart, #play-pair-heart {
+div.modal-heart {
     padding-top: 24px;
     color: #6ca438;
     font-size: 50px;
@@ -240,6 +240,15 @@ div.modal {
     min-width: 320px;
 }
 
+div.play-user-container input {
+    width: 100%;
+}
+
+p.modal-button-content {
+    margin-bottom: 0px;
+    width: 100%;
+}
+
 /* Responsive CSS Code */
 @media(max-width:767px){
     .table-responsive td {
@@ -283,7 +292,32 @@ div.modal {
     #tool-bar {
         padding-top: 10px;
     }
-
+    div.play-user-container {
+        padding: 0px;
+    }
+    div.modal-heart i{
+        font-size: 24px;
+    }
+    div.modal-heart {
+        padding: 0px;
+        padding-top: 18px;
+    }
+    div.modal-body {
+        padding: 5px 0px;
+    }
+    div.modal-footer {
+        padding: 5px 0px;
+    }
+    div.modal-button-container {
+        padding: 0px;
+    }
+    button.modal-button {
+        padding: 10px 0px;
+    }
+    div.navbar.navbar-default.navbar-fixed-top {
+        padding: 0px;
+        margin: 0px;
+    }
 }
 @media(min-width:768px){}
 @media(min-width:992px){}

@@ -142,8 +142,16 @@
                         <input id="input-search" type="text" class="form-control">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        <button id="btn-search" type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-search"></i></button>
+                        <div class="col-xs-6 col-sm-6 col-lg-6 centered modal-button-container">
+                            <button type="button" class="btn btn-default modal-button" data-dismiss="modal">
+                                取消
+                            </button>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-lg-6 centered modal-button-container">
+                            <button id="btn-search" type="button" class="btn btn-success modal-button" data-dismiss="modal">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -411,16 +419,16 @@
                     <div class="modal-body" data-spy="scroll">
                         <div class="container-fluid">
                             <div id="us-main" class="row-fluid">
-                                <div class="col-xs-12 col-sm-5 col-lg-5 centered">
-                                    <img id="us-img0" src="assets/img/user.png" width="84" height="84" class="img-responsive img-circle modal-user" alt="Thumbnail Image"/>
+                                <div class="play-user-container col-xs-5 col-sm-5 col-lg-5 centered">
+                                    <img id="us-img0" src="assets/img/user.png" width="120" height="120" class="img-responsive img-circle modal-user" alt="Thumbnail Image"/>
                                     <h4 id="us-name0">User 1</h4>
                                     <input type="text" id="inputStr1" placeholder="FB帳號或網址" onclick="this.value=''" autofocus/>
                                 </div>
-                                <div id="new-pair-heart" class="col-xs-12 col-sm-2 col-lg-2 centered">
+                                <div id="new-pair-heart" class="modal-heart col-xs-2 col-sm-2 col-lg-2 centered">
                                     <i class="glyphicon glyphicon-heart heartc"></i>
                                 </div>
-                                <div class="col-xs-12 col-sm-5 col-lg-5 centered">
-                                    <img id="us-img1" src="assets/img/user.png" width="84" height="84" class="img-responsive img-circle modal-user" alt="Thumbnail Image"/>
+                                <div class="play-user-container col-xs-5 col-sm-5 col-lg-5 centered">
+                                    <img id="us-img1" src="assets/img/user.png" width="120" height="120" class="img-responsive img-circle modal-user" alt="Thumbnail Image"/>
                                     <h4 id="us-name1">User 2</h4>
                                     <input type="text" id="inputStr2" placeholder="FB帳號或網址" onclick="this.value=''"/>
                                 </div>
@@ -430,12 +438,12 @@
 
                     <div class="modal-footer">
                         <div class="row-fluid">
-                            <div class="col-xs-6 col-sm-6 col-lg-6 centered">
+                            <div class="col-xs-6 col-sm-6 col-lg-6 centered modal-button-container">
                                 <button type="button" class="btn btn-default modal-button" data-dismiss="modal">
                                     取消
                                 </button>
                             </div>
-                            <div class="col-xs-6 col-sm-6 col-lg-6 centered">
+                            <div class="col-xs-6 col-sm-6 col-lg-6 centered modal-button-container">
                                 <button type="button" class="btn btn-success modal-button" data-dismiss="modal" id="confirm-button">PAIR!</button>
                             </div>
                         </div>
@@ -456,15 +464,15 @@
                     <div class="modal-body" data-spy="scroll">
                         <div class="container-fluid">
                             <div id="play-main" class="row-fluid">
-                                <div class="play-user-container col-xs-12 col-sm-5 col-lg-5 centered">
-                                    <a id="play-link0" href="" target="_blank"><img id="play-img0" src="assets/img/user.png" width="84" height="84" class="img-responsive img-circle modal-user" alt="Thumbnail Image"/></a>
+                                <div class="play-user-container col-xs-5 col-sm-5 col-lg-5 centered">
+                                    <a id="play-link0" href="" target="_blank"><img id="play-img0" src="assets/img/user.png" width="120" height="120" class="img-responsive img-circle modal-user" alt="Thumbnail Image"/></a>
                                     <h4 id="play-name0">User 1</h4>
                                 </div>
-                                <div id="play-pair-heart" class="col-xs-12 col-sm-2 col-lg-2 centered">
+                                <div id="play-pair-heart" class="modal-heart col-xs-2 col-sm-2 col-lg-2 centered">
                                     <i class="glyphicon glyphicon-heart heartc"></i>
                                 </div>
-                                <div class="play-user-container col-xs-12 col-sm-5 col-lg-5 centered">
-                                    <a id="play-link1" href="" target="_blank"><img id="play-img1" src="assets/img/user.png" width="84" height="84" class="img-responsive img-circle modal-user" alt="Thumbnail Image"/></a>
+                                <div class="play-user-container col-xs-5 col-sm-5 col-lg-5 centered">
+                                    <a id="play-link1" href="" target="_blank"><img id="play-img1" src="assets/img/user.png" width="120" height="120" class="img-responsive img-circle modal-user" alt="Thumbnail Image"/></a>
                                     <h4 id="play-name1">User 2</h4>
                                 </div>
                             </div>
@@ -473,16 +481,17 @@
 
                     <div class="modal-footer">
                         <div class="row-fluid">
-                            <div class="col-xs-12 col-sm-6 col-lg-6 centered modal-button-container">
+                            <div class="col-xs-6 col-sm-6 col-lg-6 centered modal-button-container">
                                 <button id="play-cancel" type="button" class="btn btn-primary modal-button">
-                                    <img width="30" width"20" src="assets/img/brokenheart.png"/>
-                                    分開吧
+                                    <img width="30" width"20" src="assets/img/brokenheart.png"/><br />
+                                    <p class="modal-button-content">分開吧</p>
                                 </button>
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-lg-6 centered modal-button-container">
+                            <div class="col-xs-6 col-sm-6 col-lg-6 centered modal-button-container">
                                 <button id="play-submit" type="button" class="btn btn-danger modal-button">
                                     <img width="30" width"20" src="assets/img/heart.png"/>
-                                    在一起
+                                    <br />
+                                    <p class="modal-button-content">在一起</p>
                                 </button>
                             </div>
                         </div>

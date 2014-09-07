@@ -258,6 +258,19 @@ div.page-button {
     padding-top: 15px;
 }
 
+div#page_privacy a {
+    color: #555;
+}
+
+div#page_privacy div {
+    text-align: left;
+}
+
+h5.date-sub {
+    text-align: center;
+}
+
+
 /* Responsive CSS Code */
 @media(max-width:767px){
     .table-responsive td {

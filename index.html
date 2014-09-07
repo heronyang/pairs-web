@@ -68,6 +68,7 @@
     </head>
 
     <body>
+        <!--
 		<div id="fb-root"></div>
         <script>
             var app_id = 520188428109474;
@@ -82,6 +83,16 @@
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
         </script>
+        -->
+
+        <div id="fb-root"></div>
+        <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=520188428109474&version=v2.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
 
         <!-- Fixed navbar -->
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -277,7 +288,7 @@
             </div>
             <div id="comment-div" class="centered">
                 <img width="50" height="50" id="comment-loader-gif" src="assets/img/loader.gif" alt="loading...">
-                <div class="fb-comments" data-href="" width="100%" data-numposts="100" data-order-by="time" data-colorscheme="light" hidden></div>
+                <div class="fb-comments" data-href="" width="100%" data-numposts="100" data-order-by="reverse_time" data-colorscheme="light" hidden></div>
                 <div class="row centered"><button type="button" class="btn btn-primary share-button"><i class="fa fa-facebook"></i>&nbsp;&nbsp;&nbsp;分享</button></div>
             </div>
         </div>

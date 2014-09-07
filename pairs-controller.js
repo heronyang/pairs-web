@@ -3,6 +3,7 @@ var PLAY_LIST_MIN_QUOTA = 150;
 
 // Setup api_base
 var api_base = '';
+var font_base = '';
 
 var MyName = '', MyUid = '';
 var PlayList = [];
@@ -14,9 +15,15 @@ var lockPlayList = false;
 if(localStorage['base']){
 	// Set api_base if custom settings detected
 	api_base = localStorage['base'];
-}else{
+} else {
 	// Default api_base
 	api_base = 'http://api.pairs.cc';
+}
+
+if(localStorage['front_base']) {
+    front_base = localStorage['front_base'];
+} else {
+    front_base = 'http://www.pairs.cc';
 }
 
 // Page State (ENUM)
@@ -161,9 +168,7 @@ function showComment(pid)
 
                     row_html += '</tr>';
 
-                    //console.log(comment_html);
-                    var data_href = api_base + '/p/' + pid;
-                    $('div.fb-comments').attr('data-href', document.URL);
+                    $('div.fb-comments').attr('data-href', front_base + '/?p=' + pid);
                     $('button.share-button').click(function() {
                         shareComment(pid);
                     });

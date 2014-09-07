@@ -163,7 +163,7 @@ function showComment(pid)
 
                     //console.log(comment_html);
                     var data_href = api_base + '/p/' + pid;
-                    $('div.fb-comments').attr('data-href', api_base + '/p/' + pid);
+                    $('div.fb-comments').attr('data-href', document.URL);
                     $('button.share-button').click(function() {
                         shareComment(pid);
                     });

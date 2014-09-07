@@ -575,6 +575,15 @@ function playButtonInit() {
     });
 }
 
+function loginDialogInit() {
+	$('#privacy-a').click(function(){
+        window.location.replace('/#privacy');
+    });
+	$('#term-a').click(function(){
+        window.location.replace('/#term');
+    });
+}
+
 function playDialogPutDefaultThumbnail() {
     $('#play-img0').attr('src', "assets/img/user.png");
     $('#play-img1').attr('src', "assets/img/user.png");
@@ -803,6 +812,9 @@ $(document).ready(function() {
 		// http://stackoverflow.com/questions/680785/on-window-location-hash-change
 		browseByHash();
 	});
+
+    // minor task
+    loginDialogInit();
 
 });
 

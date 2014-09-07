@@ -258,12 +258,27 @@ div.page-button {
     padding-top: 15px;
 }
 
-div#page_privacy a {
+div#page_privacy a, div#login_dialog a {
     color: #555;
+    text-decoration: underline;
 }
 
-div#page_privacy div {
+div#page_privacy a:hover, div#login_dialog a:hover {
+    color: #000;
+    cursor:pointer;
+}
+
+.minor_content {
+    font-size: small;
+    margin: 0px;
+}
+
+div#page_privacy div, div#page_term div {
     text-align: left;
+}
+
+div#page_privacy li, div#page_term li {
+    line-height: 28px;
 }
 
 h5.date-sub {

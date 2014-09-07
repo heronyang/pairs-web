@@ -327,6 +327,13 @@ div.page-button {
         padding: 0px;
         margin: 0px;
     }
+
+    #welcome_msg {
+        padding: 0px 10px 20px 10px;
+    }
+    body {
+        margin-top: 51px;
+    }
 }
 @media(min-width:768px){}
 @media(min-width:992px){}

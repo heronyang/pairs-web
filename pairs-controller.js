@@ -742,7 +742,7 @@ $(document).ready(function() {
 
 	// check if user came with # or not
 	if(window.location.hash){
-		browseByHash();
+        browseByHash();
 	}
 
     var URLVars = getURLVars();
@@ -897,5 +897,9 @@ function fillPlayList () {
             lockPlayList = false;
         }
     });
+
+    if (window.location.hash && window.location.hash == '#_=_') {
+        window.location.hash = '';
+    }
 
 }

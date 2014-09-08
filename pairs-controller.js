@@ -235,7 +235,7 @@ function listPairHelper(table, voted, data, loader) {
         if(voted.indexOf(pid) == -1) {
             row_html += '<td class=""><button type="button" class="btn btn-danger" id="btn_'+table_id+pid+'" onclick="vote(' + pid + ',0, 0, \''+table_id+'\')"><img width="30" width="20" src="assets/img/heart.png"/></button></td>';
         } else {
-            row_html += '<td class=""><button type="button" class="btn btn-primary" id="btn_'+table_id+pid+'" onclick="vote(' + pid + ',1, 0, \''+table_id+'\')"><img width="30" width="20" src="assets/img/brokenheart.png"/></button></td>';
+            row_html += '<td class=""><button type="button" class="btn btn-default" id="btn_'+table_id+pid+'" onclick="vote(' + pid + ',1, 0, \''+table_id+'\')"><img width="30" width="20" src="assets/img/heart.png"/></button></td>';
         }
 
         row_html += '\
@@ -456,6 +456,10 @@ function promoteControllerInit() {
 
     // NOTE: remove client FB login method (but keep it for future plans)
     // accesstoken = "";
+	$('#usage-a').click(function(){
+        $('#usage-container').modal('show');
+        console.log('clicked!!!');
+    });
 
 	//Select user
 	$('#add-pair-button').click(function(){

@@ -129,16 +129,15 @@
                         <p>輸入Facebook名稱、帳號或網址</p>
                         <input id="input-search" type="text" class="form-control">
                     </div>
-                    <div class="modal-footer">
-                        <div class="col-xs-6 col-sm-6 col-lg-6 centered modal-button-container">
-                            <button type="button" class="btn btn-default modal-button" data-dismiss="modal">
-                                取消
-                            </button>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-lg-6 centered modal-button-container">
-                            <button id="btn-search" type="button" class="btn btn-success modal-button" data-dismiss="modal">
-                                <i class="fa fa-search"></i>
-                            </button>
+                    <div class="modal-footer centered">
+                        <div class="row">
+                            <div class="col-xs-3 col-sm-3 col-lg-3 centered modal-button-container"></div>
+                            <div class="col-xs-6 col-sm-6 col-lg-6 centered modal-button-container">
+                                <button id="btn-search" type="button" class="btn btn-success modal-button" data-dismiss="modal">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-lg-3 centered modal-button-container"></div>
                         </div>
                     </div>
                 </div>
@@ -253,6 +252,9 @@
 
         <!-- COMMENT detail -->
         <div class="container pair-table-outer" id="comment-table-outer" hidden>
+            <div class="row centered">
+                <h1>快八卦他們</h1>
+            </div>
             <div class="row">
                 <div id="comment-table-container" class="pair-table-container col-xs-12 col-sm-10 col-lg-8 centered">
                     <img width="50" height="50" id="loader-single-gif" src="assets/img/loader.gif" alt="loading...">
@@ -482,7 +484,7 @@
                                 <div class="play-user-container col-xs-5 col-sm-5 col-lg-5 centered">
                                     <img id="us-img0" src="assets/img/user.png" width="120" height="120" class="img-responsive img-circle modal-user" alt="Thumbnail Image"/>
                                     <h4 id="us-name0">User 1</h4>
-                                    <input type="text" id="inputStr1" placeholder="FB帳號或網址" onclick="this.value=''" autofocus/>
+                                    <input type="text" id="inputStr1" placeholder="http://..." onclick="this.value=''" autofocus/>
                                 </div>
                                 <div id="new-pair-heart" class="modal-heart col-xs-2 col-sm-2 col-lg-2 centered">
                                     <i class="glyphicon glyphicon-heart heartc"></i>
@@ -490,22 +492,52 @@
                                 <div class="play-user-container col-xs-5 col-sm-5 col-lg-5 centered">
                                     <img id="us-img1" src="assets/img/user.png" width="120" height="120" class="img-responsive img-circle modal-user" alt="Thumbnail Image"/>
                                     <h4 id="us-name1">User 2</h4>
-                                    <input type="text" id="inputStr2" placeholder="FB帳號或網址" onclick="this.value=''"/>
+                                    <input type="text" id="inputStr2" placeholder="http://..." onclick="this.value=''"/>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="modal-footer">
-                        <div class="row-fluid">
-                            <div class="col-xs-6 col-sm-6 col-lg-6 centered modal-button-container">
-                                <button type="button" class="btn btn-default modal-button" data-dismiss="modal">
-                                    取消
-                                </button>
-                            </div>
+                        <div class="row">
+                            <div class="col-xs-3 col-sm-3 col-lg-3 centered modal-button-container"></div>
                             <div class="col-xs-6 col-sm-6 col-lg-6 centered modal-button-container">
                                 <button type="button" class="btn btn-success modal-button" data-dismiss="modal" id="confirm-button">PAIR!</button>
                             </div>
+                            <div class="col-xs-3 col-sm-3 col-lg-3 centered modal-button-container"></div>
+                        </div>
+                        <div class="row centered">
+                            <p class="minor_content"><a id="usage-a">教我使用如何選擇Facebook使用者</a></p>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <!-- select user dialog -->
+        <div class="modal fade" id="usage-container" aria-hidden="true" data-width="760">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">如何選擇Facebook使用者</h4>
+                    </div>
+
+                    <div class="modal-body" data-spy="scroll">
+                        <div class="container-fluid">
+                            <div class="row-fluid">
+                                <img src="assets/img/usage.png" class="img-responsive" alt="usage"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-xs-3 col-sm-3 col-lg-3 centered modal-button-container"></div>
+                            <div class="col-xs-6 col-sm-6 col-lg-6 centered modal-button-container">
+                                <button type="button" class="btn btn-success modal-button" data-dismiss="modal">我知道了</button>
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-lg-3 centered modal-button-container"></div>
                         </div>
                     </div>
                 </div><!-- /.modal-content -->
@@ -543,14 +575,14 @@
                         <div class="row-fluid">
                             <div class="col-xs-6 col-sm-6 col-lg-6 centered modal-button-container">
                                 <button id="play-cancel" type="button" class="btn btn-primary modal-button">
-                                    <img width="30" width"20" src="assets/img/brokenheart.png"/><br />
+                                    <!--<img width="30" width"20" src="assets/img/brokenheart.png"/><br />-->
                                     <p class="modal-button-content">分開吧</p>
                                 </button>
                             </div>
                             <div class="col-xs-6 col-sm-6 col-lg-6 centered modal-button-container">
                                 <button id="play-submit" type="button" class="btn btn-danger modal-button">
-                                    <img width="30" width"20" src="assets/img/heart.png"/>
-                                    <br />
+                                    <!--<img width="30" width"20" src="assets/img/heart.png"/>
+                                    <br />-->
                                     <p class="modal-button-content">在一起</p>
                                 </button>
                             </div>

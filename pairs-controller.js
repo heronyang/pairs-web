@@ -560,23 +560,36 @@ function playButtonInit() {
         startPlay();
     });
     $('#play-submit').click(function() {
-        //$('#play-dialog').modal('hide');
-        $('div.play-user-container').animate({ opacity: 0 }, 100, function() {
-            // animation complete
-            playDialogPutDefaultThumbnail();
-            submitPlayPost();
-            fillPlayDialog();
-            setTimeout(function() { $('div.play-user-container').animate({ opacity: 1 }); }, 200);
+        $('div.play-user-container').animate({ opacity: 0 }, {
+            queue: false,
+            duration: 50,
+            complete: function() {
+            }
         });
-        
+        setTimeout(function() { 
+            playDialogPutDefaultThumbnail();
+            submitPlayPost();       // different here
+            fillPlayDialog();
+        }, 50);
+        setTimeout(function() {
+            $('div.play-user-container').animate({ opacity: 1 });
+        }, 500);
     });
     $('#play-cancel').click(function() {
         //$('#play-dialog').modal('hide');
-        $('div.play-user-container').animate({ opacity: 0 }, 100, function() {
+        $('div.play-user-container').animate({ opacity: 0 }, {
+            queue: false,
+            duration: 50,
+            complete: function() {
+            }
+        });
+        setTimeout(function() { 
             playDialogPutDefaultThumbnail();
             fillPlayDialog();
-            setTimeout(function() { $('div.play-user-container').animate({ opacity: 1 }); }, 200);
-        });
+        }, 50);
+        setTimeout(function() {
+            $('div.play-user-container').animate({ opacity: 1 });
+        }, 500);
     });
 }
 
@@ -641,12 +654,26 @@ function submitPlayPost() {
 	});
 }
 
-function fillPlayDialog() {
+function acceptableCurrentPlayPair() {
+    if(!CurrentPlayPair[0]['id'])   return false;
+    if(!CurrentPlayPair[1]['id'])   return false;
+    return true;
+}
 
+function fillPlayDialog() {
+    
     fillPlayList(); // it will detect if needed
 
     var pair = PlayList.shift();
     CurrentPlayPair = pair;
+
+    while(!acceptableCurrentPlayPair()) {
+        console.log("generate more");
+        fillPlayList();
+        pair = PlayList.shift();
+        CurrentPlayPair = pair;
+    }
+
     $('#play-name0').text(pair[0]['name']);
     $('#play-name1').text(pair[1]['name']);
     $('#play-img0').attr('src', pair[0]['photo_url']);

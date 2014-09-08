@@ -693,7 +693,7 @@ function parseIDfromURL(input) {
     if(numericReg.test(id_2) || stringReg.test(id_2)) {
         return id_2;
     }
-    return key;
+    return input;
 }
 
 /* browseByHash: routing by using hash tag in request URL */

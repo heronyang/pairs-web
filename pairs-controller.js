@@ -226,6 +226,7 @@ function listPairHelper(table, voted, data, loader) {
 
         var row_html = '\
             <tr> \
+                <td class="left-space"></td> \
                 <td class="pair_table_col_thumbnail1"><a href="https://facebook.com/'+fbid_real1+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real1 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
                 <td class="pair_table_col_thumbnail2"><a href="https://facebook.com/'+fbid_real2+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real2 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
                 <td class="pair_table_col_name1"><a href="/?su='+uid1+'">'+ name1 +'</a></td>';

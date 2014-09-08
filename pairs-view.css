@@ -349,6 +349,18 @@ button.btn-default {
     #comment-div {
         width: 100%;
     }
+    div#comment-table-outer {
+        padding: 0px;
+    }
+    .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .table > thead > tr > td.left-space, .table > tbody > tr > td.left-space, .table > tfoot > tr > td.left-space {
+        /* left space for tr in tables */
+    }
+
     a.navbar-brand {
         vertical-align: middle;
     }

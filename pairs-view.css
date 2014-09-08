@@ -2,6 +2,20 @@ body, html{
    min-width: 320px; /* suppose you want minimun width of 1000px */
    width: auto !important;  /* Firefox will set width as auto */
    width: 320px;             /* As IE ignores !important it will set width as 1000px; */
+   background-color: #FFF;
+   color: #000;
+}
+
+div.navbar.navbar-default.navbar-fixed-top {
+    background-color: #fdd000;
+}
+
+div.navbar.navbar-default.navbar-fixed-top.active li>a {
+    background-color: #fff3c5;
+}
+
+div.navbar.navbar-default.navbar-fixed-top li {
+    border: 1px solid rgba(0,0,0,0);
 }
 
 div.green_background {
@@ -23,12 +37,16 @@ div#social {
     color: #115910;
 }
 
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+    background-color: #fff;
+}
+
 #f {
     background-color: #6ca438;
 }
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-    background-color: #e8f0c5;
+    background-color: #fff3c5;
     color: #000;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -111,12 +129,16 @@ div.pair-table-outer tr .btn {
 }
 
 div.pair-table-outer tr a {
-    color: #606060;
+    color: #000;
 }
 
 div.pair-table-outer tr a:hover, div.pair-table-outer tr a:focus {
     color: #115910;
     text-decoration: underline;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a {
+    color: #115910;
 }
 
 div.pair-table {
@@ -288,6 +310,10 @@ div.modal-footer .row {
 
 h5.date-sub {
     text-align: center;
+}
+
+button.btn-default {
+    background-color: rgba(0, 0, 0, 0)    !important;
 }
 
 

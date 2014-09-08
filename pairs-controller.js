@@ -156,9 +156,9 @@ function showComment(pid)
 
                     // heart button
                     if(voted.indexOf(pid+'') == -1) {
-                        row_html += '<td class=""> <button type="button" class="btn btn-danger" id="btn_'+pid+'" onclick="vote(' + pid + ',0, 1, \''+table_id+'\')"><img width="30" width="20" src="assets/img/heart.png"/></button></td>';
+                        row_html += '<td class=""> <button type="button" class="btn btn-default" id="btn_'+pid+'" onclick="vote(' + pid + ',0, 1, \''+table_id+'\')"><img width="30" width="20" src="assets/img/heart-unpressed.png"/></button></td>';
                     } else {
-                        row_html += '<td class=""> <button type="button" class="btn btn-primary" id="btn_'+pid+'" onclick="vote(' + pid + ',1, 1, \''+table_id+'\')"><img width="30" width="20" src="assets/img/brokenheart.png"/></button></td>';
+                        row_html += '<td class=""> <button type="button" class="btn btn-default" id="btn_'+pid+'" onclick="vote(' + pid + ',1, 1, \''+table_id+'\')"><img width="30" width="20" src="assets/img/heart-pressed.png"/></button></td>';
                     }
 
                     row_html += '\
@@ -233,9 +233,9 @@ function listPairHelper(table, voted, data, loader) {
         // if not voted
         /* let's still show the button even the user is not logged in, and popup login modal when clicked */
         if(voted.indexOf(pid) == -1) {
-            row_html += '<td class=""><button type="button" class="btn btn-danger" id="btn_'+table_id+pid+'" onclick="vote(' + pid + ',0, 0, \''+table_id+'\')"><img width="30" width="20" src="assets/img/heart.png"/></button></td>';
+            row_html += '<td class=""><button type="button" class="btn btn-default" id="btn_'+table_id+pid+'" onclick="vote(' + pid + ',0, 0, \''+table_id+'\')"><img width="30" width="20" src="assets/img/heart-unpressed.png"/></button></td>';
         } else {
-            row_html += '<td class=""><button type="button" class="btn btn-default" id="btn_'+table_id+pid+'" onclick="vote(' + pid + ',1, 0, \''+table_id+'\')"><img width="30" width="20" src="assets/img/heart.png"/></button></td>';
+            row_html += '<td class=""><button type="button" class="btn btn-default" id="btn_'+table_id+pid+'" onclick="vote(' + pid + ',1, 0, \''+table_id+'\')"><img width="30" width="20" src="assets/img/heart-pressed.png"/></button></td>';
         }
 
         row_html += '\
@@ -432,9 +432,9 @@ function vote(pid, is_retrieve, go_redirect, table_id){
 
                 var count = parseInt($('#count_'+table_id+pid).html());
                 $('#count_'+table_id+pid).html(count-1);
-                $('#btn_'+table_id+pid).attr('class','btn btn-danger');
+                $('#btn_'+table_id+pid).attr('class','btn btn-default');
                 $('#btn_'+table_id+pid).attr('onclick','vote(' + pid + ',0, 0, \''+table_id+'\')');
-                $('#btn_'+table_id+pid).html('<img width="30" width="20" src="assets/img/heart.png"/>');
+                $('#btn_'+table_id+pid).html('<img width="30" width="20" src="assets/img/heart-unpressed.png"/>');
 
                 console.log("retrieved: " + pid + "; table: " + table_id);
 
@@ -442,9 +442,9 @@ function vote(pid, is_retrieve, go_redirect, table_id){
 
                 var count = parseInt($('#count_'+table_id+pid).html());
                 $('#count_'+table_id+pid).html(count+1);
-                $('#btn_'+table_id+pid).attr('class','btn btn-primary');
+                $('#btn_'+table_id+pid).attr('class','btn btn-default');
                 $('#btn_'+table_id+pid).attr('onclick','vote(' + pid + ',1, 0, \''+table_id+'\')');
-                $('#btn_'+table_id+pid).html('<img width="30" width="20" src="assets/img/brokenheart.png"/>');
+                $('#btn_'+table_id+pid).html('<img width="30" width="20" src="assets/img/heart-pressed.png"/>');
 
             }
 		}

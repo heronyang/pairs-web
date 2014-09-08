@@ -17,7 +17,7 @@ if(localStorage['base']){
 	api_base = localStorage['base'];
 } else {
 	// Default api_base
-	api_base = 'http://api.pairs.cc';
+	api_base = 'https://pairs-api.herokuapp.com';
 }
 
 if(localStorage['front_base']) {

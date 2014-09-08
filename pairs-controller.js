@@ -650,8 +650,8 @@ function fillPlayDialog() {
     $('#play-name1').text(pair[1]['name']);
     $('#play-img0').attr('src', pair[0]['photo_url']);
     $('#play-img1').attr('src', pair[1]['photo_url']);
-    $('#play-link0').attr('href', 'https://www.facebook.com/search/more/?q=' + pair[0]['name']);
-    $('#play-link1').attr('href', 'https://www.facebook.com/search/more/?q=' + pair[1]['name']);
+    $('#play-link0').attr('href', 'https://www.facebook.com/search/results/?q=' + pair[0]['name']);
+    $('#play-link1').attr('href', 'https://www.facebook.com/search/results/?q=' + pair[1]['name']);
 
     console.log("update done");
 

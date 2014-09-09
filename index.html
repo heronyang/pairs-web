@@ -111,6 +111,7 @@
             <div class="container">
                 <div class="row centered">
                     <button type="button" class="btn btn-success" onclick="promptSearchDialog();" id="search-button"><span class="glyphicon glyphicon-search"></button>
+                    <button type="button" class="btn btn-default" id="help-button"><i class="fa fa-question-circle"></i></button>
                     <button type="button" class="btn btn-success" id="add-pair-button">+</button>
                     <button type="button" class="btn btn-success" id="play-button">PLAY</button>
                 </div>
@@ -513,6 +514,44 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
+
+        <!-- select user dialog -->
+        <div class="modal fade" id="help-container" aria-hidden="true" data-width="760">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">認識PAIRS</h4>
+                    </div>
+
+                    <div class="modal-body" data-spy="scroll">
+                        <div class="container-fluid">
+                            <div class="row-fluid centered">
+                                <p><br />PAIRS是一個八卦專屬的平台<br />
+                                可以在上頭找尋感興趣的配對進行投票與評論<br />
+                                也可以查看與自己相關的八卦</p>
+                                <img src="assets/img/intro.png" class="img-responsive" alt="usage"/>
+                                <h1>Me</h1>
+                                <p>與自己相關的配對列表</p>
+                                <h2>Top 20</h2>
+                                <p>票數最高的前20名配對</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-xs-3 col-sm-3 col-lg-3 centered modal-button-container"></div>
+                            <div class="col-xs-6 col-sm-6 col-lg-6 centered modal-button-container">
+                                <button type="button" class="btn btn-success modal-button" data-dismiss="modal">我知道了</button>
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-lg-3 centered modal-button-container"></div>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
 
         <!-- select user dialog -->
         <div class="modal fade" id="usage-container" aria-hidden="true" data-width="760">

@@ -149,22 +149,22 @@ function showComment(pid)
 
                     var row_html = '\
                         <tr> \
-                            <td class="pair_table_col_thumbnail1"><a href="https://facebook.com/'+fbid_real1+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real1 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
-                            <td class="pair_table_col_thumbnail2"><a href="https://facebook.com/'+fbid_real2+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real2 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
+                            <td class="pair_table_col_thumbnail1"><a href="https://facebook.com/'+fbid_real1+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real1 +'/picture" class="img-responsive img-circle" alt=".." ></img></a></td> \
+                            <td class="pair_table_col_thumbnail2"><a href="https://facebook.com/'+fbid_real2+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real2 +'/picture" class="img-responsive img-circle" alt=".." ></img></a></td> \
                             <td class="pair_table_col_name1"><a href="/?su='+uid1+'">'+ name1 +'</a></td>;';
 
 
                     // heart button
                     if(voted.indexOf(pid+'') == -1) {
-                        row_html += '<td class=""> <button type="button" class="btn btn-default" id="btn_'+pid+'" onclick="vote(' + pid + ',0, 1, \''+table_id+'\')"><img width="30" width="20" src="assets/img/heart-unpressed.png"/></button></td>';
+                        row_html += '<td class="pair_table_col_heart"> <button type="button" class="btn btn-default" id="btn_'+pid+'" onclick="vote(' + pid + ',0, 1, \''+table_id+'\')"><img width="30" width="20" src="assets/img/heart-unpressed.png"/></button></td>';
                     } else {
-                        row_html += '<td class=""> <button type="button" class="btn btn-default" id="btn_'+pid+'" onclick="vote(' + pid + ',1, 1, \''+table_id+'\')"><img width="30" width="20" src="assets/img/heart-pressed.png"/></button></td>';
+                        row_html += '<td class="pair_table_col_heart"> <button type="button" class="btn btn-default" id="btn_'+pid+'" onclick="vote(' + pid + ',1, 1, \''+table_id+'\')"><img width="30" width="20" src="assets/img/heart-pressed.png"/></button></td>';
                     }
 
                     row_html += '\
                             <td class="pair_table_col_name2"><a href="/?su='+uid2+'">'+ name2 +'</a></td> \
-                            <td class="pair_table_col_vote_count" id="count_'+table_id+pid+'">' + count + '</td> \
-                            <td class="pair_table_col_vote_unit">票</td>';
+                            <td class="pair_table_col_vote_count" id="count_'+table_id+pid+'">' + count + '&nbsp;&nbsp;票</td>';
+                    
 
                     row_html += '</tr>';
 
@@ -226,25 +226,23 @@ function listPairHelper(table, voted, data, loader) {
 
         var row_html = '\
             <tr> \
-                <td class="left-space"></td> \
-                <td class="pair_table_col_thumbnail1"><a href="https://facebook.com/'+fbid_real1+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real1 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
-                <td class="pair_table_col_thumbnail2"><a href="https://facebook.com/'+fbid_real2+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real2 +'/picture" class="img-responsive img-circle" alt="Thumbnail Image" ></img></a></td> \
+                <td class="pair_table_col_thumbnail1"><a href="https://facebook.com/'+fbid_real1+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real1 +'/picture" class="img-responsive img-circle" alt=".." ></img></a></td> \
+                <td class="pair_table_col_thumbnail2"><a href="https://facebook.com/'+fbid_real2+'" target="_blank"><img src="http://graph.facebook.com/'+ fbid_real2 +'/picture" class="img-responsive img-circle" alt=".." ></img></a></td> \
                 <td class="pair_table_col_name1"><a href="/?su='+uid1+'">'+ name1 +'</a></td>';
 
         // if not voted
         /* let's still show the button even the user is not logged in, and popup login modal when clicked */
         if(voted.indexOf(pid) == -1) {
-            row_html += '<td class=""><button type="button" class="btn btn-default" id="btn_'+table_id+pid+'" onclick="vote(' + pid + ',0, 0, \''+table_id+'\')"><img width="30" width="20" src="assets/img/heart-unpressed.png"/></button></td>';
+            row_html += '<td class="pair_table_col_heart"><button type="button" class="btn btn-default" id="btn_'+table_id+pid+'" onclick="vote(' + pid + ',0, 0, \''+table_id+'\')"><img width="30" width="20" src="assets/img/heart-unpressed.png"/></button></td>';
         } else {
-            row_html += '<td class=""><button type="button" class="btn btn-default" id="btn_'+table_id+pid+'" onclick="vote(' + pid + ',1, 0, \''+table_id+'\')"><img width="30" width="20" src="assets/img/heart-pressed.png"/></button></td>';
+            row_html += '<td class="pair_table_col_heart"><button type="button" class="btn btn-default" id="btn_'+table_id+pid+'" onclick="vote(' + pid + ',1, 0, \''+table_id+'\')"><img width="30" width="20" src="assets/img/heart-pressed.png"/></button></td>';
         }
 
         row_html += '\
                 <td class="pair_table_col_name2"><a href="/?su='+uid2+'">'+ name2 +'</a></td> \
-                <td class="pair_table_col_vote_count" id="count_'+table_id+pid+'">' + count + '</td> \
-                <td class="pair_table_col_vote_unit">票</td>';
+                <td class="pair_table_col_vote_count" id="count_'+table_id+pid+'">' + count + '&nbsp;&nbsp;票</td>';
 
-        row_html += '<td class=""> <button type="button" class="btn btn-default" onclick="window.location.replace(\'/?p='+ pid + '\');" >&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;</button> </td> </tr>';
+        row_html += '<td class="pair_table_col_comment"> <button type="button" class="btn btn-default" onclick="window.location.replace(\'/?p='+ pid + '\');" >&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;</button> </td> </tr>';
 
         // finally
         table.append(row_html);
@@ -452,6 +450,13 @@ function vote(pid, is_retrieve, go_redirect, table_id){
 	});
 }
 
+function helpDialogInit() {
+    $('#help-button').click(function() {
+        $('#help-container').modal('show');
+        console.log("click!!");
+    });
+}
+
 /* promoteControllerInit: this is for setting up the popup modal for voting new pairs */
 function promoteControllerInit() {
 
@@ -459,7 +464,6 @@ function promoteControllerInit() {
     // accesstoken = "";
 	$('#usage-a').click(function(){
         $('#usage-container').modal('show');
-        console.log('clicked!!!');
     });
 
 	//Select user
@@ -840,6 +844,7 @@ $(document).ready(function() {
     tableOptionInit();
     searchButtonInit();
     playButtonInit();
+    helpDialogInit();
 
     setupFacebookCommentCustomCSS();
 

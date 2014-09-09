@@ -151,7 +151,7 @@ div.pair-table {
 }
 
 div.pair-table-container {
-    margin-top: 20px;
+    margin-top: 0px;
     width: 90%;
     margin-left:5%;
     margin-right:5%;
@@ -160,17 +160,36 @@ div.pair-table-container {
 /* - row / col */
 td.pair_table_col_thumbnail1 img {
     float: right;
+    width: auto;
+    height: auto;
 }
 td.pair_table_col_thumbnail2 img {
     float: left;
+    width: auto;
+    height: auto;
+}
+td.pair_table_col_thumbnail1 {
+    width: 8%;
+}
+td.pair_table_col_thumbnail2 {
+    width: 8%;
 }
 
 td.pair_table_col_vote_count {
     text-align: right;
+    width: 10%;
+}
+
+td.pair_table_col_heart {
+    width: 5%;
+}
+
+td.pair_table_col_comment {
+    width: 6%;
 }
 
 td.pair_table_col_name1, td.pair_table_col_name2 {
-    width: 30%;
+    width: 28%;
     min-width: 70px;
 }
 
@@ -320,6 +339,17 @@ button.btn-default {
     background-color: rgba(0, 0, 0, 0)    !important;
 }
 
+a.help-a {
+    color: #666;
+}
+
+div.row {
+    margin-top: 0px;
+}
+
+h1 {
+    margin-top: 30px;
+}
 
 /* Responsive CSS Code */
 @media(max-width:767px){
@@ -328,8 +358,8 @@ button.btn-default {
         padding: 5px 1px;
     }
     .table-responsive img {
-        min-width: 32px;
-        min-height: 32px;
+        max-width: 28px;
+        max-height: 28px;
     }
     .table-responsive td button img {
         width: 16px;
@@ -355,10 +385,6 @@ button.btn-default {
     .row {
         margin-left: 0px;
         margin-right: 0px;
-    }
-
-    .table > thead > tr > td.left-space, .table > tbody > tr > td.left-space, .table > tfoot > tr > td.left-space {
-        /* left space for tr in tables */
     }
 
     a.navbar-brand {
@@ -410,6 +436,12 @@ button.btn-default {
         margin-top: 51px;
     }
 }
-@media(min-width:768px){}
-@media(min-width:992px){}
+@media(min-width:768px){
+    .table-responsive img {
+        max-width: 50px;
+        max-height: 50px;
+    }
+}
+@media(min-width:992px){
+}
 @media(min-width:1200px){}

@@ -690,6 +690,11 @@ function searchButtonHelper() {
     var key = $('#input-search').val();
     console.log("key = " + key);
 
+    if(key == "") {
+        alert("請輸入Facebook名稱、帳號或網址");
+        return;
+    }
+
     // parse if it's URL
     key = parseIDfromURL(key);
     console.log("parsed key = " + key);

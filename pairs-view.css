@@ -7,7 +7,7 @@ body, html{
 }
 
 div.navbar.navbar-default.navbar-fixed-top {
-    background-color: #fdd000;
+    background-color: #ffdf4b;
 }
 
 div.navbar.navbar-default.navbar-fixed-top.active li>a {
@@ -352,7 +352,7 @@ h1 {
 }
 
 a#help-button {
-    color: #aaa;
+    color: #999;
     text-decoration: underline;
     cursor:pointer;
 }
@@ -402,7 +402,7 @@ a#help-button:hover {
     #img-logo {
         height: 38px;
         width: 130px;
-        margin-top: 6px;
+        margin-top: 11px;
     }
     div.navbar.navbar-default.navbar-fixed-top {
         padding: 5px 0px;
@@ -436,13 +436,20 @@ a#help-button:hover {
     div.navbar.navbar-default.navbar-fixed-top {
         padding: 0px;
         margin: 0px;
+        height: 60px;
     }
 
     #welcome_msg {
         padding: 0px 10px 20px 10px;
     }
     body {
-        margin-top: 51px;
+        margin-top: 60px;
+    }
+    button.navbar-toggle {
+        margin-top: 13px;
+    }
+    #username-a {
+        background-color: #fff;
     }
 }
 @media(min-width:768px){

@@ -861,12 +861,15 @@ $(document).ready(function() {
 });
 
 function networkError() {
+    console.log("ERROR: NETWORK ERROR!");
+    /*
     if (confirm('網路連線問題, 難免呀...')) {
         location.reload();
     }
     else {
         // do nothing
     }
+    */
 }
 
 function promptSearchDialog() {

@@ -351,6 +351,15 @@ h1 {
     margin-top: 30px;
 }
 
+a#help-button {
+    color: #aaa;
+    text-decoration: underline;
+    cursor:pointer;
+}
+a#help-button:hover {
+    color: #000;
+}
+
 /* Responsive CSS Code */
 @media(max-width:767px){
     .table-responsive td {

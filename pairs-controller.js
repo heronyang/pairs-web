@@ -3,7 +3,8 @@ var PLAY_LIST_MIN_QUOTA = 20;
 
 // Setup api_base
 var api_base = '';
-var font_base = '';
+var comment_base = '';
+var isWebApp = false;
 
 var MyName = '', MyUid = '';
 var PlayList = [];
@@ -12,18 +13,25 @@ var isPlayDialogEmpty = true;
 var needStartPlay = false;
 var lockPlayList = false;
 
-if(localStorage['base']){
-	// Set api_base if custom settings detected
-	api_base = localStorage['base'];
-} else {
-	// Default api_base
+if(getURLVars()[0].match('file:///android_asset/pairs-web/')) {
+    // if is android webapp
 	api_base = 'https://pairs-api.herokuapp.com';
-}
-
-if(localStorage['front_base']) {
-    front_base = localStorage['front_base'];
+    comment_base = 'http://www.pairs.cc';
+    isWebApp = true;
 } else {
-    front_base = 'http://www.pairs.cc';
+    if(localStorage['base']){
+        // Set api_base if custom settings detected
+        api_base = localStorage['base'];
+    } else {
+        // Default api_base
+        api_base = 'https://pairs-api.herokuapp.com';
+    }
+
+    if(localStorage['comment_base']) {
+        comment_base = localStorage['comment_base'];
+    } else {
+        comment_base = 'http://www.pairs.cc';
+    }
 }
 
 // Page State (ENUM)
@@ -168,7 +176,7 @@ function showComment(pid)
 
                     row_html += '</tr>';
 
-                    $('div.fb-comments').attr('data-href', front_base + '/?p=' + pid);
+                    $('div.fb-comments').attr('data-href', comment_base + '/?p=' + pid);
                     $('button.share-button').click(function() {
                         shareComment(pid);
                     });
@@ -781,6 +789,8 @@ $(document).ready(function() {
 	if(window.location.hash){
         browseByHash();
 	}
+
+    console.log("web app? " + isWebApp);
 
     var URLVars = getURLVars();
     if(URLVars[0] == 's') {

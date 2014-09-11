@@ -430,7 +430,7 @@ function vote(pid, is_retrieve, go_redirect, table_id){
             if(is_retrieve == 1) {
 
                 var count = parseInt($('#count_'+table_id+pid).html());
-                $('#count_'+table_id+pid).html(count-1);
+                $('#count_'+table_id+pid).html(count-1 + '&nbsp;&nbsp;票');
                 $('#btn_'+table_id+pid).attr('class','btn btn-default');
                 $('#btn_'+table_id+pid).attr('onclick','vote(' + pid + ',0, 0, \''+table_id+'\')');
                 $('#btn_'+table_id+pid).html('<img width="30" width="20" src="assets/img/heart-unpressed.png"/>');
@@ -438,7 +438,7 @@ function vote(pid, is_retrieve, go_redirect, table_id){
             } else if(is_retrieve ==0) {
 
                 var count = parseInt($('#count_'+table_id+pid).html());
-                $('#count_'+table_id+pid).html(count+1);
+                $('#count_'+table_id+pid).html(count+1 + '&nbsp;&nbsp;票');
                 $('#btn_'+table_id+pid).attr('class','btn btn-default');
                 $('#btn_'+table_id+pid).attr('onclick','vote(' + pid + ',1, 0, \''+table_id+'\')');
                 $('#btn_'+table_id+pid).html('<img width="30" width="20" src="assets/img/heart-pressed.png"/>');

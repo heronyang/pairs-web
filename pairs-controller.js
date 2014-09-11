@@ -667,6 +667,7 @@ function fillPlayDialog() {
         fillPlayList();
         pair = PlayList.shift();
         CurrentPlayPair = pair;
+        console.log("skipped pair");
     }
 
     $('#play-name0').text(pair[0]['name']);

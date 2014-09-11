@@ -49,7 +49,6 @@ var logged_in = false;
 var in_detail = false; // This indicates if user is currently in a detail page or table page
 
 function pageLayout(page_state) {
-    console.log("page_state = " + page_state);
     if(page_state == PageState.MAIN) {
         hideAllLayout();
         $('#tool-bar').show();
@@ -126,8 +125,6 @@ function showComment(pid)
         success: function(data){
             var voted = data['data']['voted'];
 
-            console.log(voted);
-
             $.ajax({
                 type: "GET",
                 dataType: "json",
@@ -143,7 +140,6 @@ function showComment(pid)
                 },
                 success: function(data){
                     var pair = data['data'];
-                    console.log(pair);
 
                     var fbid_real1 = pair['user1']['fbid_real'],
                         fbid_real2 = pair['user2']['fbid_real'];
@@ -277,8 +273,6 @@ function listMePairs(voted) {
 }
 
 function listSearchPairs(key, is_uid) {
-
-    console.log("key = " + key);
 
     var api = (is_uid) ? "/search?uid=" : "/search?q=";
     pageLayout(PageState.SEARCH);
@@ -428,8 +422,6 @@ function vote(pid, is_retrieve, go_redirect, table_id){
 		},
 		success: function(data){
 
-			console.log(data);
-
             if(go_redirect) {
                 window.location.replace("/?p="+pid);
                 return;
@@ -442,8 +434,6 @@ function vote(pid, is_retrieve, go_redirect, table_id){
                 $('#btn_'+table_id+pid).attr('class','btn btn-default');
                 $('#btn_'+table_id+pid).attr('onclick','vote(' + pid + ',0, 0, \''+table_id+'\')');
                 $('#btn_'+table_id+pid).html('<img width="30" width="20" src="assets/img/heart-unpressed.png"/>');
-
-                console.log("retrieved: " + pid + "; table: " + table_id);
 
             } else if(is_retrieve ==0) {
 
@@ -461,7 +451,6 @@ function vote(pid, is_retrieve, go_redirect, table_id){
 function helpDialogInit() {
     $('#help-button').click(function() {
         $('#help-container').modal('show');
-        console.log("click!!");
     });
 }
 
@@ -510,7 +499,6 @@ function promoteControllerInit() {
 
         var fbid1 = result[0]["id"],
             fbid2 = result[1]["id"];
-        console.log("pairing: " + fbid1 + " and " + fbid2);
         $.ajax({
             type: "POST",
             dataType: "json",
@@ -529,7 +517,6 @@ function promoteControllerInit() {
                 }
             },
             success: function(data){
-                console.log(data);
                 var pid = data['pid'];
                 window.location.replace("/?p="+pid);
             }
@@ -629,8 +616,6 @@ function startPlay() {
 
 function submitPlayPost() {
 
-    console.log(CurrentPlayPair);
-
     if(!logged_in) {
         loginPrompt();
         return;
@@ -660,7 +645,6 @@ function submitPlayPost() {
             }
 		},
 		success: function(data){
-			console.log(data);
             // do nothing
 		}
 	});
@@ -680,7 +664,6 @@ function fillPlayDialog() {
     CurrentPlayPair = pair;
 
     while(!acceptableCurrentPlayPair()) {
-        console.log("generate more");
         fillPlayList();
         pair = PlayList.shift();
         CurrentPlayPair = pair;
@@ -693,14 +676,11 @@ function fillPlayDialog() {
     $('#play-link0').attr('href', 'https://www.facebook.com/search/results/?q=' + pair[0]['name']);
     $('#play-link1').attr('href', 'https://www.facebook.com/search/results/?q=' + pair[1]['name']);
 
-    console.log("update done");
-
     if(PlayList.length > 0) isPlayDialogEmpty = false;
 }
 
 function searchButtonHelper() {
     var key = $('#input-search').val();
-    console.log("key = " + key);
 
     if(key == "") {
         alert("請輸入Facebook名稱、帳號或網址");
@@ -747,7 +727,6 @@ function parseIDfromURL(input) {
 
 /* browseByHash: routing by using hash tag in request URL */
 function browseByHash(){
-	console.log(window.location.hash);
 	var hash_arg = window.location.hash.replace('#','');
 	if(parseInt(hash_arg) != NaN && parseInt(hash_arg) == hash_arg){
         /*
@@ -790,8 +769,6 @@ $(document).ready(function() {
         browseByHash();
 	}
 
-    console.log("web app? " + isWebApp);
-
     var URLVars = getURLVars();
     if(URLVars[0] == 's') {
         // search
@@ -804,7 +781,6 @@ $(document).ready(function() {
     } else if(URLVars[0] == 'play'){
         needStartPlay = true;
     }
-    console.log(URLVars);
 
 	// check login status and display table
 	$.ajax({
@@ -838,7 +814,6 @@ $(document).ready(function() {
 				// Not logged in
 				logged_in = false;
                 pageLayout(PageState.LOGOUT);
-                console.log("login_status: not logged in");
 			}
 
 			$('#login-modal-button').click(loginToggle);
@@ -868,7 +843,33 @@ $(document).ready(function() {
     // minor task
     loginDialogInit();
 
+    consoleWelcomeMsg();
 });
+
+function consoleWelcomeMsg() {
+    var msg_content = '\
+ @@@@@@@@@@@ ......   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\
+ @@@@@@@@    .      .    @@@@@@@@@@@@@@@@     @@@@@@@@@@@      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@     @\n\
+ @@@@@@        .....       @@@@@@@@@@@  .,::,,. @@@@@@@ .,,:::,.. @@@@       @@@  .    ...   @@@@@@@@  ,,,,.r\n\
+ @@@@            .           @@@@@@@@ .,:;;;;:,.. @@@ .,:;;;;;:,.,,@@@..,,,..@@@ .,,,,,,,,,,,..@@@@@ ,,;;;;;r\n\
+ @@@    .:;rrr;:  ,;siis;.    @@@@@@ ,;rrrr;rr;;., @@,,rrrrrrrrr;,,@@@,:;rr:,@@@,:rrrrr;;rr;;,,.@@@ ,;rrrrrrr\n\
+ @@   .;sr;,,:;rs5hG9339h95,   @@@@.:;rrrrrrrrrr;:,@.;rrrrrrrrrrr;:.@@:;rrr;,@@@,;rrrrrrr;rrr;,,@@ :;rrrrrrrr\n\
+ @@  .rr,      ;hX5Si52SS5Xh;   @@@.;rrrrrr@;;rrr::@::rrrrr;;;rrr;;.@@:;rrr;,@@@,;rrr;r;;;rrrr;::@,;rrrrrrr;r\n\
+ @   ;r,      .35isss;;iiiS59.  @@@,;rrr;r;;rrrrr::@:;rrr;r@@;;rrr;:@@:;rrr;,@@@,;rrr;r@@;rrrr;: @:;rrrr;r@@@\n\
+ @   ;r.  ... ;3issi:  ;SsiiX;  @@@,;rrrrr;;rrrrr;:@:;rrr;;@@;;rrr;:@@:;rrr;,@@@,;rrrr;;;rrrrr:;@@:;;rrrr;;@@\n\
+ @   :r:  ... :Xissii;;iissi3,  @@@,;rrrrrrrrrrr:;@@:;rrr;;::;rrrr;:@@:;rrr;,@@@,;rrrr;;;rrrr;; @@@::rrrr:: @\n\
+ @    rs:     ,2iSii5X2issi2;   @@@,;rrrrr;;;;;;;@@@,;rrrr;:;rrrrr;:@@:;rrr;,@@@,;rrrrrrrrrr;r@@@@@@;;rrr;,.@\n\
+ @     ;sr,   ,r r2225SS55s,    @@@,;rrrrrr;;;:;@@@@,;rrrrrrrrrrrr;:@@:;rrr;,@@@,;rrrrrrrrrr;;@@@@@@;;rrrr:,@\n\
+ @@     .;i;. .i   ,;rr;:.     @@@@,;rrr;r@@@@@@@@@@,;rrrrrrrrrrrr;:@@:;rrr;,@@@,;rrrrrr;rrrr,.@@ .:;rrrrr:,@\n\
+ @@@      ,rs,.S               @@@@,;rrr;;@@@@@@@@@@,;rrr;rrr;;rrr;:@@:;rrr;,@@@,;rrr;r;;;rrr:, @..:;rrrrr:.@\n\
+ @@@@       ,rsX              @@@@@,;rrr;:@@@@@@@@@@,;rrr;r@@:;rrr;:@@:;rrr;,@@@,;rrr;r@;:;rr;,:@:;rrrrrr;:@@\n\
+ @@@@@        ,:  .   .     @@@@@@@,,;;;,,@@@@@@@@@@,,;;;,;@@:,;;::,@@,,;;;,,@@@,,;;;,;@@:::;;:,;;:;;;;;;;@@@\n\
+ @@@@@@@               .   @@@@@@@@.,:::. @@@@@@@@@@.,:::..@@.,:::, @@.,:::,.@@@.,:::,,@@@,,::,.,,,:::::;@@@@\n\
+ @@@@@@@@@.  .......... @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\
+                     ';
+    console.log(msg_content);
+    console.log('Hi There!');
+}
 
 function networkError() {
     console.log("ERROR: NETWORK ERROR!");
@@ -914,8 +915,6 @@ function shareComment(pid) {
 
 function fillPlayList () {
 
-    console.log("length: " + PlayList.length);
-    
     // no need to refill
     if(PlayList.length >= PLAY_LIST_MIN_QUOTA)  return;
 

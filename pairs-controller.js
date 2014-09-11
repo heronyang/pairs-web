@@ -167,7 +167,7 @@ function showComment(pid)
 
                     row_html += '\
                             <td class="pair_table_col_name2"><a href="/?su='+uid2+'">'+ name2 +'</a></td> \
-                            <td class="pair_table_col_vote_count" id="count_'+table_id+pid+'">' + count + '&nbsp;&nbsp;票</td>';
+                            <td class="pair_table_col_vote_count" id="count_'+table_id+pid+'">' + count + '&nbsp;票</td>';
                     
 
                     row_html += '</tr>';
@@ -244,7 +244,7 @@ function listPairHelper(table, voted, data, loader) {
 
         row_html += '\
                 <td class="pair_table_col_name2"><a href="/?su='+uid2+'">'+ name2 +'</a></td> \
-                <td class="pair_table_col_vote_count" id="count_'+table_id+pid+'">' + count + '&nbsp;&nbsp;票</td>';
+                <td class="pair_table_col_vote_count" id="count_'+table_id+pid+'">' + count + '&nbsp;票</td>';
 
         row_html += '<td class="pair_table_col_comment"> <button type="button" class="btn btn-default" onclick="window.location.replace(\'/?p='+ pid + '\');" >&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;</button> </td> </tr>';
 
@@ -430,7 +430,7 @@ function vote(pid, is_retrieve, go_redirect, table_id){
             if(is_retrieve == 1) {
 
                 var count = parseInt($('#count_'+table_id+pid).html());
-                $('#count_'+table_id+pid).html(count-1 + '&nbsp;&nbsp;票');
+                $('#count_'+table_id+pid).html(count-1 + '&nbsp;票');
                 $('#btn_'+table_id+pid).attr('class','btn btn-default');
                 $('#btn_'+table_id+pid).attr('onclick','vote(' + pid + ',0, 0, \''+table_id+'\')');
                 $('#btn_'+table_id+pid).html('<img width="30" width="20" src="assets/img/heart-unpressed.png"/>');
@@ -438,7 +438,7 @@ function vote(pid, is_retrieve, go_redirect, table_id){
             } else if(is_retrieve ==0) {
 
                 var count = parseInt($('#count_'+table_id+pid).html());
-                $('#count_'+table_id+pid).html(count+1 + '&nbsp;&nbsp;票');
+                $('#count_'+table_id+pid).html(count+1 + '&nbsp;票');
                 $('#btn_'+table_id+pid).attr('class','btn btn-default');
                 $('#btn_'+table_id+pid).attr('onclick','vote(' + pid + ',1, 0, \''+table_id+'\')');
                 $('#btn_'+table_id+pid).html('<img width="30" width="20" src="assets/img/heart-pressed.png"/>');

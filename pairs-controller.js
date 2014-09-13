@@ -938,7 +938,7 @@ function shareComment(pid, name1, name2, count) {
     console.log("about to comment pid: " + pid);
     FB.ui({
             method: 'feed',
-            name: 'PAIRS - ' + name1 + ' & ' + name2 + ' - ' + count + '票',
+            name: name1 + ' ♥ ' + name2 + ' - ' + count + '票',
             link: 'https://www.pairs.cc/?p=' + pid,
             picture: 'http://www.pairs.cc/assets/img/logo.png',
             caption: 'PAIRS - 你和他、她、祂的八卦平台',

@@ -177,7 +177,7 @@ function showComment(pid)
 
                     $('div.fb-comments').attr('data-href', comment_base + '/?p=' + pid);
                     $('button.share-button').click(function() {
-                        shareComment(pid);
+                        shareComment(pid, name1, name2, count);
                     });
 
                     (function(d, s, id) {
@@ -536,7 +536,6 @@ function statInit() {
 }
 
 function updateStat() {
-    console.log("stat is called");
 	$.ajax({
 		type: "GET",
 		dataType: "json",
@@ -935,21 +934,19 @@ function  setupFacebookCommentCustomCSS() {
     $("iframe.fb_ltr").contents().find('head').append('<link href="pairs-view.css" rel="stylesheet">')
 }
 
-function shareComment(pid) {
+function shareComment(pid, name1, name2, count) {
     console.log("about to comment pid: " + pid);
     FB.ui({
             method: 'feed',
-            name: 'Facebook Dialogs',
-            link: 'https://developers.facebook.com/docs/dialogs/',
-            picture: 'http://fbrell.com/f8.jpg',
-            caption: 'Reference Documentation',
-            description: 'We are using Fake Data now for testing purpose.'
+            name: 'PAIRS - ' + name1 + ' & ' + name2 + ' - ' + count + '票',
+            link: 'https://www.pairs.cc/?p=' + pid,
+            picture: 'http://www.pairs.cc/assets/img/logo.png',
+            caption: 'PAIRS - 你和他、她、祂的八卦平台',
+            description: '快來八卦 ' + name1 + ' & ' + name2 + '!!!  PAIRS 是一個開放的八卦平台，您可以找尋與新增感興趣的配對，投票與評論八卦。最重要的—— 看別人怎麼偷偷八卦您和您的男神女神！'
         },
             function(response) {
             if (response && response.post_id) {
-                alert('Post was published.');
             } else {
-                alert('Post was not published.');
             }
         }
      );

@@ -360,6 +360,13 @@ a#help-button:hover {
     color: #000;
 }
 
+#stat {
+    font-weight: bold;
+}
+#baobao {
+    margin-top: 5px;
+}
+
 /* Responsive CSS Code */
 @media(max-width:767px){
     .table-responsive td {

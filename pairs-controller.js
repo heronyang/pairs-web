@@ -1,5 +1,6 @@
 /* Global variables */
 var PLAY_LIST_MIN_QUOTA = 20;
+var STAT_REFRESH_PERIOD = 5000;
 
 // Setup api_base
 var api_base = '';
@@ -12,6 +13,8 @@ var CurrentPlayPair;
 var isPlayDialogEmpty = true;
 var needStartPlay = false;
 var lockPlayList = false;
+
+var CurrPairsCount = 0;
 
 if(getURLVars()[0].match('file:///android_asset/pairs-web/')) {
     // if is android webapp
@@ -525,6 +528,43 @@ function promoteControllerInit() {
 	});
 }
 
+function statInit() {
+    updateStat();
+    setInterval(function(){
+        updateStat();
+    }, 5000);
+}
+
+function updateStat() {
+    console.log("stat is called");
+	$.ajax({
+		type: "GET",
+		dataType: "json",
+		url: api_base + "/stat",
+		error: function(data){
+            networkError();
+		},
+		success: function(data){
+			var pairs_count = data['data']['pairs_count'];
+            // update UI here
+            var stat = $('#stat');
+            if (CurrPairsCount != pairs_count) {
+                stat.animate({
+                    opacity: 0.25,
+                }, 1000, function() {
+                    // Animation complete.
+                    stat.text(pairs_count);
+                    stat.animate({
+                        opacity: 1,
+                    }, 1000, function() {
+                    });
+                });
+                CurrPairsCount = pairs_count;
+            }
+		}
+	});
+}
+
 /* tableOptionInit: setup the controllers in table option */
 function tableOptionInit() {
 
@@ -826,6 +866,7 @@ $(document).ready(function() {
 		document.location.href = api_base + '/login';
 	});
 
+    statInit();
     promoteControllerInit();
     tableOptionInit();
     searchButtonInit();

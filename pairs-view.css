@@ -467,6 +467,9 @@ a#help-button:hover {
         max-width: 50px;
         max-height: 50px;
     }
+    #promo-head {
+        margin-left: 20%;
+    }
 }
 @media(min-width:992px){
 }

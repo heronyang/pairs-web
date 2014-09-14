@@ -146,15 +146,13 @@ if ( isset( $_GET['p'] ) && !empty( $_GET['p'] ) ) {
         <!-- Welcome Session -->
         <div id="welcome_msg" class="green_background" hidden>
             <div class="container">
-                <div class="row">
-                    <div class="pull-left">
-                        <h3><span id="stat">____</span>PAIRS 偷偷八卦中</h3>
-                        <h4>快來投票給你和他、她、祂！</h4>
-                    </div><!-- /col-lg-8 -->
-                    <div class="pull-right">
-                        <img width="200" height="200" id="baobao" src="assets/img/baobao.png">
-                    </div>
+                <div class="row pull-left" id="promo-head">
+                    <h3><span id="stat">____</span>PAIRS 偷偷八卦中</h3>
+                    <h4>快來投票給你和他、她、祂！</h4>
                 </div><!--/.row -->
+                <div class="row centered">
+                    <img width="200" height="200" id="baobao" src="assets/img/baobao.png">
+                </div>
             </div> <!--/.container -->
         </div><!--/#welcome_msg -->
 

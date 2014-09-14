@@ -935,14 +935,13 @@ function  setupFacebookCommentCustomCSS() {
 }
 
 function shareComment(pid, name1, name2, count) {
-    /*
     FB.ui({
             method: 'feed',
             name: name1 + ' ♥ ' + name2 + ' - ' + count + '票',
             link: 'https://www.pairs.cc/?p=' + pid,
             picture: 'http://www.pairs.cc/assets/img/logo.png',
             caption: 'PAIRS - 你和他、她、祂的八卦平台',
-            description: '快來八卦 ' + name1 + ' & ' + name2 + '!!!  PAIRS 是一個開放的八卦平台，您可以找尋與新增感興趣的配對，投票與評論八卦。最重要的—— 看別人怎麼偷偷八卦您和您的男神女神！'
+            description: '快來八卦 ' + name1 + ' ♥ ' + name2 + ' >///<  PAIRS 是一個開放的八卦平台，您可以找尋與新增感興趣的配對，投票與評論八卦。最重要的—— 看別人怎麼偷偷八卦您和您的男神女神！'
         },
             function(response) {
             if (response && response.post_id) {
@@ -950,7 +949,7 @@ function shareComment(pid, name1, name2, count) {
             }
         }
      );
-    */
+    /*
     FB.ui({
             method: 'share',
             href: 'https://www.pairs.cc/?p=' + pid,
@@ -961,6 +960,7 @@ function shareComment(pid, name1, name2, count) {
             }
         }
     );
+    */
 }
 
 function fillPlayList () {

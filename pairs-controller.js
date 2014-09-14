@@ -854,6 +854,7 @@ $(document).ready(function() {
 				// Not logged in
 				logged_in = false;
                 pageLayout(PageState.LOGOUT);
+                statInit();
 			}
 
 			$('#login-modal-button').click(loginToggle);
@@ -865,7 +866,6 @@ $(document).ready(function() {
 		document.location.href = api_base + '/login';
 	});
 
-    statInit();
     promoteControllerInit();
     tableOptionInit();
     searchButtonInit();

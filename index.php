@@ -46,7 +46,7 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
     if ( isset( $_GET['p'] ) && !empty( $_GET['p'] ) ) {
 
         // give different SEO tags based on the pair
-        $pid = $_GET['p'];
+        $pid = filter_input(INPUT_GET, 'p', FILTER_VALIDATE_INT);
         $url = API_BASE . '/p/' . $pid;
 
         // curl

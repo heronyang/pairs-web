@@ -53,8 +53,9 @@ if ( isset( $_GET['p'] ) && !empty( $_GET['p'] ) ) {
     // meta contents
     $title = $name1 . ' ♥ ' . $name2 . ' - ' . $count . '票';
     $description = '快來八卦' . $name1 . ' ♥ ' . $name2 . ' >///<  PAIRS 是一個開放的八卦平台，您可以找尋與新增感興趣的配對，投票與評論八卦。最重要的—— 看別人怎麼偷偷八卦您和您的男神女神！';
-    $image = "http://www.pairs.cc/assets/img/logo.png"; // will change in the future
+    $image = 'http://www.pairs.cc/assets/img/logo.png'; // will change in the future
     $keyword_addon = ', ' . $name1 . ', ' . $name2;
+    $url = 'http://www.pairs.cc/?p=' . $pid;
 
 } else {
 
@@ -63,6 +64,7 @@ if ( isset( $_GET['p'] ) && !empty( $_GET['p'] ) ) {
     $description = '「你和他、她、祂的八卦平台」 PAIRS 是一個開放的八卦平台，您可以找尋與新增感興趣的配對，投票與評論八卦。最重要的—— 看別人怎麼偷偷八卦您和您的男神女神！';
     $image = 'http://www.pairs.cc/assets/img/logo.png';
     $keyword_addon = '';
+    $url = "http://www.pairs.cc";
 
 }
 ?>
@@ -83,7 +85,7 @@ if ( isset( $_GET['p'] ) && !empty( $_GET['p'] ) ) {
         <meta property="og:locale" content="zh_TW" />
         <meta property="og:locale:alternate" content="en_US" />
         <meta property="og:image" content="<?php echo $image; ?>" />
-        <meta property="og:url" content="http://www.pairs.cc" />
+        <meta property="og:url" content="<?php echo $url; ?>" />
         <meta property="og:description" content="<?php echo $description; ?>" />
 
         <!-- for Twitter -->

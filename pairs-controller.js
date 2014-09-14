@@ -935,7 +935,7 @@ function  setupFacebookCommentCustomCSS() {
 }
 
 function shareComment(pid, name1, name2, count) {
-    console.log("about to comment pid: " + pid);
+    /*
     FB.ui({
             method: 'feed',
             name: name1 + ' ♥ ' + name2 + ' - ' + count + '票',
@@ -950,6 +950,17 @@ function shareComment(pid, name1, name2, count) {
             }
         }
      );
+    */
+    FB.ui({
+            method: 'share',
+            href: 'https://www.pairs.cc/?p=' + pid,
+        },
+        function(response){
+            if (response && response.post_id) {
+            } else {
+            }
+        }
+    );
 }
 
 function fillPlayList () {

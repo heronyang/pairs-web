@@ -1062,6 +1062,7 @@ function meTaggableFriends(){
                         .append($('<option>', { value: i } )
                         .text(friends[i]['name']));
                 }
+                $('#loading-box').hide();
                 $('#share-box').show();
             }
         }

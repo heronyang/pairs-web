@@ -334,10 +334,10 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
                 -->
                 <!--***
                 <div class="row centered"><button type="button" class="btn btn-primary share-button"><i class="fa fa-facebook"></i>&nbsp;&nbsp;&nbsp;分享</button></div>-->
+                <div id="loading-box">Loading...</div>
                 <div id="share-box" class="row centered" hidden>
                     <h3>Share It on Your Wall!</h3>
-                    <h5>If you see your friend listed on the site, or simple want your friend to visit this site.</h5>
-                    <h5>Select ONE friend then click the button, and it will post on your wall tagging him/her in the post</h5>
+                    <h5>Let your friend vote for this couple! (He/She will be tagged when you press the post button)</h5>
                     <select id="friend-select"></select>
                     <p>Message</p>
                     <input id="wall-content" type="text" placeholder="post content"/>

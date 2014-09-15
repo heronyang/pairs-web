@@ -947,7 +947,7 @@ var user_friend_list;
 function FBCustomInit() {
     window.fbAsyncInit = function() {
         FB.init({
-            appId      : '547776065350710',
+            appId      : '520188428109474',
             cookie     : false,  // enable cookies to allow the server to access 
             // the session
             xfbml      : true,  // parse social plugins on this page

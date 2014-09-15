@@ -329,8 +329,12 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
             </div>
             <div id="comment-div" class="centered">
                 <img width="50" height="50" id="comment-loader-gif" src="assets/img/loader.gif" alt="loading...">
+                <!--***
                 <div class="fb-comments" data-href="" width="100%" data-numposts="100" data-order-by="reverse_time" data-colorscheme="light" hidden></div>
-                <div class="row centered"><button type="button" class="btn btn-primary share-button"><i class="fa fa-facebook"></i>&nbsp;&nbsp;&nbsp;分享</button></div>
+                -->
+                <!--***
+                <div class="row centered"><button type="button" class="btn btn-primary share-button"><i class="fa fa-facebook"></i>&nbsp;&nbsp;&nbsp;分享</button></div>-->
+                <div class="row centered"><button type="button" class="btn btn-default share-button-taggable"><i class="fa fa-facebook"></i>標記朋友</button></div>
             </div>
         </div>
 

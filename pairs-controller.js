@@ -955,6 +955,8 @@ function shareTaggableButton() {
         // for FB.getLoginStatus().
         if (response.status === 'connected') {
             // Logged into your app and Facebook.
+            console.log("login res 1");
+            console.log(response);
             meTaggableFriends();
         } else if (response.status === 'not_authorized') {
             // The person is logged into Facebook, but not your app.
@@ -962,7 +964,10 @@ function shareTaggableButton() {
             document.getElementById('status').innerHTML = 'Please log ' +
                 'into this app.';
             */
+            console.log("login res 2");
+            console.log(response);
             console.log("not authorized");
+            loginPrompt();
         } else {
             // The person is not logged into Facebook, so we're not sure if
             // they are logged into this app or not.
@@ -970,8 +975,28 @@ function shareTaggableButton() {
             document.getElementById('status').innerHTML = 'Please log ' +
                 'into Facebook.';
             */
+            console.log("login res 3");
+            console.log(response);
             console.log("not logged in");
+            loginPrompt();
         }
+    }
+
+    function loginPrompt() {
+         FB.login(function(response) {
+             // handle the response
+             if (response.authResponse) {
+                 console.log('Welcome!  Fetching your information.... ');
+                 FB.api('/me', function(response) {
+                     console.log('Good to see you, ' + response.name + '.');
+                 });
+             } else {
+                 console.log('User cancelled login or did not fully authorize.');
+             }
+         }, {
+             scope: 'publish_actions, taggable_friends, user_friends', 
+             return_scopes: true
+         });
     }
 
     // This function is called when someone finishes with the Login

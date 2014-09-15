@@ -340,7 +340,7 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
                     <h5>Select ONE friend then click the button, and it will post on your wall tagging him/her in the post</h5>
                     <select id="friend-select"></select>
                     <p>Message</p>
-                    <input type="text" placeholder="post content"/>
+                    <input id="wall-content" type="text" placeholder="post content"/>
                     <button type="button" class="btn btn-primary share-button-taggable" onclick="postOnWall();"><i class="fa fa-facebook"></i> Share &amp; Tag</button>
                 </div>
 

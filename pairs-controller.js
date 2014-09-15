@@ -1064,8 +1064,6 @@ function shareTaggableButton() {
             "POST",
             {
                 "message": "This is a test message",
-                "tags": user_friend_list,
-                "place": "http://www.pairs.cc"
             },
             function (response) {
                 console.log(response);

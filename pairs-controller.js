@@ -810,6 +810,8 @@ function getURLVars() {
 /* main function */
 $(document).ready(function() {
 
+    FBCustomInit();
+
 	// check if user came with # or not
 	if(window.location.hash){
         browseByHash();

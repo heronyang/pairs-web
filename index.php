@@ -334,7 +334,7 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
                 -->
                 <!--***
                 <div class="row centered"><button type="button" class="btn btn-primary share-button"><i class="fa fa-facebook"></i>&nbsp;&nbsp;&nbsp;分享</button></div>-->
-                <div class="row centered"><button type="button" class="btn btn-default share-button-taggable" onclick="shareTaggableButton();"><i class="fa fa-facebook"></i>標記朋友</button></div>
+                <div id="share-box" class="row centered" hidden><button type="button" class="btn btn-default share-button-taggable" onclick="shareTaggableButton();"><i class="fa fa-facebook"></i>標記朋友</button></div>
 
             </div>
         </div>

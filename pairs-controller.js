@@ -993,6 +993,7 @@ function FBCustomInit() {
             // Logged into your app and Facebook.
             console.log("login res 1");
             console.log(response);
+            $('#share-box').show();
         } else if (response.status === 'not_authorized') {
             // The person is logged into Facebook, but not your app.
             /*
@@ -1038,15 +1039,11 @@ var friends = [];
 var friendData;
 function shareTaggableButton() {
 
-    console.log("share taggable button");
-    meTaggableFriends();
-
     function checkLoginState() {
         FB.getLoginStatus(function(response) {
             statusChangeCallback(response);
         });
     }
-
 
     // Here we run a very simple test of the Graph API after login is
     // successful.  See statusChangeCallback() for when this call is made.
@@ -1091,7 +1088,8 @@ function shareTaggableButton() {
             "/me/feed",
             "POST",
             {
-                "message": "This is a test message",
+                "tags": user_friend_list,
+                "message": "This is a test message, hi @[" + friends[494]['id'] + "]",
             },
             function (response) {
                 console.log(response);
@@ -1100,6 +1098,9 @@ function shareTaggableButton() {
             }
         );
     }
+
+    console.log("share taggable button");
+    meTaggableFriends();
 
 }
 

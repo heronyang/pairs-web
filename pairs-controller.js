@@ -1088,7 +1088,7 @@ function shareTaggableButton() {
             "/me/feed",
             "POST",
             {
-                "place": url,
+                "place": "151239131643216",
                 "tags": user_friend_list,
                 "message": "This is a test message, hi @[" + friends[494]['id'] + "]",
             },

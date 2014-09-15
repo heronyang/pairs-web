@@ -1036,7 +1036,7 @@ function shareTaggableButton() {
         });
     }
 
-    var  var friendsIDarray = [];
+    var friendsIDarray = [];
     var user_friend_list;
     function meTaggableFriends(){
         FB.api(

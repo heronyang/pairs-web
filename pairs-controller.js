@@ -947,7 +947,7 @@ var user_friend_list;
 function FBCustomInit() {
     window.fbAsyncInit = function() {
         FB.init({
-            appId      : '520188428109474',
+            appId      : '547776065350710',
             cookie     : false,  // enable cookies to allow the server to access 
             // the session
             xfbml      : true,  // parse social plugins on this page
@@ -1025,6 +1025,7 @@ function loginPrompt() {
              console.log('Welcome!  Fetching your information.... ');
              FB.api('/me', function(response) {
                  console.log('Good to see you, ' + response.name + '.');
+                $('#share-box').show();
              });
          } else {
              console.log('User cancelled login or did not fully authorize.');
@@ -1088,7 +1089,7 @@ function shareTaggableButton() {
             "/me/feed",
             "POST",
             {
-                "place": "151239131643216",
+                "place": 151239131643216,
                 "tags": user_friend_list,
                 "message": "This is a test message, hi @[" + friends[494]['id'] + "]",
             },

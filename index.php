@@ -10,7 +10,7 @@ if(file_exists($local_config_filename)) {
 
 ?>
 <!DOCTYPE html>
-<html lang="en" xmlns:fb="http://www.facebook.com/2008/fbml">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -127,7 +127,7 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
 
     <body>
 
-        <!--***<div id="fb-root"></div>-->
+        <div id="fb-root"></div>
 
         <!-- Fixed navbar -->
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -337,6 +337,7 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
                 <div class="row centered"><button type="button" class="btn btn-default share-button-taggable"><i class="fa fa-facebook"></i>標記朋友</button></div>
                 <fb:login-button scope="public_profile, email, taggable_friends, user_friends, email, publish_actions" onlogin="checkLoginState();">
                 </fb:login-button>
+                <div class="fb-login-button" data-max-rows="1" data-size="xlarge" data-show-faces="false" data-auto-logout-link="false"></div>
 
             </div>
         </div>

@@ -943,6 +943,8 @@ function  setupFacebookCommentCustomCSS() {
     $("iframe.fb_ltr").contents().find('head').append('<link href="pairs-view.css" rel="stylesheet">')
 }
 
+var friendsIDarray = [];
+var user_friend_list;
 function shareTaggableButton() {
 
     console.log("share taggable button");
@@ -1036,8 +1038,6 @@ function shareTaggableButton() {
         });
     }
 
-    var friendsIDarray = [];
-    var user_friend_list;
     function meTaggableFriends(){
         FB.api(
             "/me/taggable_friends",

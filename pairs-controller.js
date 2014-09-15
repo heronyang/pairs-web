@@ -958,15 +958,14 @@ function shareTaggableButton() {
         // for FB.getLoginStatus().
         if (response.status === 'connected') {
             // Logged into your app and Facebook.
-            testAPI();
+            meTaggableFriends();
         } else if (response.status === 'not_authorized') {
             // The person is logged into Facebook, but not your app.
             /*
             document.getElementById('status').innerHTML = 'Please log ' +
                 'into this app.';
             */
-            FB.login(function(response) {
-            }, {scope: 'public_profile, taggable_friends, user_friends, email, publish_actions'});
+            console.log("not authorized");
         } else {
             // The person is not logged into Facebook, so we're not sure if
             // they are logged into this app or not.
@@ -974,8 +973,7 @@ function shareTaggableButton() {
             document.getElementById('status').innerHTML = 'Please log ' +
                 'into Facebook.';
             */
-            FB.login(function(response) {
-            }, {scope: 'public_profile, taggable_friends, user_friends, email, publish_actions'});
+            console.log("not logged in");
         }
     }
 
@@ -991,7 +989,7 @@ function shareTaggableButton() {
     window.fbAsyncInit = function() {
         FB.init({
             appId      : '520188428109474',
-            cookie     : true,  // enable cookies to allow the server to access 
+            cookie     : false,  // enable cookies to allow the server to access 
             // the session
             xfbml      : true,  // parse social plugins on this page
             version    : 'v2.1' // use version 2.1
@@ -1039,6 +1037,7 @@ function shareTaggableButton() {
     }
 
     function meTaggableFriends(){
+        console.log('Welcome!');
         FB.api(
             "/me/taggable_friends",
             function (response) {

@@ -993,7 +993,7 @@ function FBCustomInit() {
             // Logged into your app and Facebook.
             console.log("login res 1");
             console.log(response);
-            $('#share-box').show();
+            meTaggableFriends();
         } else if (response.status === 'not_authorized') {
             // The person is logged into Facebook, but not your app.
             /*
@@ -1025,19 +1025,69 @@ function loginPrompt() {
              console.log('Welcome!  Fetching your information.... ');
              FB.api('/me', function(response) {
                  console.log('Good to see you, ' + response.name + '.');
-                $('#share-box').show();
              });
+             meTaggableFriends();
          } else {
              console.log('User cancelled login or did not fully authorize.');
          }
      }, {
-         scope: 'user_friends, publish_actions, status_update, read_stream, manage_friendlists', 
+         scope: 'user_friends, publish_actions, manage_friendlists', 
          return_scopes: true
      });
 }
 
 var friends = [];
 var friendData;
+function meTaggableFriends(){
+    console.log('Welcome!');
+    FB.api(
+        "/me/taggable_friends",
+        function (response) {
+            if (response && !response.error) {
+                /* handle the result */
+                console.log(response)
+                for(var i=0; i<response.data.length; i++){
+                    var data = response.data;
+                    friendsIDarray.push(data[i].id);    
+                    friends.push(data[i]);
+                    friendData = data;
+                }
+                user_friend_list = friendsIDarray.join();
+                console.log(user_friend_list);
+                console.log(friendsIDarray);
+
+                // add friends into selector UI
+                for( var i=0 ; i<friendData.length ; i++ ) {
+                    $('#friend-select')
+                        .append($('<option>', { value: i } )
+                        .text(friends[i]['name']));
+                }
+                $('#share-box').show();
+            }
+        }
+    );
+}
+
+function postOnWall() {
+    var url = $(location).attr('href');
+    var ind = $('#friend-select').val();
+    var tags = [friendData[ind]['id']];
+    FB.api(
+        "/me/feed",
+        "POST",
+        {
+            "message": "Hey! This site is having interesting PAIRS. SHARE!\nYou guys can also vote here :)",
+            "tags": tags,
+            "place": 147492585312445
+        },
+        function (response) {
+            console.log(response);
+            if (response && !response.error) {
+            }
+        }
+    );
+}
+
 function shareTaggableButton() {
 
     function checkLoginState() {
@@ -1058,47 +1108,6 @@ function shareTaggableButton() {
             */
             meTaggableFriends();
         });
-    }
-
-    function meTaggableFriends(){
-        console.log('Welcome!');
-        FB.api(
-            "/me/taggable_friends",
-            function (response) {
-                if (response && !response.error) {
-                    /* handle the result */
-                    console.log(response)
-                    for(var i=0; i<response.data.length; i++){
-                        var data = response.data;
-                        friendsIDarray.push(data[i].id);    
-                        friends.push(data[i]);
-                        friendData = data;
-                    }
-                    user_friend_list = friendsIDarray.join();
-                    console.log(user_friend_list);
-                    console.log(friendsIDarray);
-                    showShareDialog();
-                }
-            }
-        );
-    }
-
-    function showShareDialog() {
-        var url = $(location).attr('href');
-        FB.api(
-            "/me/feed",
-            "POST",
-            {
-                "place": 151239131643216,
-                "tags": user_friend_list,
-                "message": "This is a test message, hi @[" + friends[494]['id'] + "]",
-            },
-            function (response) {
-                console.log(response);
-                if (response && !response.error) {
-                }
-            }
-        );
     }
 
     console.log("share taggable button");

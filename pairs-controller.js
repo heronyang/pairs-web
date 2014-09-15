@@ -1072,17 +1072,21 @@ function postOnWall() {
     var url = $(location).attr('href');
     var ind = $('#friend-select').val();
     var tags = [friendData[ind]['id']];
+    var message = $('#wall-content').val() + '\n\nCome and Visit PAIRS.cc!';
     FB.api(
         "/me/feed",
         "POST",
         {
-            "message": "Hey! This site is having interesting PAIRS. SHARE!\nYou guys can also vote here :)",
+            "message": message,
             "tags": tags,
             "place": 147492585312445
         },
         function (response) {
             console.log(response);
             if (response && !response.error) {
+                alert("Posted!!!");
+            } else {
+                alert("Connection Error!");
             }
         }
     );

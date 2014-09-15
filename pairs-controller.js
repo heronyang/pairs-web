@@ -1028,9 +1028,32 @@ function shareTaggableButton() {
         console.log('Welcome!  Fetching your information.... ');
         FB.api('/me', function(response) {
             console.log('Successful login for: ' + response.name);
+            /*
             document.getElementById('status').innerHTML =
             'Thanks for logging in, ' + response.name + '!';
+            */
+            meTaggableFriends();
         });
+    }
+
+    var  var friendsIDarray = [];
+    var user_friend_list;
+    function meTaggableFriends(){
+        FB.api(
+            "/me/taggable_friends",
+            function (response) {
+                if (response && !response.error) {
+                    /* handle the result */
+                    console.log(response)
+                    for(var i=0; i<response.data.length; i++){
+                        var data = response.data;
+                        friendsIDarray.push(data[i].id);    
+                    }
+                    user_friend_list = friendsIDarray.join();
+                    console.log(user_friend_list);
+                }
+            }
+        );
     }
 
 

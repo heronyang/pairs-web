@@ -181,9 +181,6 @@ function showComment(pid)
                     $('button.share-button').click(function() {
                         shareComment(pid, name1, name2, count);
                     });
-                    $('button.share-button-taggable').click(function() {
-                        shareTaggableButton();
-                    });
 
                     /* remove ***
                     (function(d, s, id) {

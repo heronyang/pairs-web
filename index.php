@@ -334,9 +334,7 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
                 -->
                 <!--***
                 <div class="row centered"><button type="button" class="btn btn-primary share-button"><i class="fa fa-facebook"></i>&nbsp;&nbsp;&nbsp;分享</button></div>-->
-                <div class="row centered"><button type="button" class="btn btn-default share-button-taggable"><i class="fa fa-facebook"></i>標記朋友</button></div>
-                <fb:login-button scope="public_profile, email, taggable_friends, user_friends, email, publish_actions" onlogin="checkLoginState();">
-                </fb:login-button>
+                <div class="row centered"><button type="button" class="btn btn-default share-button-taggable" onclick="shareTaggableButton();"><i class="fa fa-facebook"></i>標記朋友</button></div>
                 <div class="fb-login-button" data-scope="public_profile, email, taggable_friends, user_friends, email, publish_actions"  data-max-rows="1" data-size="xlarge" data-show-faces="false" data-auto-logout-link="false"></div>
 
             </div>

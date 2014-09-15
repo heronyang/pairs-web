@@ -10,7 +10,7 @@ if(file_exists($local_config_filename)) {
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:fb="http://www.facebook.com/2008/fbml">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -127,7 +127,7 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
 
     <body>
 
-        <div id="fb-root"></div>
+        <!--***<div id="fb-root"></div>-->
 
         <!-- Fixed navbar -->
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">

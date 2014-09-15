@@ -1034,7 +1034,8 @@ function loginPrompt() {
      });
 }
 
-var friends;
+var friends = [];
+var friendData;
 function shareTaggableButton() {
 
     console.log("share taggable button");
@@ -1073,6 +1074,7 @@ function shareTaggableButton() {
                         var data = response.data;
                         friendsIDarray.push(data[i].id);    
                         friends.push(data[i]);
+                        friendData = data;
                     }
                     user_friend_list = friendsIDarray.join();
                     console.log(user_friend_list);

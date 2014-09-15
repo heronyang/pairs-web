@@ -982,6 +982,15 @@ function shareTaggableButton() {
         }
     }
 
+    // This function is called when someone finishes with the Login
+    // Button.  See the onlogin handler attached to it in the sample
+    // code below.
+    function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+        });
+    }
+
     function loginPrompt() {
          FB.login(function(response) {
              // handle the response
@@ -990,22 +999,14 @@ function shareTaggableButton() {
                  FB.api('/me', function(response) {
                      console.log('Good to see you, ' + response.name + '.');
                  });
+                checkLoginState();
              } else {
                  console.log('User cancelled login or did not fully authorize.');
              }
          }, {
-             scope: 'publish_actions, taggable_friends, user_friends', 
+             scope: 'user_friends, publish_actions, status_update, read_stream, manage_friendlists', 
              return_scopes: true
          });
-    }
-
-    // This function is called when someone finishes with the Login
-    // Button.  See the onlogin handler attached to it in the sample
-    // code below.
-    function checkLoginState() {
-        FB.getLoginStatus(function(response) {
-            statusChangeCallback(response);
-        });
     }
 
     window.fbAsyncInit = function() {

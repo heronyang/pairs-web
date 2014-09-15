@@ -190,7 +190,7 @@ function showComment(pid)
                         var js, fjs = d.getElementsByTagName(s)[0];
                         if (d.getElementById(id)) return;
                         js = d.createElement(s); js.id = id;
-                        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=547776065350710&version=v2.0&status=1";
+                        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=520188428109474&version=v2.0&status=1";
                         fjs.parentNode.insertBefore(js, fjs);
                     }(document, 'script', 'facebook-jssdk'));
                     // FB.XFBML.parse();
@@ -988,7 +988,7 @@ function shareTaggableButton() {
 
     window.fbAsyncInit = function() {
         FB.init({
-            appId      : '547776065350710',
+            appId      : '520188428109474',
             cookie     : true,  // enable cookies to allow the server to access 
             // the session
             xfbml      : true,  // parse social plugins on this page

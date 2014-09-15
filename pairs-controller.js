@@ -942,73 +942,7 @@ function  setupFacebookCommentCustomCSS() {
 
 var friendsIDarray = [];
 var user_friend_list;
-function shareTaggableButton() {
-
-    console.log("share taggable button");
-    // This is called with the results from from FB.getLoginStatus().
-    function statusChangeCallback(response) {
-        console.log('statusChangeCallback');
-        console.log(response);
-        // The response object is returned with a status field that lets the
-        // app know the current login status of the person.
-        // Full docs on the response object can be found in the documentation
-        // for FB.getLoginStatus().
-        if (response.status === 'connected') {
-            // Logged into your app and Facebook.
-            console.log("login res 1");
-            console.log(response);
-            meTaggableFriends();
-        } else if (response.status === 'not_authorized') {
-            // The person is logged into Facebook, but not your app.
-            /*
-            document.getElementById('status').innerHTML = 'Please log ' +
-                'into this app.';
-            */
-            console.log("login res 2");
-            console.log(response);
-            console.log("not authorized");
-            loginPrompt();
-        } else {
-            // The person is not logged into Facebook, so we're not sure if
-            // they are logged into this app or not.
-            /*
-            document.getElementById('status').innerHTML = 'Please log ' +
-                'into Facebook.';
-            */
-            console.log("login res 3");
-            console.log(response);
-            console.log("not logged in");
-            loginPrompt();
-        }
-    }
-
-    // This function is called when someone finishes with the Login
-    // Button.  See the onlogin handler attached to it in the sample
-    // code below.
-    function checkLoginState() {
-        FB.getLoginStatus(function(response) {
-            statusChangeCallback(response);
-        });
-    }
-
-    function loginPrompt() {
-         FB.login(function(response) {
-             // handle the response
-             if (response.authResponse) {
-                 console.log('Welcome!  Fetching your information.... ');
-                 FB.api('/me', function(response) {
-                     console.log('Good to see you, ' + response.name + '.');
-                 });
-                checkLoginState();
-             } else {
-                 console.log('User cancelled login or did not fully authorize.');
-             }
-         }, {
-             scope: 'user_friends, publish_actions, status_update, read_stream, manage_friendlists', 
-             return_scopes: true
-         });
-    }
-
+function FBCustomInit() {
     window.fbAsyncInit = function() {
         FB.init({
             appId      : '520188428109474',
@@ -1045,6 +979,72 @@ function shareTaggableButton() {
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 
+
+    function statusChangeCallback(response) {
+        console.log('statusChangeCallback');
+        console.log(response);
+        // The response object is returned with a status field that lets the
+        // app know the current login status of the person.
+        // Full docs on the response object can be found in the documentation
+        // for FB.getLoginStatus().
+        if (response.status === 'connected') {
+            // Logged into your app and Facebook.
+            console.log("login res 1");
+            console.log(response);
+        } else if (response.status === 'not_authorized') {
+            // The person is logged into Facebook, but not your app.
+            /*
+            document.getElementById('status').innerHTML = 'Please log ' +
+                'into this app.';
+            */
+            console.log("login res 2");
+            console.log(response);
+            console.log("not authorized");
+            loginPrompt();
+        } else {
+            // The person is not logged into Facebook, so we're not sure if
+            // they are logged into this app or not.
+            /*
+            document.getElementById('status').innerHTML = 'Please log ' +
+                'into Facebook.';
+            */
+            console.log("login res 3");
+            console.log(response);
+            console.log("not logged in");
+            loginPrompt();
+        }
+    }
+}
+function loginPrompt() {
+     FB.login(function(response) {
+         // handle the response
+         if (response.authResponse) {
+             console.log('Welcome!  Fetching your information.... ');
+             FB.api('/me', function(response) {
+                 console.log('Good to see you, ' + response.name + '.');
+             });
+         } else {
+             console.log('User cancelled login or did not fully authorize.');
+         }
+     }, {
+         scope: 'user_friends, publish_actions, status_update, read_stream, manage_friendlists', 
+         return_scopes: true
+     });
+}
+
+var friends;
+function shareTaggableButton() {
+
+    console.log("share taggable button");
+    meTaggableFriends();
+
+    function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+        });
+    }
+
+
     // Here we run a very simple test of the Graph API after login is
     // successful.  See statusChangeCallback() for when this call is made.
     function testAPI() {
@@ -1070,6 +1070,7 @@ function shareTaggableButton() {
                     for(var i=0; i<response.data.length; i++){
                         var data = response.data;
                         friendsIDarray.push(data[i].id);    
+                        friends.push(data[i]);
                     }
                     user_friend_list = friendsIDarray.join();
                     console.log(user_friend_list);

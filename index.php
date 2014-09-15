@@ -337,7 +337,7 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
                 <div id="loading-box">Loading...</div>
                 <div id="share-box" class="row centered" hidden>
                     <h3>Share It on Your Wall!</h3>
-                    <h5>Let your friend vote for this couple! (He/She will be tagged when you press the post button)</h5>
+                    <h5>Let your friend vote for this couple! (He/She will be tagged when you press the button)</h5>
                     <select id="friend-select"></select>
                     <p>Message</p>
                     <input id="wall-content" type="text" placeholder="post content"/>

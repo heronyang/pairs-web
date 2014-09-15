@@ -966,7 +966,7 @@ function shareTaggableButton() {
                 'into this app.';
             */
             FB.login(function(response) {
-            }, {scope: 'taggable_friends, user_friends, email'});
+            }, {scope: 'public_profile, taggable_friends, user_friends, email, publish_actions'});
         } else {
             // The person is not logged into Facebook, so we're not sure if
             // they are logged into this app or not.
@@ -975,7 +975,7 @@ function shareTaggableButton() {
                 'into Facebook.';
             */
             FB.login(function(response) {
-            }, {scope: 'taggable_friends, user_friends, email'});
+            }, {scope: 'public_profile, taggable_friends, user_friends, email, publish_actions'});
         }
     }
 
@@ -1059,6 +1059,7 @@ function shareTaggableButton() {
     }
 
     function showShareDialog() {
+        var url = $(location).attr('href');
         FB.api(
             "/me/feed",
             "POST",

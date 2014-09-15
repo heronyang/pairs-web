@@ -1051,6 +1051,7 @@ function shareTaggableButton() {
                     }
                     user_friend_list = friendsIDarray.join();
                     console.log(user_friend_list);
+                    console.log(friendsIDarray);
                     showShareDialog();
                 }
             }
@@ -1063,7 +1064,8 @@ function shareTaggableButton() {
             "POST",
             {
                 "message": "This is a test message",
-                "tags": user_friend_list
+                "tags": user_friend_list,
+                "place": "http://www.pairs.cc"
             },
             function (response) {
                 console.log(response);

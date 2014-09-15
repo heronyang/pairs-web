@@ -1051,11 +1051,27 @@ function shareTaggableButton() {
                     }
                     user_friend_list = friendsIDarray.join();
                     console.log(user_friend_list);
+                    showShareDialog();
                 }
             }
         );
     }
 
+    function showShareDialog() {
+        FB.api(
+            "/me/feed",
+            "POST",
+            {
+                "message": "This is a test message",
+                "tags": user_friend_list
+            },
+            function (response) {
+                console.log(response);
+                if (response && !response.error) {
+                }
+            }
+        );
+    }
 
 }
 

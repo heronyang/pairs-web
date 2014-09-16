@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>PAIRS</title>
+	<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+	<style type="text/css">
+		body{
+			padding-top:20px;padding-bottom:40px;
+		}
+		.container-narrow{
+			margin:0 auto;max-width:800px;
+		}
+		.container-narrow>hr{
+			margin:30px 0;
+		}
+		.hero-unit{
+			margin:60px 0;text-align:center;color:white;font-weight:bold;text-shadow:2px 2px 2px black;background:url(../img/israel-bus.jpg);background-size:800px auto;
+		}
+		.hero-unit h1{font-size:72px;line-height:1;}
+		.hero-unit .btn{font-size:21px;padding:14px 24px;}
+		.marketing{margin:60px 0;}
+		.marketing p+h4{margin-top:28px;}
+	</style>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+
+	if(!localStorage['base']){
+		localStorage['base'] = prompt('請輸入要使用的 API Base URL (不用結尾斜線)', 'http://api.pairs.cc');
+	}
+
+	var api_base = localStorage['base'];
+
+	function login(){
+
+		if($('#login-button').html() == '登入'){
+
+			// Show login button from API
+
+			$('#login_iframe').attr('src', api_base + '/login');
+			$('#login_dialog').modal('show');
+
+			$('#login-button').html('登出');
+		}else{
+
+			// Call logout url
+
+			$.ajax({
+				type: "GET",
+				dataType: "json",
+				url: api_base + "/logout",
+				xhrFields: {
+         withCredentials: true
+				},
+				error: function(data){
+					// error
+				},
+				success: function(data){
+					if(data['status'] == 0 && data['result'] == 'ok'){
+
+						// Successfully logged out
+
+						$('#login-button').html('登入');
+					}
+				}
+			});
+
+		}
+
+	}
+
+	function vote(pid, is_retrieve){
+		$.ajax({
+			type: "POST",
+			dataType: "json",
+			url: api_base + "/",
+			data: 'pid=' + pid + '&is_retrieve=' + is_retrieve,
+			xhrFields: {
+				withCredentials: true
+			},
+			error: function(data){
+				console.log(data);
+				alert(data.responseJSON.message);
+			},
+			success: function(data){
+				console.log(data);
+				if(is_retrieve == 1){
+
+					alert('Retrieved!');
+
+				}else if(is_retrieve ==0){
+
+					var msg = "Supported!";
+					if(data['match'] == 1){
+						msg += "\nIt's a match!";
+					}
+					alert(msg);
+					return data['pid'];
+				}
+
+			}
+		});
+	}
+
+	function listAllPairs(){
+		$.ajax({
+			type: "GET",
+			dataType: "json",
+			url: api_base + "/",
+			xhrFields: {
+				withCredentials: true
+			},
+			error: function(data){
+				// error
+			},
+			success: function(data){
+				var content = '<br><table class="table table-bordered no-wrap"><tr><th></th><th>組合</th><th>支持數</th><th>湊成時間</th></tr>';
+				data['data'].forEach(function(data){
+					content += '<tr>';
+					content += '<td><a href="#" onclick="vote(' + data['pid'] + ',0)">[支持]</a> <a href="#" onclick="vote(' + data['pid'] + ',1)">[取回]</a></td>';
+					content += '<td>' + data['user1']['name'] + ' <img class="img-circle" src="http://graph.facebook.com/' + data['user1']['fbid_real'] + '/picture"> x <img class="img-circle" src="http://graph.facebook.com/' + data['user2']['fbid_real'] + '/picture"> ' + data['user2']['name'] +'</td>';
+					content += '<td>' + data['count'] + '</td>';
+					content += '<td>' + data['ctime'] + '</td>';
+					content += '</tr>';
+				});
+				content += '</table>';
+				$('#all').html(content);
+			}
+		});
+	}
+
+	$(document).ready(function(){
+
+		$.ajax({
+			type: "GET",
+			dataType: "json",
+			url: api_base + '/login_status',
+			xhrFields: {
+				withCredentials: true
+			},
+			error: function(data){
+				// error
+			},
+			success: function(data){
+				if(data['status'] == 1){
+
+					// Logged in
+					$('#login-button').html('登出');
+
+				}else{
+
+					// Not logged in
+					$('#login-button').html('登入');
+
+				}
+
+				$('#login-button').on('click', login);
+
+			}
+		});
+
+	// List all existing Pairs
+
+		listAllPairs();
+
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+	  var target = $(e.target).attr("href"); // activated tab
+			switch(target){
+				case '#all':
+					listAllPairs();
+					break;
+			}
+		});
+
+		$('#promote-button').on('click', function(){
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: api_base + "/",
+				xhrFields: {
+					withCredentials: true
+				},
+				data: 'fbid1=' + $('#fbid1').val() + '&fbid2=' + $('#fbid2').val(),
+				error: function(data){
+					console.log(data);
+					alert(data.responseJSON.message);
+				},
+				success: function(data){
+					console.log(data);
+					alert('Promoted!');
+				}
+			});
+		});
+
+});
+</script>
+</head>
+<body>
+	 <div class="container-narrow">
+
+        <div class="masthead">
+            <ul class="nav nav-pills pull-right">
+							<li><a href="#" id="login-button">登入</a></li>
+            </ul>
+            <h3 class="text-muted">PAIRS!</h3>
+        </div>
+
+        <hr>
+				<div class="tabbable">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#all" data-toggle="tab">所有配對</a></li>
+						<li><a href="#promote" data-toggle="tab">湊對</a></li>
+						<li><a href="#search" data-toggle="tab">查詢</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="all"></div>
+						<div class="tab-pane" id="promote">
+							<br>
+							<input id="fbid1" placeholder="fbid1"><br><br>
+							<input id="fbid2" placeholder="fbid2"><br><br>
+							<button id="promote-button" class="btn btn-default">湊對</button>
+						</div>
+						<div class="tab-pane" id="search">
+							SEARCH
+						</div>
+					</div>
+				</div>
+
+		<hr>
+        <div class="footer">
+            <p>&copy; PAIRS.cc</p>
+        </div>
+	</div>
+
+<div class="modal fade" id="login_dialog" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">登入 PAIRS</h4>
+      </div>
+      <div class="modal-body">
+				<iframe id="login_iframe"></iframe>
+			</div>
+</div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+vendor
+composer.phar
+
+tests/_output/*
+local_config.php
+
+.DS_Store

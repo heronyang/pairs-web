@@ -810,8 +810,6 @@ function getURLVars() {
 /* main function */
 $(document).ready(function() {
 
-    FBCustomInit();
-
 	// check if user came with # or not
 	if(window.location.hash){
         browseByHash();
@@ -945,6 +943,11 @@ function  setupFacebookCommentCustomCSS() {
 var friendsIDarray = [];
 var user_friend_list;
 function FBCustomInit() {
+
+    console.log("FB custom init");
+    $('#loading-now').show();
+    $('#login-div').hide();
+
     window.fbAsyncInit = function() {
         FB.init({
             appId      : '520188428109474',
@@ -1062,7 +1065,7 @@ function meTaggableFriends(){
                         .append($('<option>', { value: i } )
                         .text(friends[i]['name']));
                 }
-                $('#loading-box').hide();
+                $('#loading-now').hide();
                 $('#share-box').show();
             }
         }
@@ -1073,7 +1076,11 @@ function postOnWall() {
     var url = $(location).attr('href');
     var ind = $('#friend-select').val();
     var tags = [friendData[ind]['id']];
-    var message = $('#wall-content').val() + '\n\nCome and Visit PAIRS.cc!';
+    var message = $('#wall-content').val();
+    if(message == "") {
+        alert("please insert message");
+        return ;
+    }
     FB.api(
         "/me/feed",
         "POST",

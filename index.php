@@ -334,7 +334,12 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
                 -->
                 <!--***
                 <div class="row centered"><button type="button" class="btn btn-primary share-button"><i class="fa fa-facebook"></i>&nbsp;&nbsp;&nbsp;分享</button></div>-->
-                <div id="loading-box">Loading...</div>
+                <div id="loading-now" hidden>
+                    <img width="50" height="50" id="comment-loader-gif" src="assets/img/loader.gif" alt="loading...">
+                </div>
+                <div id="login-div">
+                    <button type="button" class="btn btn-primary share-button-taggable" onclick="FBCustomInit();"></button>
+                </div>
                 <div id="share-box" class="row centered" hidden>
                     <h3>Share It on Your Wall!</h3>
                     <h5>Let your friend vote for this couple! (He/She will be tagged when you press the button)</h5>
@@ -343,6 +348,7 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
                     <input id="wall-content" type="text" placeholder="post content"/>
                     <button type="button" class="btn btn-primary share-button-taggable" onclick="postOnWall();"><i class="fa fa-facebook"></i> Share &amp; Tag</button>
                 </div>
+                <div style="margin: 20px;"></div>
 
             </div>
         </div>

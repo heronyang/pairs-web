@@ -366,6 +366,14 @@ a#help-button:hover {
 #baobao {
     margin-top: 5px;
 }
+#login-div button {
+    background-color: rgba(0,0,0,0);
+    background-image: url(/assets/img/facebook.png);
+    background-size: 100%;
+    width: 200px;
+    height: 36px;
+    border: 0px;
+}
 
 /* Responsive CSS Code */
 @media(max-width:767px){

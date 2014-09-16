@@ -175,11 +175,14 @@ function showComment(pid)
 
                     row_html += '</tr>';
 
+                    /* ***
                     $('div.fb-comments').attr('data-href', comment_base + '/?p=' + pid);
+                    */
                     $('button.share-button').click(function() {
                         shareComment(pid, name1, name2, count);
                     });
 
+                    /* remove ***
                     (function(d, s, id) {
                         var js, fjs = d.getElementsByTagName(s)[0];
                         if (d.getElementById(id)) return;
@@ -188,6 +191,7 @@ function showComment(pid)
                         fjs.parentNode.insertBefore(js, fjs);
                     }(document, 'script', 'facebook-jssdk'));
                     // FB.XFBML.parse();
+                    */
 
                     // finally
                     $('#loader-single-gif').hide();
@@ -196,7 +200,9 @@ function showComment(pid)
                     $('#comment-table').html('');
                     $('#comment-table').append(row_html);
 
+                    /* ***
                     $('div.fb-comments').show();
+                    */
                 }
             });
          }
@@ -804,6 +810,8 @@ function getURLVars() {
 /* main function */
 $(document).ready(function() {
 
+    FBCustomInit();
+
 	// check if user came with # or not
 	if(window.location.hash){
         browseByHash();
@@ -934,7 +942,186 @@ function  setupFacebookCommentCustomCSS() {
     $("iframe.fb_ltr").contents().find('head').append('<link href="pairs-view.css" rel="stylesheet">')
 }
 
+var friendsIDarray = [];
+var user_friend_list;
+function FBCustomInit() {
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '520188428109474',
+            cookie     : false,  // enable cookies to allow the server to access 
+            // the session
+            xfbml      : true,  // parse social plugins on this page
+            version    : 'v2.1' // use version 2.1
+        });
+
+        // Now that we've initialized the JavaScript SDK, we call 
+        // FB.getLoginStatus().  This function gets the state of the
+        // person visiting this page and can return one of three states to
+        // the callback you provide.  They can be:
+        //
+        // 1. Logged into your app ('connected')
+        // 2. Logged into Facebook, but not your app ('not_authorized')
+        // 3. Not logged into Facebook and can't tell if they are logged into
+        //    your app or not.
+        //
+        // These three cases are handled in the callback function.
+
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+        });
+
+    };
+
+    // Load the SDK asynchronously
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+
+    function statusChangeCallback(response) {
+        console.log('statusChangeCallback');
+        console.log(response);
+        // The response object is returned with a status field that lets the
+        // app know the current login status of the person.
+        // Full docs on the response object can be found in the documentation
+        // for FB.getLoginStatus().
+        if (response.status === 'connected') {
+            // Logged into your app and Facebook.
+            console.log("login res 1");
+            console.log(response);
+            meTaggableFriends();
+        } else if (response.status === 'not_authorized') {
+            // The person is logged into Facebook, but not your app.
+            /*
+            document.getElementById('status').innerHTML = 'Please log ' +
+                'into this app.';
+            */
+            console.log("login res 2");
+            console.log(response);
+            console.log("not authorized");
+            loginPrompt();
+        } else {
+            // The person is not logged into Facebook, so we're not sure if
+            // they are logged into this app or not.
+            /*
+            document.getElementById('status').innerHTML = 'Please log ' +
+                'into Facebook.';
+            */
+            console.log("login res 3");
+            console.log(response);
+            console.log("not logged in");
+            loginPrompt();
+        }
+    }
+}
+function loginPrompt() {
+     FB.login(function(response) {
+         // handle the response
+         if (response.authResponse) {
+             console.log('Welcome!  Fetching your information.... ');
+             FB.api('/me', function(response) {
+                 console.log('Good to see you, ' + response.name + '.');
+             });
+             meTaggableFriends();
+         } else {
+             console.log('User cancelled login or did not fully authorize.');
+         }
+     }, {
+         scope: 'user_friends, publish_actions, manage_friendlists', 
+         return_scopes: true
+     });
+}
+
+var friends = [];
+var friendData;
+function meTaggableFriends(){
+    console.log('Welcome!');
+    FB.api(
+        "/me/taggable_friends",
+        function (response) {
+            if (response && !response.error) {
+                /* handle the result */
+                console.log(response)
+                for(var i=0; i<response.data.length; i++){
+                    var data = response.data;
+                    friendsIDarray.push(data[i].id);    
+                    friends.push(data[i]);
+                    friendData = data;
+                }
+                user_friend_list = friendsIDarray.join();
+                console.log(user_friend_list);
+                console.log(friendsIDarray);
+
+                // add friends into selector UI
+                for( var i=0 ; i<friendData.length ; i++ ) {
+                    $('#friend-select')
+                        .append($('<option>', { value: i } )
+                        .text(friends[i]['name']));
+                }
+                $('#loading-box').hide();
+                $('#share-box').show();
+            }
+        }
+    );
+}
+
+function postOnWall() {
+    var url = $(location).attr('href');
+    var ind = $('#friend-select').val();
+    var tags = [friendData[ind]['id']];
+    var message = $('#wall-content').val() + '\n\nCome and Visit PAIRS.cc!';
+    FB.api(
+        "/me/feed",
+        "POST",
+        {
+            "message": message,
+            "tags": tags,
+            "place": 147492585312445
+        },
+        function (response) {
+            console.log(response);
+            if (response && !response.error) {
+                alert("Posted!!!");
+            } else {
+                alert("Connection Error!");
+            }
+        }
+    );
+}
+
+function shareTaggableButton() {
+
+    function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+        });
+    }
+
+    // Here we run a very simple test of the Graph API after login is
+    // successful.  See statusChangeCallback() for when this call is made.
+    function testAPI() {
+        console.log('Welcome!  Fetching your information.... ');
+        FB.api('/me', function(response) {
+            console.log('Successful login for: ' + response.name);
+            /*
+            document.getElementById('status').innerHTML =
+            'Thanks for logging in, ' + response.name + '!';
+            */
+            meTaggableFriends();
+        });
+    }
+
+    console.log("share taggable button");
+    meTaggableFriends();
+
+}
+
 function shareComment(pid, name1, name2, count) {
+
     FB.ui({
             method: 'feed',
             name: name1 + ' ♥ ' + name2 + ' - ' + count + '票',

@@ -46,7 +46,7 @@ define('PLAY_LIMIT', 30);
 
 // Autoload library dependencies using Composer
 
-require 'vendor/autoload.php';
+require '../vendor/autoload.php';
 
 $app = new \Slim\Slim();
 

@@ -936,6 +936,7 @@ function  setupFacebookCommentCustomCSS() {
 }
 
 function shareComment(pid, name1, name2, count) {
+    /*
     FB.ui({
             method: 'feed',
             name: name1 + ' ♥ ' + name2 + ' - ' + count + '票',
@@ -950,19 +951,19 @@ function shareComment(pid, name1, name2, count) {
             } else {
             }
         }
-     );
-    /*
+    );
+     */
     FB.ui({
-            method: 'share',
+            method: 'stream.share',
             href: 'https://www.pairs.cc/?p=' + pid,
         },
         function(response){
             if (response && response.post_id) {
+                alert("分享成功！");
             } else {
             }
         }
     );
-    */
 }
 
 function fillPlayList () {

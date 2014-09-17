@@ -521,7 +521,7 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">PAIRS - 開始投票</h4>
+                        <h4 class="modal-title">PAIRS - 開始八卦</h4>
                     </div>
                     <div class="modal-body centered">
                         <div class="enhance">放心</div>

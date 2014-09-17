@@ -58,6 +58,8 @@ function pageLayout(page_state) {
         $('#top-table-outer').show();
         if(logged_in) {
             $('#me-table-outer').show();
+        } else {
+            $('#welcome_msg').show();
         }
     } else if(page_state == PageState.COMMENT) {
         hideAllLayout();
@@ -77,7 +79,6 @@ function pageLayout(page_state) {
         $('#login-modal-button').html('登入');
         $('#btn-showfriends').hide();
         $('#btn-public').hide();
-        $('#welcome_msg').show();
         $('#me-table-outer').hide();
         $('#username-li').hide();
     } else if(page_state == PageState.LOGIN) {

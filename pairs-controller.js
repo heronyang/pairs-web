@@ -945,6 +945,7 @@ function shareComment(pid, name1, name2, count) {
         },
             function(response) {
             if (response && response.post_id) {
+                alert("分享成功！");
             } else {
             }
         }

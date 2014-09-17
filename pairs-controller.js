@@ -249,7 +249,7 @@ function listPairHelper(table, voted, data, loader) {
                 <td class="pair_table_col_name2"><a href="/?su='+uid2+'">'+ name2 +'</a></td> \
                 <td class="pair_table_col_vote_count" id="count_'+table_id+pid+'">' + count + '&nbsp;票</td>';
 
-        row_html += '<td class="pair_table_col_comment"> <button type="button" class="btn btn-default" onclick="window.location.replace(\'/?p='+ pid + '\');" >&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;</button> </td> </tr>';
+        row_html += '<td class="pair_table_col_comment"> <button type="button" class="btn btn-default" onclick="window.location.replace(\'/?p='+ pid + '\');" >&nbsp;<i id="comment-indicator" class="fa fa-comment"></i>&nbsp;</button> </td> </tr>';
 
         // finally
         table.append(row_html);

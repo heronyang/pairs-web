@@ -363,8 +363,13 @@ a#help-button:hover {
 #stat {
     font-weight: bold;
 }
+
 #baobao {
     margin-top: 5px;
+}
+
+#comment-indicator {
+    color: #449D44;
 }
 
 /* Responsive CSS Code */

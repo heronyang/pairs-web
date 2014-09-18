@@ -31,11 +31,6 @@ if(file_exists($local_config_filename)) {
 
 <?php
 
-// For Title
-$in_detail = false;
-$name1 = "";
-$name2 = "";
-
 // General (default)
 $title = 'PAIRS.cc - 你和他、她、祂的八卦平台';
 $description = '「你和他、她、祂的八卦平台」 PAIRS 是一個開放的八卦平台，您可以找尋與新增感興趣的配對，投票與評論八卦。最重要的—— 看別人怎麼偷偷八卦您和您的男神女神！';
@@ -50,8 +45,6 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
 
     // Hi, Facebook's OpenGraph scraper: update custom meta tags
     if ( isset( $_GET['p'] ) && !empty( $_GET['p'] ) ) {
-
-        $in_detail = true;
 
         // give different SEO tags based on the pair
         $pid = filter_input(INPUT_GET, 'p', FILTER_VALIDATE_INT);
@@ -112,7 +105,7 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
 
         <!-- SEO Ends Here -->
 
-        <title>PAIRS.cc<?php if($in_detail) echo " - " . $name1 . " ♥ " . $name2; ?></title>
+        <title>PAIRS.cc</title>
 
         <!-- Bootstrap core CSS -->
         <link href="assets/css/bootstrap.css" rel="stylesheet">

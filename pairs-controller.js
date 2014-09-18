@@ -179,9 +179,11 @@ function showComment(pid)
                     $('div.fb-comments').attr('data-href', comment_base + '/?p=' + pid);
                     $('button.share-button').click(function() {
                         shareComment(pid, name1, name2, count);
+                        ga('send', 'event', 'button', 'click', 'share');
                     });
                     $('button.speak-loud').click(function() {
                         $('#speak-loud-dialog').modal('show');
+                        ga('send', 'event', 'button', 'click', 'speak-loud');
                     });
                     document.title = name1 + ' ♥ ' + name2;
 
@@ -485,6 +487,7 @@ function promoteControllerInit() {
 		$('#user_table1 tr').empty();
 		$('#user_table2 tr').empty();
 
+        ga('send', 'event', 'button', 'click', 'add');
 	});
 
     $("#inputStr1").keyup(function() {
@@ -601,6 +604,7 @@ function searchButtonInit() {
 function playButtonInit() {
     $('#play-button').click(function() {
         startPlay();
+        ga('send', 'event', 'button', 'click', 'play');
     });
     $('#play-submit').click(function() {
         $('div.play-user-container').animate({ opacity: 0 }, {
@@ -617,6 +621,7 @@ function playButtonInit() {
         setTimeout(function() {
             $('div.play-user-container').animate({ opacity: 1 });
         }, 500);
+        ga('send', 'event', 'button', 'click', 'play-vote');
     });
     $('#play-cancel').click(function() {
         //$('#play-dialog').modal('hide');
@@ -633,6 +638,7 @@ function playButtonInit() {
         setTimeout(function() {
             $('div.play-user-container').animate({ opacity: 1 });
         }, 500);
+        ga('send', 'event', 'button', 'click', 'play-skip');
     });
 }
 
@@ -930,8 +936,8 @@ function networkError() {
 }
 
 function promptSearchDialog() {
-    console.log("search dialog showed");
     $('#search_dialog').modal('show');
+    ga('send', 'event', 'button', 'click', 'search');
 }
 
 function  setupFacebookCommentCustomCSS() {

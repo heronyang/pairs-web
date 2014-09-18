@@ -180,6 +180,7 @@ function showComment(pid)
                     $('button.share-button').click(function() {
                         shareComment(pid, name1, name2, count);
                     });
+                    document.title = name1 + ' ♥ ' + name2;
 
                     (function(d, s, id) {
                         var js, fjs = d.getElementsByTagName(s)[0];

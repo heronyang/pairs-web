@@ -9,6 +9,7 @@ if(file_exists($local_config_filename)) {
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -30,6 +31,10 @@ if(file_exists($local_config_filename)) {
 
 <?php
 
+// For Title
+$in_detail = false;
+$name1 = "", $name2 = "";
+
 // General (default)
 $title = 'PAIRS.cc - 你和他、她、祂的八卦平台';
 $description = '「你和他、她、祂的八卦平台」 PAIRS 是一個開放的八卦平台，您可以找尋與新增感興趣的配對，投票與評論八卦。最重要的—— 看別人怎麼偷偷八卦您和您的男神女神！';
@@ -44,6 +49,8 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
 
     // Hi, Facebook's OpenGraph scraper: update custom meta tags
     if ( isset( $_GET['p'] ) && !empty( $_GET['p'] ) ) {
+
+        $in_detail = true;
 
         // give different SEO tags based on the pair
         $pid = filter_input(INPUT_GET, 'p', FILTER_VALIDATE_INT);
@@ -104,7 +111,7 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
 
         <!-- SEO Ends Here -->
 
-        <title>PAIRS.cc</title>
+        <title>PAIRS.cc<?php if($in_detail) echo " - " . $name1 . " ♥ " . $name2; ?></title>
 
         <!-- Bootstrap core CSS -->
         <link href="assets/css/bootstrap.css" rel="stylesheet">
@@ -330,7 +337,7 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
             <div id="comment-div" class="centered">
                 <img width="50" height="50" id="comment-loader-gif" src="assets/img/loader.gif" alt="loading...">
                 <div class="fb-comments" data-href="" width="100%" data-numposts="100" data-order-by="reverse_time" data-colorscheme="light" hidden></div>
-                <div class="row centered"><button type="button" class="btn btn-primary share-button"><i class="fa fa-facebook"></i>&nbsp;&nbsp;&nbsp;分享</button></div>
+                <div class="row centered"><button type="button" class="btn btn-primary share-button"><i class="fa fa-facebook"></i>&nbsp;&nbsp;&nbsp;寶寶，你怎麼看</button></div>
             </div>
         </div>
 
@@ -704,7 +711,6 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
         <!-- Placed at the end of the document so the pages load faster -->
 	    <script src="assets/js/bootstrap.js"></script>
         <script src="FacebookUserSelector.js"></script>
-		<script src="pairs-controller.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
                     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -715,6 +721,7 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
             ga('send', 'pageview');
 
         </script>
+		<script src="pairs-controller.js"></script>
 
     </body>
 </html>

@@ -180,6 +180,9 @@ function showComment(pid)
                     $('button.share-button').click(function() {
                         shareComment(pid, name1, name2, count);
                     });
+                    $('button.speak-loud').click(function() {
+                        $('#speak-loud-dialog').modal('show');
+                    });
                     document.title = name1 + ' ♥ ' + name2;
 
                     (function(d, s, id) {
@@ -965,6 +968,14 @@ function shareComment(pid, name1, name2, count) {
             }
         }
     );
+}
+
+function speakLoud() {
+    FB.ui({
+        to: 'pairs.cc',
+        method: 'send',
+        link: $(location).attr('href'),
+    });
 }
 
 function fillPlayList () {

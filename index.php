@@ -340,7 +340,10 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
             <div id="comment-div" class="centered">
                 <img width="50" height="50" id="comment-loader-gif" src="assets/img/loader.gif" alt="loading...">
                 <div class="fb-comments" data-href="" width="100%" data-numposts="100" data-order-by="reverse_time" data-colorscheme="light" hidden></div>
-                <div class="row centered"><button type="button" class="btn btn-primary share-button"><i class="fa fa-facebook"></i>&nbsp;&nbsp;&nbsp;寶寶，你怎麼看</button></div>
+                <div class="row centered comment-button-section">
+                    <button type="button" class="btn btn-primary share-button"><i class="fa fa-facebook"></i>&nbsp;&nbsp;&nbsp;寶寶，你怎麼看</button>
+                    <button type="button" class="btn btn-danger speak-loud"><i class="fa fa-volume-up"></i>&nbsp;&nbsp;&nbsp;大聲講</button>
+                </div>
             </div>
         </div>
 
@@ -653,6 +656,38 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
                             <div class="col-xs-3 col-sm-3 col-lg-3 centered modal-button-container"></div>
                             <div class="col-xs-6 col-sm-6 col-lg-6 centered modal-button-container">
                                 <button type="button" class="btn btn-success modal-button" data-dismiss="modal">我知道了</button>
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-lg-3 centered modal-button-container"></div>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <!-- speak loud dialog -->
+        <div class="modal fade" id="speak-loud-dialog" aria-hidden="true" data-width="760">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">PAIRS - 大聲講</h4>
+                    </div>
+
+                    <div class="modal-body" data-spy="scroll">
+                        <div class="row centered">
+                            <p>把想對對公開發表的話跟PAIRS寶寶說<br />
+                            PAIRS寶寶會在<a href="https://facebook.com/pairs.cc/">粉絲專頁</a>幫你匿名貼文哦！</p>
+                        </div>
+                        <div class="row centered baobao-gossip-container">
+                            <img src="assets/img/baobao-gossip.png" width="200" height="180" class="img-responsive" />
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-xs-3 col-sm-3 col-lg-3 centered modal-button-container"></div>
+                            <div class="col-xs-6 col-sm-6 col-lg-6 centered modal-button-container">
+                                <button type="button" class="btn btn-danger modal-button" data-dismiss="modal" onclick="speakLoud();"><i class="fa fa-volume-up"></i>&nbsp;&nbsp;&nbsp;來吧！</button>
                             </div>
                             <div class="col-xs-3 col-sm-3 col-lg-3 centered modal-button-container"></div>
                         </div>

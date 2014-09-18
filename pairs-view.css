@@ -273,7 +273,7 @@ div.enhance {
     max-width: 100% !important;
 }
 
-.share-button {
+div.comment-button-section {
     margin-bottom: 20px;
 }
 
@@ -303,12 +303,12 @@ div.page-button {
     padding-top: 15px;
 }
 
-div#page_privacy a, p.minor_content a {
+div#page_privacy a, p.minor_content a, div.modal a {
     color: #555;
     text-decoration: underline;
 }
 
-div#page_privacy a:hover, p.minor_content a:hover {
+div#page_privacy a:hover, p.minor_content a:hover, div.modal a:hover {
     color: #000;
     cursor:pointer;
 }
@@ -370,6 +370,15 @@ a#help-button:hover {
 
 #comment-indicator {
     color: #449D44;
+}
+
+div.baobao-gossip-container {
+    margin: 0px;
+    padding: 0px;
+    margin-bottom: -16px;
+}
+div.baobao-gossip-container img{
+    margin: 0px auto;
 }
 
 /* Responsive CSS Code */
@@ -465,6 +474,12 @@ a#help-button:hover {
     }
     div.container.pair-table-outer {
         padding: 0px;
+    }
+    div.baobao-gossip-container {
+        margin-bottom: -5px;
+    }
+    div.comment-button-section button {
+        margin: 5px 0px;
     }
 }
 @media(min-width:768px){

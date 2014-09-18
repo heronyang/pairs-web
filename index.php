@@ -31,6 +31,8 @@ if(file_exists($local_config_filename)) {
 
 <?php
 
+require 'meta_generator.php';
+
 // General (default)
 $title = 'PAIRS.cc - 你和他、她、祂的八卦平台';
 $description = '「你和他、她、祂的八卦平台」 PAIRS 是一個開放的八卦平台，您可以找尋與新增感興趣的配對，投票與評論八卦。最重要的—— 看別人怎麼偷偷八卦您和您的男神女神！';
@@ -65,9 +67,16 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
         $count = $data->{'count'};
 
         // meta contents
+        /*
         $title = $name1 . ' ♥ ' . $name2 . ' - ' . $count . '票';
         $description = '快來八卦' . $name1 . ' ♥ ' . $name2 . ' >///<  PAIRS 是一個開放的八卦平台，您可以找尋與新增感興趣的配對，投票與評論八卦。最重要的—— 看別人怎麼偷偷八卦您和您的男神女神！';
         $image = 'http://www.pairs.cc/assets/img/logo.png'; // will change in the future
+         */
+
+        $title = getTitle($pid, $name1, $name2);
+        $description = getDescription($pid);
+        $image = getImageURL($pid);
+
         $keyword_addon = ', ' . $name1 . ', ' . $name2;
         $url = 'http://www.pairs.cc/?p=' . $pid;
 

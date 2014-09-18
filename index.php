@@ -33,7 +33,8 @@ if(file_exists($local_config_filename)) {
 
 // For Title
 $in_detail = false;
-$name1 = "", $name2 = "";
+$name1 = "";
+$name2 = "";
 
 // General (default)
 $title = 'PAIRS.cc - 你和他、她、祂的八卦平台';

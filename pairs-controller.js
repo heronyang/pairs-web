@@ -978,7 +978,7 @@ function shareComment(pid, name1, name2, count) {
 
 function speakLoud() {
     FB.ui({
-        to: 'pairs.cc',
+        to: '100006847157090',
         method: 'send',
         link: $(location).attr('href'),
     });

@@ -478,6 +478,7 @@ function promoteControllerInit() {
 
         // check if login
 		if(logged_in) {
+            ga('send', 'event', 'button', 'click', 'add');
 			$('#us-container').modal('show');
         } else {
             loginPrompt();
@@ -487,7 +488,6 @@ function promoteControllerInit() {
 		$('#user_table1 tr').empty();
 		$('#user_table2 tr').empty();
 
-        ga('send', 'event', 'button', 'click', 'add');
 	});
 
     $("#inputStr1").keyup(function() {
@@ -603,10 +603,11 @@ function searchButtonInit() {
 
 function playButtonInit() {
     $('#play-button').click(function() {
-        startPlay();
         ga('send', 'event', 'button', 'click', 'play');
+        startPlay();
     });
     $('#play-submit').click(function() {
+        ga('send', 'event', 'button', 'click', 'play-vote');
         $('div.play-user-container').animate({ opacity: 0 }, {
             queue: false,
             duration: 50,
@@ -621,9 +622,9 @@ function playButtonInit() {
         setTimeout(function() {
             $('div.play-user-container').animate({ opacity: 1 });
         }, 500);
-        ga('send', 'event', 'button', 'click', 'play-vote');
     });
     $('#play-cancel').click(function() {
+        ga('send', 'event', 'button', 'click', 'play-skip');
         //$('#play-dialog').modal('hide');
         $('div.play-user-container').animate({ opacity: 0 }, {
             queue: false,
@@ -638,7 +639,6 @@ function playButtonInit() {
         setTimeout(function() {
             $('div.play-user-container').animate({ opacity: 1 });
         }, 500);
-        ga('send', 'event', 'button', 'click', 'play-skip');
     });
 }
 

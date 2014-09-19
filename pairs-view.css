@@ -490,6 +490,9 @@ div.baobao-gossip-container img{
     #promo-head {
         margin-left: 20%;
     }
+    button.speak-loud {
+        display: none;
+    }
 }
 @media(min-width:992px){
 }

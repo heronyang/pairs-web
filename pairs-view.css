@@ -380,6 +380,9 @@ div.baobao-gossip-container {
 div.baobao-gossip-container img{
     margin: 0px auto;
 }
+button.speak-loud {
+    display: none;
+}
 
 /* Responsive CSS Code */
 @media(max-width:767px){
@@ -492,8 +495,9 @@ div.baobao-gossip-container img{
     }
 }
 @media(min-width:992px){
+}
+@media(min-width:1200px){
     button.speak-loud {
-        display: none;
+        display: inline-block;
     }
 }
-@media(min-width:1200px){}

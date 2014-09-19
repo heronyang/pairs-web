@@ -342,7 +342,7 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
                 <div class="fb-comments" data-href="" width="100%" data-numposts="100" data-order-by="reverse_time" data-colorscheme="light" hidden></div>
                 <div class="row centered comment-button-section">
                     <button type="button" class="btn btn-primary share-button"><i class="fa fa-facebook"></i>&nbsp;&nbsp;&nbsp;寶寶，你怎麼看</button>
-                    <button type="button" class="btn btn-danger speak-loud"><i class="fa fa-volume-up"></i>&nbsp;&nbsp;&nbsp;大聲講</button>
+                    <button type="button" class="btn btn-danger speak-loud" hidden><i class="fa fa-volume-up"></i>&nbsp;&nbsp;&nbsp;大聲講</button>
                 </div>
             </div>
         </div>

@@ -675,7 +675,7 @@ if (in_array($_SERVER['HTTP_USER_AGENT'], array(
 
                     <div class="modal-body" data-spy="scroll">
                         <div class="row centered">
-                            <p>把想對對公開發表的話跟PAIRS寶寶說<br />
+                            <p>公開八卦這兩人的故事<br />
                             PAIRS寶寶會在<a href="https://facebook.com/pairs.cc/">粉絲專頁</a>幫你匿名貼文哦！</p>
                         </div>
                         <div class="row centered baobao-gossip-container">

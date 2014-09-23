@@ -352,9 +352,10 @@ h1 {
 }
 
 a#help-button {
-    color: #999;
+    color: #F00;
     text-decoration: underline;
     cursor:pointer;
+    font-weight: bold;
 }
 a#help-button:hover {
     color: #000;
